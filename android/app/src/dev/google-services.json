@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "132804793310",
+    "project_id": "ai-chat-7d6dd",
+    "storage_bucket": "ai-chat-7d6dd.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:132804793310:android:522937a5bd06905fc2034f",
+        "android_client_info": {
+          "package_name": "com.pet.aichat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "132804793310-fn0u2mari325j6l9c0k440rjsihhq861.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDU532Rv2oTWQf5qK7x1MTp5z_OQ-1syX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "132804793310-fn0u2mari325j6l9c0k440rjsihhq861.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "132804793310-855ugdqj2i4mkfaic7cj77a8b8ne5dfu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.pet.aichat"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:132804793310:android:51ebc6b36813967fc2034f",
+        "android_client_info": {
+          "package_name": "com.pet.aichat.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "132804793310-fn0u2mari325j6l9c0k440rjsihhq861.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDU532Rv2oTWQf5qK7x1MTp5z_OQ-1syX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "132804793310-fn0u2mari325j6l9c0k440rjsihhq861.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "132804793310-855ugdqj2i4mkfaic7cj77a8b8ne5dfu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.pet.aichat"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

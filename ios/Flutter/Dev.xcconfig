@@ -1,0 +1,6 @@
+#include "Generated.xcconfig"
+
+// Flavor-specific settings for Dev environment
+FLAVOR=dev
+BUNDLE_DISPLAY_NAME=AiChat Dev
+PRODUCT_BUNDLE_IDENTIFIER=com.pet.aichat.dev

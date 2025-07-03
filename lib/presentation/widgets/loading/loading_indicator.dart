@@ -1,0 +1,24 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:aichat/core/extensions/build_context_extensions.dart';
+
+class LoadingIndicator extends StatelessWidget {
+  final Color? backgroundColor;
+  final Color? indicatorColor;
+
+  const LoadingIndicator({super.key, this.backgroundColor, this.indicatorColor});
+
+  @override
+  Widget build(BuildContext context) {
+    return ColoredBox(
+      color: backgroundColor ?? Colors.black.withOpacity(0.3),
+      child: Center(
+        child: Container(
+          padding: EdgeInsets.all(20.sp),
+          decoration: BoxDecoration(color: context.colors.white, borderRadius: BorderRadius.circular(12.r)),
+          child: CircularProgressIndicator(color: indicatorColor ?? context.colors.primary),
+        ),
+      ),
+    );
+  }
+}
