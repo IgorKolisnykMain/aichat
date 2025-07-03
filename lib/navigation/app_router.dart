@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:aichat/core/di/locator.dart';
 import 'package:aichat/navigation/navigation_observer.dart';
 import 'package:aichat/navigation/route_name.dart';
@@ -17,17 +14,24 @@ import 'package:aichat/presentation/features/splash/splash_screen.dart';
 import 'package:aichat/presentation/features/subscription/bloc/paywall_bloc.dart';
 import 'package:aichat/presentation/features/subscription/subscription_screen.dart';
 import 'package:aichat/presentation/features/wizard/wizard_screen.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class AppRouter {
+  static AppRouter? _instance;
   final GoRouter _router;
 
   GoRouter get router => _router;
 
-  const AppRouter._(this._router);
+  AppRouter._(this._router);
 
-  static AppRouter init(bool isLoggedIn) {
+  factory AppRouter.init(bool isLoggedIn) {
+    if (_instance != null) {
+      return _instance!;
+    }
+
     final rootNavigatorKey = GlobalKey<NavigatorState>();
-
     final mainObserver = MyNavigatorObserver();
 
     final GoRouter router = GoRouter(
@@ -119,6 +123,8 @@ class AppRouter {
         ),
       ],
     );
-    return AppRouter._(router);
+
+    _instance = AppRouter._(router);
+    return _instance!;
   }
 }

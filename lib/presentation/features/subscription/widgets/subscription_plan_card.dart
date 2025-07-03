@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:aichat/core/extensions/build_context_extensions.dart';
 import 'package:aichat/presentation/features/subscription/models/subscription_plan.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SubscriptionPlanCard extends StatelessWidget {
   final SubscriptionPlan plan;

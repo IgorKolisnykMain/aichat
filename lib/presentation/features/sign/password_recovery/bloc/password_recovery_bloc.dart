@@ -1,8 +1,8 @@
-import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:aichat/domain/repository/auth_firebase_repository.dart';
 import 'package:aichat/presentation/features/sign/password_recovery/bloc/password_recovery_event.dart';
 import 'package:aichat/presentation/features/sign/password_recovery/bloc/password_recovery_state.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PasswordRecoveryBloc extends Bloc<PasswordRecoveryEvent, PasswordRecoveryState> {
   final AuthFirebaseRepository authFirebaseRep;

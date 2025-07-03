@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:aichat/core/extensions/build_context_extensions.dart';
 import 'package:aichat/domain/enum/ai_chat_item_type.dart';
 import 'package:aichat/domain/models/ai_message/ai_message.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChatMessageWidget extends StatelessWidget {
   final AiMessage message;

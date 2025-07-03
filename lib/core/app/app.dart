@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:aichat/core/extensions/theme_extensions.dart';
 import 'package:aichat/domain/model/app_config/app_config.dart';
 import 'package:aichat/l10n/app_localizations.dart';
 import 'package:aichat/navigation/app_router.dart';
 import 'package:aichat/presentation/widgets/app_config_provider.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class App extends StatelessWidget {
   final AppConfig appConfig;

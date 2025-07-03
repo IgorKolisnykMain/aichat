@@ -1,6 +1,6 @@
+import 'package:aichat/core/extensions/build_context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:aichat/core/extensions/build_context_extensions.dart';
 
 class LoadingIndicator extends StatelessWidget {
   final Color? backgroundColor;
@@ -11,7 +11,7 @@ class LoadingIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: backgroundColor ?? Colors.black.withOpacity(0.3),
+      color: backgroundColor ?? Colors.black.withValues(alpha: 0.3),
       child: Center(
         child: Container(
           padding: EdgeInsets.all(20.sp),

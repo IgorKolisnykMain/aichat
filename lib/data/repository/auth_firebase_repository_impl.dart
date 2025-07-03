@@ -1,15 +1,15 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/foundation.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:aichat/core/error/local_exception.dart';
 import 'package:aichat/domain/enum/firebase_sign.dart';
 import 'package:aichat/domain/enum/local_error.dart';
 import 'package:aichat/domain/repository/ai_tutor_repo.dart';
 import 'package:aichat/domain/repository/auth_firebase_repository.dart';
 import 'package:aichat/domain/repository/firestore_db_storage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AuthFirebaseRepositoryImpl implements AuthFirebaseRepository {

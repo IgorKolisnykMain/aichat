@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:aichat/core/theme/constants.dart';
 import 'package:aichat/core/theme/extension/theme_colors.dart';
 import 'package:aichat/core/theme/extension/theme_text_styles.dart';
 import 'package:aichat/domain/model/app_config/app_config.dart';
 import 'package:aichat/l10n/app_localizations.dart';
 import 'package:aichat/presentation/widgets/app_config_provider.dart';
+import 'package:flutter/material.dart';
 
 extension BuildContextExtension on BuildContext {
   AppLocalizations get l10n => AppLocalizations.of(this)!;

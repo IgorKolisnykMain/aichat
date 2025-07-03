@@ -1,16 +1,16 @@
 import 'dart:async';
 
-import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:aichat/domain/enum/ai_chat_item_type.dart';
 import 'package:aichat/domain/models/ai_message/ai_message.dart';
 import 'package:aichat/domain/repository/ai_tutor_repo.dart';
 import 'package:aichat/domain/services/connectivity_detector_service.dart';
 import 'package:aichat/presentation/features/ai_chat/bloc/ai_tutor_event.dart';
 import 'package:aichat/presentation/features/ai_chat/bloc/ai_tutor_state.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 class AiTutorBloc extends Bloc<AiTutorEvent, AiTutorState> {

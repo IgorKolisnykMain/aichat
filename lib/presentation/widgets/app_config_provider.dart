@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:aichat/domain/model/app_config/app_config.dart';
+import 'package:flutter/material.dart';
 
 class AppConfigProvider extends InheritedWidget {
   final AppConfig config;

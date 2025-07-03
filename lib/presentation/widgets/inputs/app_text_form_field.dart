@@ -1,6 +1,6 @@
+import 'package:aichat/core/extensions/build_context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:aichat/core/extensions/build_context_extensions.dart';
 
 class AppTextFormField extends StatelessWidget {
   final String? hintText;

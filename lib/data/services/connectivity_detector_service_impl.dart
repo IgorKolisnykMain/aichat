@@ -1,5 +1,5 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:aichat/domain/services/connectivity_detector_service.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 
 class ConnectivityDetectorServiceImpl implements ConnectivityDetectorService {
   final Connectivity connectivity;

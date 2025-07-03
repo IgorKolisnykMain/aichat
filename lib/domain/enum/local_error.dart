@@ -1,5 +1,5 @@
-import 'package:flutter/widgets.dart';
 import 'package:aichat/core/extensions/build_context_extensions.dart';
+import 'package:flutter/widgets.dart';
 
 enum LocalError { defaultError, noInternetConnection, maxSizeImagePick, serverError }
 

@@ -13,6 +13,7 @@ linter:
   rules:
     sort_unnamed_constructors_first: false
     use_super_parameters: true
+    sort_pub_dependencies: false
 
 formatter:
   page_width: 120

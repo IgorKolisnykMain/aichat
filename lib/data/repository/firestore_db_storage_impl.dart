@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:aichat/domain/repository/firestore_db_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 const _users = 'users';
 

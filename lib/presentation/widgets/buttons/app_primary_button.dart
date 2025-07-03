@@ -1,6 +1,6 @@
+import 'package:aichat/core/extensions/build_context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:aichat/core/extensions/build_context_extensions.dart';
 
 enum ButtonViewStyle { base, widthInfinity, expanded }
 
@@ -100,7 +100,7 @@ class AppPrimaryButton extends StatelessWidget {
         child: MaterialButton(
           color: enabled
               ? (color ?? context.colors.primaryLight)
-              : (color ?? context.colors.primaryLight).withOpacity(0.5),
+              : (color ?? context.colors.primaryLight).withValues(alpha: 0.5),
           minWidth: minWidth ?? 0,
           materialTapTargetSize: materialTapTargetSize,
           onPressed: () {
@@ -119,7 +119,7 @@ class AppPrimaryButton extends StatelessWidget {
     return Text(
       text!,
       style: (textStyle ?? context.textStyles.buttonMedium).copyWith(
-        color: enabled ? context.colors.textDarkest : context.colors.textDarkest.withOpacity(0.5),
+        color: enabled ? context.colors.textDarkest : context.colors.textDarkest.withValues(alpha: 0.5),
       ),
       textAlign: TextAlign.center,
     );

@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:aichat/core/theme/constants.dart';
 import 'package:aichat/core/theme/extension/theme_colors.dart';
 import 'package:aichat/core/theme/extension/theme_text_styles.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 ThemeData createLightTheme() => ThemeData(
   useMaterial3: false,
@@ -13,7 +13,7 @@ ThemeData createLightTheme() => ThemeData(
       statusBarBrightness: Brightness.light,
     ),
   ),
-  extensions: <ThemeExtension<dynamic>>[ThemeColors.light, ThemeTextStyles.light],
+  extensions: <ThemeExtension<dynamic>>[ThemeColors.light, ThemeTextStyles.light()],
 );
 
 ThemeData createDarkTheme() => ThemeData(
@@ -25,5 +25,5 @@ ThemeData createDarkTheme() => ThemeData(
       statusBarBrightness: Brightness.light,
     ),
   ),
-  extensions: <ThemeExtension<dynamic>>[ThemeColors.dark, ThemeTextStyles.dark],
+  extensions: <ThemeExtension<dynamic>>[ThemeColors.dark, ThemeTextStyles.dark()],
 );

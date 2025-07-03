@@ -1,15 +1,15 @@
 import 'dart:async';
 
-import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:aichat/domain/repository/ai_tutor_repo.dart';
 import 'package:aichat/domain/repository/auth_firebase_repository.dart';
 import 'package:aichat/domain/repository/firestore_db_storage.dart';
 import 'package:aichat/presentation/features/splash/bloc/splash_event.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'splash_state.dart';
 part 'splash_bloc.freezed.dart';
+part 'splash_state.dart';
 
 class SplashBloc extends Bloc<SplashEvent, SplashState> {
   final AuthFirebaseRepository authFirebaseRepo;

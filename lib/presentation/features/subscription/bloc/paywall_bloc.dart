@@ -1,21 +1,19 @@
+import 'package:aichat/core/error/no_internet_exception.dart';
+import 'package:aichat/core/utils/paywall_package_utils.dart';
+import 'package:aichat/domain/model/offering_metadata_model.dart';
+import 'package:aichat/domain/repository/purchases_repository.dart';
+import 'package:aichat/domain/services/connectivity_detector_service.dart';
 import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:aichat/core/error/no_internet_exception.dart';
-import 'package:aichat/core/utils/paywall_package_utils.dart';
-import 'package:aichat/domain/model/offering_metadata_model.dart';
-import 'package:aichat/domain/repository/purchases_repository.dart';
-import 'package:aichat/domain/services/connectivity_detector_service.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
-part 'paywall_event.dart';
-
-part 'paywall_state.dart';
-
 part 'paywall_bloc.freezed.dart';
+part 'paywall_event.dart';
+part 'paywall_state.dart';
 
 class PaywallBloc extends Bloc<PaywallEvent, PaywallState> {
   final PurchasesRepository purchasesRepository;

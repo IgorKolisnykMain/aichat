@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:aichat/core/extensions/build_context_extensions.dart';
 import 'package:aichat/core/utils/message_presenter.dart';
 import 'package:aichat/navigation/route_name.dart';
@@ -11,6 +8,9 @@ import 'package:aichat/presentation/widgets/bloc/bloced_state.dart';
 import 'package:aichat/presentation/widgets/buttons/app_primary_button.dart';
 import 'package:aichat/presentation/widgets/inputs/app_text_form_field.dart';
 import 'package:aichat/presentation/widgets/loading/loading_indicator.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class EmailSignInScreen extends StatefulWidget {
   const EmailSignInScreen({super.key});

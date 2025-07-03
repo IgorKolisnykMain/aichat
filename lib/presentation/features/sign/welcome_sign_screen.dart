@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:go_router/go_router.dart';
 import 'package:aichat/core/extensions/build_context_extensions.dart';
 import 'package:aichat/navigation/route_name.dart';
 import 'package:aichat/presentation/features/sign/bloc/sign_bloc.dart';
 import 'package:aichat/presentation/features/sign/bloc/sign_event.dart';
 import 'package:aichat/presentation/widgets/buttons/app_primary_button.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 class WelcomeSignScreen extends StatelessWidget {
   const WelcomeSignScreen({super.key});

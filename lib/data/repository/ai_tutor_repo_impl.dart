@@ -1,10 +1,10 @@
-import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:aichat/domain/models/ai_chat_settings/ai_chat_settings.dart';
 import 'package:aichat/domain/models/ai_message/ai_message.dart';
 import 'package:aichat/domain/repository/ai_tutor_repo.dart';
 import 'package:aichat/domain/repository/app_config_repository.dart';
 import 'package:aichat/domain/repository/firestore_db_storage.dart';
+import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AiTutorRepoImpl implements AiTutorRepo {
   static const _chatHistory = 'chat_history';

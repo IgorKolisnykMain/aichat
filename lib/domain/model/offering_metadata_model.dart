@@ -1,5 +1,5 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:aichat/domain/model/package_metadata/package_metadata_model.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'offering_metadata_model.freezed.dart';
 part 'offering_metadata_model.g.dart';

@@ -1,6 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:aichat/domain/models/ai_chat_settings/ai_chat_settings.dart';
 import 'package:aichat/domain/models/ai_message/ai_message.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class AiTutorRepo {
   AiChatSettings get settings;

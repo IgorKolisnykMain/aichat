@@ -1,6 +1,6 @@
+import 'package:aichat/core/theme/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:aichat/core/theme/constants.dart';
 
 class ThemeTextStyles extends ThemeExtension<ThemeTextStyles> {
   // Plus Jakarta Sans Styles
@@ -115,7 +115,7 @@ class ThemeTextStyles extends ThemeExtension<ThemeTextStyles> {
     );
   }
 
-  static ThemeTextStyles get light => ThemeTextStyles._(
+  ThemeTextStyles.light() : this._(
     // Plus Jakarta Sans Styles
     onboardingTitle: TextStyle(
       fontFamily: plusJakartaSans,
@@ -232,5 +232,5 @@ class ThemeTextStyles extends ThemeExtension<ThemeTextStyles> {
     ),
   );
 
-  static ThemeTextStyles get dark => light;
+  ThemeTextStyles.dark() : this.light();
 }

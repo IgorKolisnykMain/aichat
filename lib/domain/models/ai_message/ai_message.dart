@@ -1,8 +1,7 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:aichat/domain/enum/ai_chat_item_type.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'ai_message.freezed.dart';
-
 part 'ai_message.g.dart';
 
 @freezed

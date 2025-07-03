@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:aichat/core/extensions/build_context_extensions.dart';
 import 'package:aichat/presentation/widgets/buttons/app_primary_button.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppOutlinedButton extends StatelessWidget {
   final String? text;
@@ -100,7 +100,7 @@ class AppOutlinedButton extends StatelessWidget {
             width: 1.r,
             color: enabled
                 ? (borderColor ?? context.colors.borderSubtle)
-                : (borderColor ?? context.colors.borderSubtle).withOpacity(0.5),
+                : (borderColor ?? context.colors.borderSubtle).withValues(alpha: 0.5),
           ),
           elevation: 0,
           splashFactory: NoSplash.splashFactory,
@@ -115,7 +115,7 @@ class AppOutlinedButton extends StatelessWidget {
     return Text(
       text!,
       style: (textStyle ?? context.textStyles.buttonMedium).copyWith(
-        color: enabled ? context.colors.textDarkest : context.colors.textDarkest.withOpacity(0.5),
+        color: enabled ? context.colors.textDarkest : context.colors.textDarkest.withValues(alpha: 0.5),
       ),
       textAlign: TextAlign.center,
     );

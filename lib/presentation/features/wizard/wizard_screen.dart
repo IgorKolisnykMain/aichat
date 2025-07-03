@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:aichat/core/extensions/build_context_extensions.dart';
 import 'package:aichat/navigation/route_name.dart';
 import 'package:aichat/presentation/features/wizard/widgets/wizard_page_widget.dart';
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class WizardScreen extends StatefulWidget {
   const WizardScreen({super.key});

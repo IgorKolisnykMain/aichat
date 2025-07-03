@@ -1,12 +1,12 @@
-import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:aichat/domain/enum/firebase_sign.dart';
 import 'package:aichat/domain/repository/auth_firebase_repository.dart';
 import 'package:aichat/presentation/features/sign/bloc/sign_event.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'sign_state.dart';
 part 'sign_bloc.freezed.dart';
+part 'sign_state.dart';
 
 class SignBloc extends Bloc<SignEvent, SignState> {
   final AuthFirebaseRepository authFirebaseRep;

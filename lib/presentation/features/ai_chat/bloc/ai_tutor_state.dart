@@ -1,5 +1,5 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:aichat/domain/models/ai_message/ai_message.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'ai_tutor_state.freezed.dart';
 

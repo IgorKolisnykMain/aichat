@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:aichat/core/extensions/build_context_extensions.dart';
 import 'package:aichat/domain/enum/ai_chat_item_type.dart';
 import 'package:aichat/presentation/features/ai_chat/bloc/ai_tutor_bloc.dart';
@@ -8,6 +6,8 @@ import 'package:aichat/presentation/features/ai_chat/bloc/ai_tutor_state.dart';
 import 'package:aichat/presentation/features/ai_chat/widgets/chat_message_widget.dart';
 import 'package:aichat/presentation/widgets/bloc/bloced_state.dart';
 import 'package:aichat/presentation/widgets/loading/loading_indicator.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -263,7 +263,7 @@ class _MainScreenState extends BlocedState<MainScreen, AiTutorBloc, AiTutorState
     return Container(
       margin: EdgeInsets.only(bottom: 8.sp),
       decoration: BoxDecoration(
-        color: isSelected ? context.colors.primary.withOpacity(0.1) : context.colors.backgroundAccent,
+        color: isSelected ? context.colors.primary.withValues(alpha: 0.1) : context.colors.backgroundAccent,
         borderRadius: BorderRadius.circular(12.r),
         border: Border.all(color: isSelected ? context.colors.primary : context.colors.borderSubtle),
       ),

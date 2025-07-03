@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:aichat/core/theme/constants.dart';
+import 'package:flutter/material.dart';
 
 class ThemeColors extends ThemeExtension<ThemeColors> {
   // ==================== BASE COLORS ====================
