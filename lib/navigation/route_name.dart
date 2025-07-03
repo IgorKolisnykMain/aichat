@@ -1,14 +1,15 @@
 enum RoutesName {
   splash,
+  
+  // Sign flow
   wizard,
-
   welcomeSign,
   emailSignUp,
   emailSignIn,
   passwordRecovery,
-
   subscription,
 
+  // Main flow
   home;
 
   String get rootPath => switch (this) {
