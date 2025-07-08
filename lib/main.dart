@@ -1,9 +1,9 @@
-import 'package:aichat/core/app/app.dart';
-import 'package:aichat/core/di/configuration.dart';
-import 'package:aichat/core/di/locator.dart';
-import 'package:aichat/domain/repository/app_config_repository.dart';
-import 'package:aichat/domain/repository/auth_firebase_repository.dart';
-import 'package:aichat/navigation/app_router.dart';
+import 'package:aichat/src/app.dart';
+import 'package:aichat/src/core/config/domain/repository/app_config_repository.dart';
+import 'package:aichat/src/core/di/configuration.dart';
+import 'package:aichat/src/core/di/locator.dart';
+import 'package:aichat/src/features/onboarding/auth/domain/repo/auth_repo.dart';
+import 'package:aichat/src/router/app_router.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -23,13 +23,16 @@ void main() async {
 
   // Bloc.observer = BlocMonitor();
 
-  final isLoggedIn =
-      !locator<AuthFirebaseRepository>().isExpiredSession() && await locator<AuthFirebaseRepository>().isUserExists();
+  final isLoggedIn = !locator<AuthRepository>().isExpiredSession() && await locator<AuthRepository>().isUserExists();
 
   final router = AppRouter.init(isLoggedIn);
   final appConfig = locator<AppConfigRepository>().config;
 
-  runApp(ProviderScope(child: App(appConfig: appConfig, appRouter: router)));
+  runApp(
+    ProviderScope(
+      child: App(appConfig: appConfig, appRouter: router),
+    ),
+  );
 }
 
 void _registerErrorHandlers() {

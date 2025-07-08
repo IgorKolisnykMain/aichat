@@ -49,7 +49,7 @@ dependencies:
   equatable: 2.0.7
   freezed_annotation: 2.4.4
   package_info_plus: ^4.2.0
-  envied: ^1.1.1
+  envied: 1.1.1
   collection: ^1.19.1
 
 dev_dependencies:
