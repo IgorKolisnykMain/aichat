@@ -1,14 +1,13 @@
-import 'package:aichat/core/app/app.dart';
-import 'package:aichat/core/bloc_monitor.dart';
-import 'package:aichat/core/di/configuration.dart';
-import 'package:aichat/core/di/locator.dart';
-import 'package:aichat/domain/repository/app_config_repository.dart';
-import 'package:aichat/domain/repository/auth_firebase_repository.dart';
-import 'package:aichat/navigation/app_router.dart';
+import 'package:aichat/src/app.dart';
+import 'package:aichat/src/core/config/domain/repository/app_config_repository.dart';
+import 'package:aichat/src/core/di/configuration.dart';
+import 'package:aichat/src/core/di/locator.dart';
+import 'package:aichat/src/features/onboarding/auth/domain/repo/auth_repo.dart';
+import 'package:aichat/src/router/app_router.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_web_plugins/url_strategy.dart';
 
@@ -20,20 +19,23 @@ void main() async {
   const environment = String.fromEnvironment("environment", defaultValue: "dev");
   await configureDependencies(environment);
 
-  _setupCrashlytics();
+  _registerErrorHandlers();
 
-  Bloc.observer = BlocMonitor();
+  // Bloc.observer = BlocMonitor();
 
-  final isLoggedIn =
-      !locator<AuthFirebaseRepository>().isExpiredSession() && await locator<AuthFirebaseRepository>().isUserExists();
+  final isLoggedIn = !locator<AuthRepository>().isExpiredSession() && await locator<AuthRepository>().isUserExists();
 
   final router = AppRouter.init(isLoggedIn);
   final appConfig = locator<AppConfigRepository>().config;
 
-  runApp(App(appConfig: appConfig, appRouter: router));
+  runApp(
+    ProviderScope(
+      child: App(appConfig: appConfig, appRouter: router),
+    ),
+  );
 }
 
-void _setupCrashlytics() {
+void _registerErrorHandlers() {
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
   };
