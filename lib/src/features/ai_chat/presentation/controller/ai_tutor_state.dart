@@ -25,5 +25,5 @@ enum AiTutorStage {
   sentAIAnswerSuccess,
   openAIServerError,
   creatingThread,
-  streamingResponse,
+  streamingResponse, initial,
 }

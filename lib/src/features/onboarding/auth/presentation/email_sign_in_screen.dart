@@ -4,22 +4,23 @@ import 'package:aichat/src/common_widgets/buttons/app_primary_button.dart';
 import 'package:aichat/src/common_widgets/inputs/app_text_form_field.dart';
 import 'package:aichat/src/common_widgets/loading/loading_indicator.dart';
 import 'package:aichat/src/common_widgets/message_presenter.dart';
-import 'package:aichat/src/features/onboarding/auth/presentation/controller/sign_bloc.dart';
-import 'package:aichat/src/features/onboarding/auth/presentation/controller/sign_event.dart';
+import 'package:aichat/src/features/onboarding/auth/presentation/controller/sign_controller.dart';
+import 'package:aichat/src/features/onboarding/auth/presentation/controller/sign_state.dart';
 import 'package:aichat/src/router/route_name.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
-class EmailSignInScreen extends StatefulWidget {
+class EmailSignInScreen extends ConsumerStatefulWidget {
   const EmailSignInScreen({super.key});
 
   @override
-  State<EmailSignInScreen> createState() => _EmailSignInScreenState();
+  ConsumerState<EmailSignInScreen> createState() => _EmailSignInScreenState();
 }
 
-class _EmailSignInScreenState extends BlocedState<EmailSignInScreen, SignBloc, SignState> with MessagePresenter {
+class _EmailSignInScreenState extends ConsumerState<EmailSignInScreen> with MessagePresenter {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -32,31 +33,25 @@ class _EmailSignInScreenState extends BlocedState<EmailSignInScreen, SignBloc, S
   }
 
   @override
-  void didChangeBlocState(SignState? previousState, SignState state) {
-    super.didChangeBlocState(previousState, state);
-
-    switch (state.stage) {
-      case SignStage.signInSuccess:
-        context.goNamed(RoutesName.home.name);
-      case SignStage.error:
-        showSnackBar(context.l10n.signInError, context);
-      default:
-        break;
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
+    ref.listen(signControllerProvider, (previousState, state) {
+      switch (state.value?.stage) {
+        case SignStage.signInSuccess:
+          context.goNamed(RoutesName.home.name);
+        case SignStage.error:
+          showSnackBar(context.l10n.signInError, context);
+        default:
+          break;
+      }
+    });
+
     return Scaffold(
       appBar: const AuthAppBar(),
       body: SafeArea(
         child: Stack(
           children: [
             Padding(padding: EdgeInsets.all(16.w), child: buildScreen()),
-            blocBuilder(
-              builder: (context, state) =>
-                  state.stage == SignStage.loading ? const LoadingIndicator() : const SizedBox(),
-            ),
+            LoadingIndicator(provider: signControllerProvider),
           ],
         ),
       ),
@@ -114,9 +109,9 @@ class _EmailSignInScreenState extends BlocedState<EmailSignInScreen, SignBloc, S
                   text: context.l10n.logIn,
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      bloc.add(
-                        SignInViaEmailEvent(email: _emailController.text.trim(), password: _passwordController.text),
-                      );
+                      ref
+                          .read(signControllerProvider.notifier)
+                          .signInViaEmail(email: _emailController.text.trim(), password: _passwordController.text);
                     }
                   },
                 ),

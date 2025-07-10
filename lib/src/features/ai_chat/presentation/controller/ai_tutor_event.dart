@@ -12,15 +12,6 @@ class LoadHistoryEvent extends AiTutorEvent {
   List<Object?> get props => [];
 }
 
-class LoadHistoryByQuestionEvent extends AiTutorEvent {
-  final String questionId;
-
-  const LoadHistoryByQuestionEvent({required this.questionId});
-
-  @override
-  List<Object?> get props => [questionId];
-}
-
 class SendQuestionEvent extends AiTutorEvent {
   final String query;
 

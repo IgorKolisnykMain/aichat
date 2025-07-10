@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'splash_bloc.dart';
+part of 'splash_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -23,19 +23,23 @@ mixin _$SplashState {
   /// Create a copy of SplashState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $SplashStateCopyWith<SplashState> get copyWith => throw _privateConstructorUsedError;
+  $SplashStateCopyWith<SplashState> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $SplashStateCopyWith<$Res> {
-  factory $SplashStateCopyWith(SplashState value, $Res Function(SplashState) then) =
-      _$SplashStateCopyWithImpl<$Res, SplashState>;
+  factory $SplashStateCopyWith(
+    SplashState value,
+    $Res Function(SplashState) then,
+  ) = _$SplashStateCopyWithImpl<$Res, SplashState>;
   @useResult
   $Res call({SplashStage stage, String? notificationPayload});
 }
 
 /// @nodoc
-class _$SplashStateCopyWithImpl<$Res, $Val extends SplashState> implements $SplashStateCopyWith<$Res> {
+class _$SplashStateCopyWithImpl<$Res, $Val extends SplashState>
+    implements $SplashStateCopyWith<$Res> {
   _$SplashStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -65,19 +69,25 @@ class _$SplashStateCopyWithImpl<$Res, $Val extends SplashState> implements $Spla
 }
 
 /// @nodoc
-abstract class _$$SplashStateImplCopyWith<$Res> implements $SplashStateCopyWith<$Res> {
-  factory _$$SplashStateImplCopyWith(_$SplashStateImpl value, $Res Function(_$SplashStateImpl) then) =
-      __$$SplashStateImplCopyWithImpl<$Res>;
+abstract class _$$SplashStateImplCopyWith<$Res>
+    implements $SplashStateCopyWith<$Res> {
+  factory _$$SplashStateImplCopyWith(
+    _$SplashStateImpl value,
+    $Res Function(_$SplashStateImpl) then,
+  ) = __$$SplashStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({SplashStage stage, String? notificationPayload});
 }
 
 /// @nodoc
-class __$$SplashStateImplCopyWithImpl<$Res> extends _$SplashStateCopyWithImpl<$Res, _$SplashStateImpl>
+class __$$SplashStateImplCopyWithImpl<$Res>
+    extends _$SplashStateCopyWithImpl<$Res, _$SplashStateImpl>
     implements _$$SplashStateImplCopyWith<$Res> {
-  __$$SplashStateImplCopyWithImpl(_$SplashStateImpl _value, $Res Function(_$SplashStateImpl) _then)
-    : super(_value, _then);
+  __$$SplashStateImplCopyWithImpl(
+    _$SplashStateImpl _value,
+    $Res Function(_$SplashStateImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of SplashState
   /// with the given fields replaced by the non-null parameter values.
@@ -137,7 +147,10 @@ class _$SplashStateImpl implements _SplashState {
 }
 
 abstract class _SplashState implements SplashState {
-  const factory _SplashState({required final SplashStage stage, final String? notificationPayload}) = _$SplashStateImpl;
+  const factory _SplashState({
+    required final SplashStage stage,
+    final String? notificationPayload,
+  }) = _$SplashStateImpl;
 
   @override
   SplashStage get stage;
@@ -148,5 +161,6 @@ abstract class _SplashState implements SplashState {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SplashStateImplCopyWith<_$SplashStateImpl> get copyWith => throw _privateConstructorUsedError;
+  _$$SplashStateImplCopyWith<_$SplashStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

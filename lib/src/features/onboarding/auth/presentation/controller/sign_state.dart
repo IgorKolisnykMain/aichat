@@ -1,4 +1,6 @@
-part of 'sign_bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'sign_state.freezed.dart';
 
 @freezed
 class SignState with _$SignState {

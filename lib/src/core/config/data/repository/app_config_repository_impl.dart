@@ -5,7 +5,12 @@ import 'package:aichat/src/core/config/models/app_config/app_config.dart';
 import 'package:aichat/src/core/env/env.dart';
 import 'package:aichat/src/features/ai_chat/domain/models/ai_chat_settings/ai_chat_settings.dart';
 import 'package:aichat/src/utils/app/domain/enums/user_platform.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+
+final appConfigRepositoryProvider = FutureProvider<AppConfigRepository>((ref) async {
+  return await AppConfigRepositoryImpl.init();
+});
 
 class AppConfigRepositoryImpl implements AppConfigRepository {
   final AppConfig _appConfig;

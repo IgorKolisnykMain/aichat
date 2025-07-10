@@ -15,27 +15,27 @@ import 'package:injectable/injectable.dart';
 
 @module
 abstract class RepositoryModule {
-  @singleton
-  AuthRepository authFirebaseRepository(FirebaseAuth firebaseAuth, AiTutorRepo aiRepo, UserRepository userRepository) =>
-      AuthFirebaseRepositoryImpl(
-        firebaseAuth: firebaseAuth,
-        googleSignIn: GoogleSignIn(),
-        aiRepo: aiRepo,
-        userRepository: userRepository,
-      );
+  // @singleton
+  // AuthRepository authFirebaseRepository(FirebaseAuth firebaseAuth, AiTutorRepo aiRepo, UserRepository userRepository) =>
+  //     AuthFirebaseRepositoryImpl(
+  //       firebaseAuth: firebaseAuth,
+  //       googleSignIn: GoogleSignIn(),
+  //       aiRepo: aiRepo,
+  //       userRepository: userRepository,
+  //     );
 
   @singleton
   @preResolve
   Future<AppConfigRepository> appConfigRepository() async => await AppConfigRepositoryImpl.init();
 
-  @singleton
-  UserRepository userFirestoreRepository(FirebaseFirestore firestore) => UserFirestoreRepoImpl(fireStore: firestore);
+  // @singleton
+  // UserRepository userFirestoreRepository(FirebaseFirestore firestore) => UserFirestoreRepoImpl(fireStore: firestore);
 
   @singleton
   PurchasesRepository purchasesRepository(AppConfigRepository appConfigRepository) =>
       PurchasesRepositoryImpl(appConfigRepository: appConfigRepository);
 
-  @singleton
-  AiTutorRepo aiTutorRepo(AppConfigRepository appConfigRepository, UserRepository userRepository) =>
-      AiTutorRepoImpl(appConfigRepository, userRepository);
+  // @singleton
+  // AiTutorRepo aiTutorRepo(AppConfigRepository appConfigRepository, UserRepository userRepository) =>
+  //     AiTutorRepoImpl(appConfigRepository: appConfigRepository, userRepository: userRepository);
 }

@@ -2,8 +2,17 @@ import 'dart:async';
 
 import 'package:aichat/src/features/onboarding/auth/domain/repo/user_repo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const _users = 'users';
+
+final firestoreProvider = Provider<FirebaseFirestore>((ref) {
+  return FirebaseFirestore.instance;
+});
+
+final userFirestoreRepoProvider = Provider<UserRepository>((ref) {
+  return UserFirestoreRepoImpl(fireStore: ref.read(firestoreProvider));
+});
 
 class UserFirestoreRepoImpl implements UserRepository {
   final FirebaseFirestore fireStore;

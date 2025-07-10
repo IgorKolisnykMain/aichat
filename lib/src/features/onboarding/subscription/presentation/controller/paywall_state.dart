@@ -1,14 +1,8 @@
-part of 'paywall_bloc.dart';
+import 'package:aichat/src/features/onboarding/subscription/domain/models/offering_metadata_model.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:purchases_flutter/models/offering_wrapper.dart';
 
-enum PaywallStage {
-  initial,
-  loading,
-  successGetCurrentOffering,
-  successChangeSelectedPackageId,
-  successPurchaseSelectedPackage,
-  successRestorePurchase,
-  error,
-}
+part 'paywall_state.freezed.dart';
 
 @freezed
 class PaywallState with _$PaywallState {
@@ -19,6 +13,15 @@ class PaywallState with _$PaywallState {
     required List<String> packagesWithFreeTrialEligible,
     required String? selectedPackageId,
     required String? cheapestPackageId,
-    required Object? error,
   }) = _PaywallState;
+}
+
+enum PaywallStage {
+  initial,
+  loading,
+  successGetCurrentOffering,
+  successChangeSelectedPackageId,
+  successPurchaseSelectedPackage,
+  successRestorePurchase,
+  error,
 }

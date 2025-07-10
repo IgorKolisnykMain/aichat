@@ -3,71 +3,70 @@ import 'package:aichat/src/common_widgets/buttons/app_primary_button.dart';
 import 'package:aichat/src/common_widgets/loading/loading_indicator.dart';
 import 'package:aichat/src/common_widgets/message_presenter.dart';
 import 'package:aichat/src/features/onboarding/subscription/domain/enums/subscription_plan.dart';
-import 'package:aichat/src/features/onboarding/subscription/presentation/controller/paywall_bloc.dart';
+import 'package:aichat/src/features/onboarding/subscription/presentation/controller/paywall_controller.dart';
+import 'package:aichat/src/features/onboarding/subscription/presentation/controller/paywall_event.dart'
+    show ChangeSelectedPackageIdEvent, GetCurrentOfferingEvent, PurchaseSelectedPackageEvent, RestorePurchaseEvent;
+import 'package:aichat/src/features/onboarding/subscription/presentation/controller/paywall_state.dart';
 import 'package:aichat/src/features/onboarding/subscription/presentation/widgets/subscription_plan_card.dart';
 import 'package:aichat/src/router/route_name.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
-class SubscriptionScreen extends StatefulWidget {
+class SubscriptionScreen extends ConsumerStatefulWidget {
   const SubscriptionScreen({super.key});
 
   @override
-  State<SubscriptionScreen> createState() => _SubscriptionScreenState();
+  ConsumerState<SubscriptionScreen> createState() => _SubscriptionScreenState();
 }
 
-class _SubscriptionScreenState extends BlocedState<SubscriptionScreen, PaywallBloc, PaywallState>
-    with MessagePresenter {
+class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> with MessagePresenter {
   final horizontalPadding = 16.w;
 
   @override
   void initState() {
     super.initState();
-    bloc.add(GetCurrentOfferingEvent());
+    ref.read(paywallControllerProvider.notifier).handleEvent(GetCurrentOfferingEvent());
   }
 
   @override
   Widget build(BuildContext context) {
-    return blocListener(
-      listener: (context, state) {
-        switch (state.stage) {
-          case PaywallStage.error:
-            showSnackBar(state.error?.toString() ?? context.l10n.genericError, context);
-          case PaywallStage.successPurchaseSelectedPackage:
-          case PaywallStage.successRestorePurchase:
-            context.goNamed(RoutesName.home.name);
-          default:
-            break;
-        }
-      },
-      child: Scaffold(
-        backgroundColor: context.colors.white,
-        body: SafeArea(
-          child: Stack(
-            children: [
-              Column(
-                children: [
-                  _buildHeader(),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-                        child: buildScreen(),
-                      ),
+    ref.listen(paywallControllerProvider, (previousState, state) {
+      switch (state.value?.stage) {
+        case PaywallStage.error:
+          showSnackBar(state.error?.toString() ?? context.l10n.genericError, context);
+        case PaywallStage.successPurchaseSelectedPackage:
+        case PaywallStage.successRestorePurchase:
+          context.goNamed(RoutesName.home.name);
+        default:
+          break;
+      }
+    });
+
+    return Scaffold(
+      backgroundColor: context.colors.white,
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                _buildHeader(),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+                      child: buildScreen(),
                     ),
                   ),
-                  _buildBottomSection(),
-                ],
-              ),
-              blocBuilder(
-                builder: (context, state) =>
-                    state.stage == PaywallStage.loading ? const LoadingIndicator() : const SizedBox(),
-              ),
-            ],
-          ),
+                ),
+                _buildBottomSection(),
+              ],
+            ),
+            LoadingIndicator(provider: paywallControllerProvider),
+          ],
         ),
       ),
     );
@@ -94,30 +93,27 @@ class _SubscriptionScreenState extends BlocedState<SubscriptionScreen, PaywallBl
   }
 
   Widget buildScreen() {
-    return blocBuilder(
-      builder: (context, state) {
-        final packages = state.currentOffering?.availablePackages ?? [];
+    final state = ref.watch(paywallControllerProvider.select((state) => state.value));
+    return Column(
+      children: [
+        SizedBox(height: 12.sp),
+        ...state!.currentOffering!.availablePackages.map((package) {
+          final plan = _mapPackageToPlan(package);
+          if (plan == null) return const SizedBox.shrink();
 
-        return Column(
-          children: [
-            SizedBox(height: 12.sp),
-            ...packages.map((package) {
-              final plan = _mapPackageToPlan(package);
-              if (plan == null) return const SizedBox.shrink();
-
-              return Padding(
-                padding: EdgeInsets.only(bottom: 10.sp),
-                child: SubscriptionPlanCard(
-                  plan: plan,
-                  isSelected: state.selectedPackageId == package.identifier,
-                  onTap: () => bloc.add(ChangeSelectedPackageIdEvent(package.identifier)),
-                ),
-              );
-            }),
-            SizedBox(height: 14.sp),
-          ],
-        );
-      },
+          return Padding(
+            padding: EdgeInsets.only(bottom: 10.sp),
+            child: SubscriptionPlanCard(
+              plan: plan,
+              isSelected: state.selectedPackageId == package.identifier,
+              onTap: () => ref
+                  .read(paywallControllerProvider.notifier)
+                  .handleEvent(ChangeSelectedPackageIdEvent(package.identifier)),
+            ),
+          );
+        }),
+        SizedBox(height: 14.sp),
+      ],
     );
   }
 
@@ -140,11 +136,11 @@ class _SubscriptionScreenState extends BlocedState<SubscriptionScreen, PaywallBl
         children: [
           AppPrimaryButton(
             text: context.l10n.continueText,
-            onPressed: () => bloc.add(PurchaseSelectedPackageEvent()),
+            onPressed: () => ref.read(paywallControllerProvider.notifier).handleEvent(PurchaseSelectedPackageEvent()),
             horizontalPadding: horizontalPadding,
           ),
           GestureDetector(
-            onTap: () => bloc.add(RestorePurchaseEvent()),
+            onTap: () => ref.read(paywallControllerProvider.notifier).handleEvent(RestorePurchaseEvent()),
             behavior: HitTestBehavior.opaque,
             child: Padding(
               padding: EdgeInsets.fromLTRB(horizontalPadding, 4.sp, horizontalPadding, 12.sp),

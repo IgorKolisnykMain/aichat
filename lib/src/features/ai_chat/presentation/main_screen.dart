@@ -1,7 +1,7 @@
 import 'package:aichat/src/common_widgets/bloc/bloced_state.dart';
 import 'package:aichat/src/common_widgets/loading/loading_indicator.dart';
 import 'package:aichat/src/features/ai_chat/domain/enums/ai_chat_item_type.dart';
-import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_bloc.dart';
+import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_controller.dart';
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_event.dart';
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_state.dart';
 import 'package:aichat/src/features/ai_chat/presentation/widgets/chat_message_widget.dart';

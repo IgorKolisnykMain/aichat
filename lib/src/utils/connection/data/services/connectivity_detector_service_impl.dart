@@ -1,5 +1,10 @@
 import 'package:aichat/src/utils/connection/domain/services/connectivity_detector_service.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final connectivityDetectorServiceProvider = Provider<ConnectivityDetectorService>((ref) {
+  return ConnectivityDetectorServiceImpl(connectivity: Connectivity());
+});
 
 class ConnectivityDetectorServiceImpl implements ConnectivityDetectorService {
   final Connectivity connectivity;

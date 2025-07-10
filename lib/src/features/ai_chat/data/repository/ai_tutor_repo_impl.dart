@@ -1,10 +1,21 @@
+import 'package:aichat/src/core/config/data/repository/app_config_repository_impl.dart';
 import 'package:aichat/src/core/config/domain/repository/app_config_repository.dart';
 import 'package:aichat/src/features/ai_chat/domain/models/ai_chat_settings/ai_chat_settings.dart';
 import 'package:aichat/src/features/ai_chat/domain/models/ai_message/ai_message.dart';
 import 'package:aichat/src/features/ai_chat/domain/repository/ai_tutor_repo.dart';
+import 'package:aichat/src/features/onboarding/auth/data/repo/user_firestore_repo_impl.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/repo/user_repo.dart';
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+final aiTutorRepoProvider = FutureProvider<AiTutorRepo>((ref) async {
+  final appConfig = await ref.read(appConfigRepositoryProvider.future);
+  return AiTutorRepoImpl(
+    appConfigRepository: appConfig,
+    userRepository: ref.read(userFirestoreRepoProvider),
+  );
+});
 
 class AiTutorRepoImpl implements AiTutorRepo {
   static const _chatHistory = 'chat_history';
@@ -12,17 +23,17 @@ class AiTutorRepoImpl implements AiTutorRepo {
   static const _userThreads = 'user_threads';
   static const _assistantIdKey = 'assistant_id';
 
-  final AppConfigRepository _appConfigRepository;
-  final UserRepository _userRepository;
+  final AppConfigRepository appConfigRepository;
+  final UserRepository userRepository;
   late AiChatSettings _settings;
   late OpenAI _openAI;
   String? _assistantId;
 
-  AiTutorRepoImpl(this._appConfigRepository, this._userRepository);
+  AiTutorRepoImpl({required this.appConfigRepository, required this.userRepository});
 
   // TODO need just Firestore and userId. Maybe try remove dependensy userRepo
   DocumentReference<Map<String, dynamic>> get _userProgressDocRef {
-    return _userRepository.userDocRef;
+    return userRepository.userDocRef;
   }
 
   @override
@@ -30,7 +41,7 @@ class AiTutorRepoImpl implements AiTutorRepo {
 
   @override
   Future<void> setupAiChat() async {
-    _settings = (await _appConfigRepository.getAiSettings()).copyWith(usedTokens: await getUsedTokens());
+    _settings = (await appConfigRepository.getAiSettings()).copyWith(usedTokens: await getUsedTokens());
     _openAI = OpenAI.instance.build(
       token: _settings.tokens.first,
       baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 60)),

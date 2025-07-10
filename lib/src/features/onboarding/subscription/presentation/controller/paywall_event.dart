@@ -1,4 +1,4 @@
-part of 'paywall_bloc.dart';
+import 'package:equatable/equatable.dart';
 
 sealed class PaywallEvent extends Equatable {}
 

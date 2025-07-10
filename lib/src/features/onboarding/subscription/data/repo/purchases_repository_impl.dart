@@ -1,11 +1,18 @@
 import 'dart:convert';
 
+import 'package:aichat/src/core/config/data/repository/app_config_repository_impl.dart';
 import 'package:aichat/src/core/config/domain/repository/app_config_repository.dart';
 import 'package:aichat/src/features/onboarding/subscription/domain/models/offering_metadata_model.dart';
 import 'package:aichat/src/features/onboarding/subscription/domain/repo/purchases_repository.dart';
 import 'package:aichat/src/utils/app/domain/enums/user_platform.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:rxdart/rxdart.dart';
+
+final purchasesRepositoryProvider = FutureProvider<PurchasesRepository>((ref) async {
+  final appConfig = await ref.read(appConfigRepositoryProvider.future);
+  return PurchasesRepositoryImpl(appConfigRepository: appConfig);
+});
 
 class PurchasesRepositoryImpl implements PurchasesRepository {
   final AppConfigRepository appConfigRepository;

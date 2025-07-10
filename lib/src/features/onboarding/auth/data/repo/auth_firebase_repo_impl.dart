@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:aichat/src/features/ai_chat/data/repository/ai_tutor_repo_impl.dart';
 import 'package:aichat/src/features/ai_chat/domain/repository/ai_tutor_repo.dart';
+import 'package:aichat/src/features/onboarding/auth/data/repo/user_firestore_repo_impl.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/enums/sign_source.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/repo/auth_repo.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/repo/user_repo.dart';
@@ -9,8 +11,23 @@ import 'package:aichat/src/utils/error/domain/models/local_exception.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
+
+final firebaseAuthProvider = Provider<FirebaseAuth>((ref) {
+  return FirebaseAuth.instance;
+});
+
+final authFirebaseRepoProvider = FutureProvider<AuthRepository>((ref) async {
+  final aiRepo = await ref.read(aiTutorRepoProvider.future);
+  return AuthFirebaseRepositoryImpl(
+    firebaseAuth: ref.read(firebaseAuthProvider),
+    googleSignIn: GoogleSignIn(),
+    aiRepo: aiRepo,
+    userRepository: ref.read(userFirestoreRepoProvider),
+  );
+});
 
 class AuthFirebaseRepositoryImpl implements AuthRepository {
   final FirebaseAuth firebaseAuth;

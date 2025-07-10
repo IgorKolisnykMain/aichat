@@ -1,26 +1,40 @@
 import 'dart:async';
 
+import 'package:aichat/src/features/ai_chat/data/repository/ai_tutor_repo_impl.dart';
 import 'package:aichat/src/features/ai_chat/domain/enums/ai_chat_item_type.dart';
 import 'package:aichat/src/features/ai_chat/domain/models/ai_message/ai_message.dart';
 import 'package:aichat/src/features/ai_chat/domain/repository/ai_tutor_repo.dart';
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_event.dart';
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_state.dart';
+import 'package:aichat/src/utils/connection/data/services/connectivity_detector_service_impl.dart';
 import 'package:aichat/src/utils/connection/domain/services/connectivity_detector_service.dart';
-import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-class AiTutorBloc extends Bloc<AiTutorEvent, AiTutorState> {
-  final AiTutorRepo aiRepo;
-  final ConnectivityDetectorService connectivity;
+final aiTutorControllerProvider = AsyncNotifierProvider<AiTutorController, AiTutorState>(() => AiTutorController());
+
+class AiTutorController extends AsyncNotifier<AiTutorState> {
+  late final AiTutorRepo aiRepo;
+  late final ConnectivityDetectorService connectivity;
   StreamSubscription<String>? _streamSubscription;
   String _currentStreamingMessage = '';
 
-  AiTutorBloc(this.aiRepo, this.connectivity) : super(const AiTutorState(stage: AiTutorStage.init, messages: [])) {
-    on<AiTutorEvent>(_handler, transformer: sequential());
+  @override
+  Future<AiTutorState> build() async {
+    aiRepo = await ref.read(aiTutorRepoProvider.future);
+    connectivity = ref.read(connectivityDetectorServiceProvider);
+    return const AiTutorState(
+      stage: AiTutorStage.initial,
+      messages: [],
+      userThreads: [],
+      currentThreadId: null,
+      aiAnsweringOnQuestion: null,
+      streamingResponse: '',
+      error: null,
+    );
   }
 
   @override
@@ -32,7 +46,6 @@ class AiTutorBloc extends Bloc<AiTutorEvent, AiTutorState> {
   EventHandler<AiTutorEvent, AiTutorState> get _handler =>
       (event, emit) => switch (event) {
         LoadHistoryEvent() => _loadHistory(emit),
-        LoadHistoryByQuestionEvent(questionId: final questionId) => _loadHistoryByQuestion(emit, questionId),
         SendQuestionEvent(query: final query) => _getAnswer(emit, query),
         TryAgainSendQuestionEvent() =>
           state.aiAnsweringOnQuestion != null
@@ -58,11 +71,6 @@ class AiTutorBloc extends Bloc<AiTutorEvent, AiTutorState> {
     final List<AiMessage> messages = [_getHeaderAiMessage()];
     messages.addAll(await aiRepo.getChatHistory());
     emit(state.copyWith(messages: messages, stage: AiTutorStage.init));
-  }
-
-  Future<void> _loadHistoryByQuestion(Emitter<AiTutorState> emit, String questionId) async {
-    // TODO: Implement loading history by question ID
-    await _loadHistory(emit);
   }
 
   Future<void> _getAnswer(Emitter<AiTutorState> emit, String question) async {
