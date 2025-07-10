@@ -1,11 +1,9 @@
 import 'dart:async';
 
-import 'package:aichat/src/features/ai_chat/data/repository/ai_tutor_repo_impl.dart';
-import 'package:aichat/src/features/ai_chat/domain/repository/ai_tutor_repo.dart';
-import 'package:aichat/src/features/onboarding/auth/data/repo/user_firestore_repo_impl.dart';
+import 'package:aichat/src/core/di/modules/firebase_module.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/enums/sign_source.dart';
+import 'package:aichat/src/features/onboarding/auth/domain/models/app_user.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/repo/auth_repo.dart';
-import 'package:aichat/src/features/onboarding/auth/domain/repo/user_repo.dart';
 import 'package:aichat/src/utils/error/domain/enums/local_error.dart';
 import 'package:aichat/src/utils/error/domain/models/local_exception.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,52 +13,39 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-final firebaseAuthProvider = Provider<FirebaseAuth>((ref) {
-  return FirebaseAuth.instance;
-});
-
 final authFirebaseRepoProvider = FutureProvider<AuthRepository>((ref) async {
-  final aiRepo = await ref.read(aiTutorRepoProvider.future);
   return AuthFirebaseRepositoryImpl(
-    firebaseAuth: ref.read(firebaseAuthProvider),
+    firebaseAuth: await ref.read(firebaseAuthProvider.future),
     googleSignIn: GoogleSignIn(),
-    aiRepo: aiRepo,
-    userRepository: ref.read(userFirestoreRepoProvider),
   );
 });
 
 class AuthFirebaseRepositoryImpl implements AuthRepository {
   final FirebaseAuth firebaseAuth;
   final GoogleSignIn googleSignIn;
-  final AiTutorRepo aiRepo;
-
-  final UserRepository userRepository;
 
   AuthFirebaseRepositoryImpl({
     required this.firebaseAuth,
     required this.googleSignIn,
-    required this.aiRepo,
-    required this.userRepository,
   });
 
-  void _initAfterSign(String uid) {
-    userRepository.userId = uid;
-    aiRepo.setupAiChat();
+  @override
+  Stream<AppUser?> authStateChanges() {
+    return firebaseAuth.authStateChanges().map(
+      (user) => user != null ? AppUser(uid: user.uid, email: user.email) : null,
+    );
   }
 
   @override
-  Future<String?> get token async => firebaseAuth.currentUser?.getIdToken();
-
-  @override
-  String? get userUid => firebaseAuth.currentUser?.uid;
+  AppUser? get currentUser => firebaseAuth.currentUser != null
+      ? AppUser(uid: firebaseAuth.currentUser!.uid, email: firebaseAuth.currentUser!.email)
+      : null;
 
   @override
   Future<UserCredential?> signUpWithEmailAndPassword({required String email, required String password}) async {
     try {
       final userCredential = await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
       if (userCredential.user != null) {
-        final uid = userCredential.user!.uid;
-        _initAfterSign(uid);
         return userCredential;
       } else {
         return null;
@@ -85,8 +70,6 @@ class AuthFirebaseRepositoryImpl implements AuthRepository {
     try {
       final userCredential = await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
       if (userCredential.user != null) {
-        final uid = userCredential.user!.uid;
-        _initAfterSign(uid);
         return userCredential;
       } else {
         return null;
@@ -139,8 +122,6 @@ class AuthFirebaseRepositoryImpl implements AuthRepository {
       };
       if (userCredential == null) return null;
       if (userCredential.user != null) {
-        final uid = userCredential.user!.uid;
-        _initAfterSign(uid);
         return userCredential;
       } else {
         return null;
@@ -194,30 +175,5 @@ class AuthFirebaseRepositoryImpl implements AuthRepository {
     } on FirebaseAuthException catch (_) {
       await logout();
     }
-  }
-
-  @override
-  bool isExpiredSession() {
-    return firebaseAuth.currentUser == null;
-  }
-
-  @override
-  Future<bool> isUserExists() async {
-    try {
-      final currentUser = firebaseAuth.currentUser;
-      if (currentUser == null) return false;
-      await currentUser.reload();
-      return true;
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        return false;
-      }
-      return false;
-    }
-  }
-
-  @override
-  String? getEmailCurrentUser() {
-    return firebaseAuth.currentUser?.email;
   }
 }

@@ -1,49 +1,62 @@
+import 'dart:async';
+
 import 'package:aichat/src/core/config/data/repository/app_config_repository_impl.dart';
-import 'package:aichat/src/core/config/domain/repository/app_config_repository.dart';
+import 'package:aichat/src/core/di/modules/firebase_module.dart';
 import 'package:aichat/src/features/ai_chat/domain/models/ai_chat_settings/ai_chat_settings.dart';
 import 'package:aichat/src/features/ai_chat/domain/models/ai_message/ai_message.dart';
 import 'package:aichat/src/features/ai_chat/domain/repository/ai_tutor_repo.dart';
-import 'package:aichat/src/features/onboarding/auth/data/repo/user_firestore_repo_impl.dart';
-import 'package:aichat/src/features/onboarding/auth/domain/repo/user_repo.dart';
+import 'package:aichat/src/features/onboarding/auth/data/repo/auth_firebase_repo_impl.dart';
+import 'package:aichat/src/features/onboarding/auth/domain/models/app_user.dart';
+import 'package:aichat/src/utils/firestore/user/firestore_user_utils.dart';
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final aiTutorRepoProvider = FutureProvider<AiTutorRepo>((ref) async {
+final aiTutorOpenAiRepoProvider = FutureProvider<AiTutorRepo>((ref) async {
   final appConfig = await ref.read(appConfigRepositoryProvider.future);
-  return AiTutorRepoImpl(
-    appConfigRepository: appConfig,
-    userRepository: ref.read(userFirestoreRepoProvider),
+  final repo = AiTutorOpenAiRepoImpl(
+    fireStore: await ref.read(firestoreProvider.future),
+    settings: await appConfig.getAiSettings(),
+    userStream: (await ref.read(authFirebaseRepoProvider.future)).authStateChanges(),
   );
+  ref.onDispose(repo.dispose);
+  return repo;
 });
 
-class AiTutorRepoImpl implements AiTutorRepo {
+class AiTutorOpenAiRepoImpl implements AiTutorRepo {
   static const _chatHistory = 'chat_history';
   static const _usedAiTokens = '_used_ai_tokens';
   static const _userThreads = 'user_threads';
   static const _assistantIdKey = 'assistant_id';
 
-  final AppConfigRepository appConfigRepository;
-  final UserRepository userRepository;
-  late AiChatSettings _settings;
+  @override
+  AiChatSettings settings;
+
+  final FirebaseFirestore fireStore;
+  late StreamSubscription<AppUser?> _userStream;
   late OpenAI _openAI;
   String? _assistantId;
+  String? _userId;
 
-  AiTutorRepoImpl({required this.appConfigRepository, required this.userRepository});
-
-  // TODO need just Firestore and userId. Maybe try remove dependensy userRepo
-  DocumentReference<Map<String, dynamic>> get _userProgressDocRef {
-    return userRepository.userDocRef;
+  AiTutorOpenAiRepoImpl({required this.fireStore, required this.settings, required Stream<AppUser?> userStream}) {
+    _userStream = userStream.listen((user) {
+      if (_userId == null) {
+        setupAiChat();
+      }
+      _userId = user?.uid;
+    });
   }
 
-  @override
-  AiChatSettings get settings => _settings;
+  void dispose() {
+    _userStream.cancel();
+  }
+
+  DocumentReference<Map<String, dynamic>> get _userDocRef => getUserDocRef(_userId, fireStore);
 
   @override
   Future<void> setupAiChat() async {
-    _settings = (await appConfigRepository.getAiSettings()).copyWith(usedTokens: await getUsedTokens());
     _openAI = OpenAI.instance.build(
-      token: _settings.tokens.first,
+      token: settings.tokens.first,
       baseOption: HttpSetup(receiveTimeout: const Duration(seconds: 60)),
       enableLog: true,
     );
@@ -51,31 +64,31 @@ class AiTutorRepoImpl implements AiTutorRepo {
 
   @override
   void changeAiToken() {
-    if (_settings.tokens.length > _settings.usedTokens.length) {
-      final lastTokens = _settings.tokens.where((token) => _settings.usedTokens.contains(token) == false);
-      final updatedUsedTokens = Set.of(_settings.usedTokens);
+    if (settings.tokens.length > settings.usedTokens.length) {
+      final lastTokens = settings.tokens.where((token) => settings.usedTokens.contains(token) == false);
+      final updatedUsedTokens = Set.of(settings.usedTokens);
       updatedUsedTokens.add(_openAI.token);
       _openAI.setToken(lastTokens.first);
       if (_openAI.token != lastTokens.first) {
         _openAI.setToken(lastTokens.first);
       }
-      _settings = _settings.copyWith(usedTokens: updatedUsedTokens.toList());
+      settings = settings.copyWith(usedTokens: updatedUsedTokens.toList());
       _updateUsedTokens(updatedUsedTokens.toList());
     } else {
-      _openAI.setToken(_settings.tokens.first);
-      final usedTokens = [_settings.tokens.first];
-      _settings = _settings.copyWith(usedTokens: usedTokens);
+      _openAI.setToken(settings.tokens.first);
+      final usedTokens = [settings.tokens.first];
+      settings = settings.copyWith(usedTokens: usedTokens);
       _updateUsedTokens(usedTokens);
     }
   }
 
   Future<void> _updateUsedTokens(List<String> updatedUsedTokens) async {
-    _userProgressDocRef.set({_usedAiTokens: updatedUsedTokens}, SetOptions(merge: true));
+    _userDocRef.set({_usedAiTokens: updatedUsedTokens}, SetOptions(merge: true));
   }
 
   Future<List<String>> getUsedTokens() async {
     try {
-      final data = (await _userProgressDocRef.get(const GetOptions(source: Source.server))).data();
+      final data = (await _userDocRef.get(const GetOptions(source: Source.server))).data();
       final List<dynamic> result = data?[_usedAiTokens] as List<dynamic>? ?? [];
       return result.map((e) => e as String).toList();
     } catch (e) {
@@ -84,9 +97,9 @@ class AiTutorRepoImpl implements AiTutorRepo {
   }
 
   @override
-  Future<List<AiMessage>> getChatHistory([Source source = Source.cache]) async {
+  Future<List<AiMessage>> getChatHistory() async {
     try {
-      final data = (await _userProgressDocRef.get(GetOptions(source: source))).data();
+      final data = (await _userDocRef.get()).data();
       final List<dynamic> result = data?[_chatHistory] as List<dynamic>? ?? [];
       return result.map((e) => AiMessage.fromJson(e as Map<String, dynamic>)).toList();
     } catch (e) {
@@ -98,7 +111,7 @@ class AiTutorRepoImpl implements AiTutorRepo {
   Future<String> sentQuestion(String question) async {
     final request = ChatCompleteText(
       messages: [
-        Messages(role: Role.system, content: _settings.promptChat).toJson(),
+        Messages(role: Role.system, content: settings.promptChat).toJson(),
         Messages(role: Role.user, content: question).toJson(),
       ],
       maxToken: 1500,
@@ -113,25 +126,23 @@ class AiTutorRepoImpl implements AiTutorRepo {
   Future<void> addMessage(AiMessage message) async {
     final chatHistory = Set.of(await getChatHistory());
     chatHistory.add(message);
-    _userProgressDocRef.set({
-      _chatHistory: chatHistory.toList().map((message) => message.toJson()),
-    }, SetOptions(merge: true));
+    _userDocRef.set({_chatHistory: chatHistory.toList().map((message) => message.toJson())}, SetOptions(merge: true));
   }
 
   // Assistants API v2 implementation
   @override
   Future<void> setupAssistant() async {
     try {
-      // Проверяем, есть ли сохраненный ID ассистента
-      final data = (await _userProgressDocRef.get()).data();
-      _assistantId = data?[AiTutorRepoImpl._assistantIdKey] as String?;
+      // Check if there is a saved assistant ID
+      final data = (await _userDocRef.get()).data();
+      _assistantId = data?[_assistantIdKey] as String?;
 
       if (_assistantId == null) {
-        // Создаем нового ассистента
+        // Create a new assistant
         final assistant = Assistant(
-          model: Gpt4oMini2024Model(), // Используем актуальную модель
+          model: Gpt4oMini2024Model(), // Use the current model
           name: 'AI Tutor',
-          instructions: _settings.promptChat,
+          instructions: settings.promptChat,
           tools: [
             {"type": "code_interpreter"},
           ],
@@ -140,8 +151,8 @@ class AiTutorRepoImpl implements AiTutorRepo {
         final response = await _openAI.assistant.v2.create(assistant: assistant);
         _assistantId = response.id;
 
-        // Сохраняем ID ассистента
-        await _userProgressDocRef.set({AiTutorRepoImpl._assistantIdKey: _assistantId}, SetOptions(merge: true));
+        // Save the assistant ID
+        await _userDocRef.set({_assistantIdKey: _assistantId}, SetOptions(merge: true));
       }
     } catch (e) {
       throw Exception('Failed to setup assistant: $e');
@@ -152,15 +163,15 @@ class AiTutorRepoImpl implements AiTutorRepo {
   Future<String> createThread() async {
     try {
       final request = ThreadRequest(
-        messages: [], // Пустой список сообщений для нового thread
+        messages: [], // Empty message list for new thread
       );
       final thread = await _openAI.threads.v2.createThread(request: request);
 
-      // Сохраняем thread ID для пользователя
+      // Save thread ID for the user
       final threads = await getUserThreads();
       threads.add(thread.id);
 
-      await _userProgressDocRef.set({_userThreads: threads}, SetOptions(merge: true));
+      await _userDocRef.set({_userThreads: threads}, SetOptions(merge: true));
 
       return thread.id;
     } catch (e) {
@@ -171,13 +182,13 @@ class AiTutorRepoImpl implements AiTutorRepo {
   @override
   Future<void> sendMessageToAssistant(String threadId, String message) async {
     try {
-      // Добавляем сообщение в thread
+      // Add message to thread
       await _openAI.threads.v2.messages.createMessage(
         threadId: threadId,
         request: CreateMessage(role: 'user', content: message),
       );
 
-      // Запускаем ассистента
+      // Run the assistant
       final runRequest = CreateRun(assistantId: _assistantId!);
       await _openAI.threads.v2.runs.createRun(threadId: threadId, request: runRequest);
     } catch (e) {
@@ -188,17 +199,17 @@ class AiTutorRepoImpl implements AiTutorRepo {
   @override
   Stream<String> streamAssistantResponse(String threadId, String message) async* {
     try {
-      // Добавляем сообщение пользователя
+      // Add user message
       await _openAI.threads.v2.messages.createMessage(
         threadId: threadId,
         request: CreateMessage(role: 'user', content: message),
       );
 
-      // Запускаем ассистента
+      // Run the assistant
       final runRequest = CreateRun(assistantId: _assistantId!);
       final run = await _openAI.threads.v2.runs.createRun(threadId: threadId, request: runRequest);
 
-      // Ждем завершения run и получаем ответ
+      // Wait for run completion and get response
       String runStatus = 'in_progress';
       while (runStatus == 'in_progress' || runStatus == 'queued') {
         await Future.delayed(const Duration(seconds: 1));
@@ -207,7 +218,7 @@ class AiTutorRepoImpl implements AiTutorRepo {
       }
 
       if (runStatus == 'completed') {
-        // Получаем последние сообщения
+        // Get latest messages
         final messages = await _openAI.threads.v2.messages.listMessage(threadId: threadId);
         if (messages.data.isNotEmpty) {
           final lastMessage = messages.data.first;
@@ -231,11 +242,11 @@ class AiTutorRepoImpl implements AiTutorRepo {
     try {
       await _openAI.threads.v2.deleteThread(threadId: threadId);
 
-      // Удаляем thread из списка пользователя
+      // Remove thread from user's list
       final threads = await getUserThreads();
       threads.remove(threadId);
 
-      await _userProgressDocRef.set({_userThreads: threads}, SetOptions(merge: true));
+      await _userDocRef.set({_userThreads: threads}, SetOptions(merge: true));
     } catch (e) {
       throw Exception('Failed to delete thread: $e');
     }
@@ -244,7 +255,7 @@ class AiTutorRepoImpl implements AiTutorRepo {
   @override
   Future<List<String>> getUserThreads() async {
     try {
-      final data = (await _userProgressDocRef.get()).data();
+      final data = (await _userDocRef.get()).data();
       final List<dynamic> threads = data?[_userThreads] as List<dynamic>? ?? [];
       return threads.map((e) => e as String).toList();
     } catch (e) {

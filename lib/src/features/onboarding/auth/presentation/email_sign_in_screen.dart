@@ -1,5 +1,4 @@
 import 'package:aichat/src/common_widgets/app_bars/auth_app_bar.dart';
-import 'package:aichat/src/common_widgets/bloc/bloced_state.dart';
 import 'package:aichat/src/common_widgets/buttons/app_primary_button.dart';
 import 'package:aichat/src/common_widgets/inputs/app_text_form_field.dart';
 import 'package:aichat/src/common_widgets/loading/loading_indicator.dart';
@@ -35,14 +34,14 @@ class _EmailSignInScreenState extends ConsumerState<EmailSignInScreen> with Mess
   @override
   Widget build(BuildContext context) {
     ref.listen(signControllerProvider, (previousState, state) {
-      switch (state.value?.stage) {
-        case SignStage.signInSuccess:
-          context.goNamed(RoutesName.home.name);
-        case SignStage.error:
-          showSnackBar(context.l10n.signInError, context);
-        default:
-          break;
-      }
+      state.when(
+        data: (data) => switch (data.stage) {
+          SignStage.signInSuccess => context.goNamed(RoutesName.home.name),
+          _ => null,
+        },
+        error: (error, stackTrace) => showSnackBar(context.l10n.signInError, context),
+        loading: () {},
+      );
     });
 
     return Scaffold(

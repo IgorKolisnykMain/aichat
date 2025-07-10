@@ -8,13 +8,16 @@ import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_eve
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_state.dart';
 import 'package:aichat/src/utils/connection/data/services/connectivity_detector_service_impl.dart';
 import 'package:aichat/src/utils/connection/domain/services/connectivity_detector_service.dart';
+import 'package:aichat/src/utils/error/domain/enums/local_error.dart';
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-final aiTutorControllerProvider = AsyncNotifierProvider<AiTutorController, AiTutorState>(() => AiTutorController());
+final aiTutorControllerProvider = AsyncNotifierProvider.autoDispose<AiTutorController, AiTutorState>(
+  () => AiTutorController(),
+);
 
 class AiTutorController extends AsyncNotifier<AiTutorState> {
   late final AiTutorRepo aiRepo;
@@ -24,41 +27,37 @@ class AiTutorController extends AsyncNotifier<AiTutorState> {
 
   @override
   Future<AiTutorState> build() async {
-    aiRepo = await ref.read(aiTutorRepoProvider.future);
+    ref.onDispose(dispose);
+    state = const AsyncValue.loading();
+    aiRepo = await ref.read(aiTutorOpenAiRepoProvider.future);
     connectivity = ref.read(connectivityDetectorServiceProvider);
-    return const AiTutorState(
-      stage: AiTutorStage.initial,
-      messages: [],
-      userThreads: [],
-      currentThreadId: null,
-      aiAnsweringOnQuestion: null,
-      streamingResponse: '',
-      error: null,
-    );
+
+    // Initialize Assistant API and load history
+    handlerEvent(const InitializeAssistantEvent());
+    handlerEvent(LoadHistoryEvent());
+
+    return const AiTutorState(stage: AiTutorStage.initial, messages: [], streamingResponse: '');
   }
 
-  @override
-  Future<void> close() {
+  void dispose() {
     _streamSubscription?.cancel();
-    return super.close();
   }
 
-  EventHandler<AiTutorEvent, AiTutorState> get _handler =>
-      (event, emit) => switch (event) {
-        LoadHistoryEvent() => _loadHistory(emit),
-        SendQuestionEvent(query: final query) => _getAnswer(emit, query),
-        TryAgainSendQuestionEvent() =>
-          state.aiAnsweringOnQuestion != null
-              ? _tryAgainSendQuestion(emit, state.aiAnsweringOnQuestion!, List.of(state.messages))
-              : Future.value(),
-        // Assistants API v2 handlers
-        InitializeAssistantEvent() => _initializeAssistant(emit),
-        CreateNewThreadEvent() => _createNewThread(emit),
-        SelectThreadEvent(threadId: final threadId) => _selectThread(emit, threadId),
-        DeleteThreadEvent(threadId: final threadId) => _deleteThread(emit, threadId),
-        SendQuestionToAssistantEvent(query: final query) => _sendQuestionToAssistant(emit, query),
-        StreamResponseUpdateEvent(chunk: final chunk) => _updateStreamingResponse(emit, chunk),
-      };
+  void handlerEvent(AiTutorEvent event) => switch (event) {
+    LoadHistoryEvent() => _loadHistory(),
+    SendQuestionEvent(query: final query) => _getAnswer(query),
+    TryAgainSendQuestionEvent() =>
+      state.value!.aiAnsweringOnQuestion != null
+          ? _tryAgainSendQuestion(state.value!.aiAnsweringOnQuestion!, List.of(state.value!.messages))
+          : Future.value(),
+    // Assistants API v2 handlers
+    InitializeAssistantEvent() => _initializeAssistant(),
+    CreateNewThreadEvent() => _createNewThread(),
+    SelectThreadEvent(threadId: final threadId) => _selectThread(threadId),
+    DeleteThreadEvent(threadId: final threadId) => _deleteThread(threadId),
+    SendQuestionToAssistantEvent(query: final query) => _sendQuestionToAssistant(query),
+    StreamResponseUpdateEvent(chunk: final chunk) => _updateStreamingResponse(chunk),
+  };
 
   AiMessage _getHeaderAiMessage() => AiMessage(
     message: aiRepo.settings.headerMessage,
@@ -66,15 +65,17 @@ class AiTutorController extends AsyncNotifier<AiTutorState> {
     date: DateFormat('h:mm a').format(DateTime.now()),
   );
 
-  Future<void> _loadHistory(Emitter<AiTutorState> emit) async {
-    emit(state.copyWith(stage: AiTutorStage.loading));
-    final List<AiMessage> messages = [_getHeaderAiMessage()];
-    messages.addAll(await aiRepo.getChatHistory());
-    emit(state.copyWith(messages: messages, stage: AiTutorStage.init));
+  Future<void> _loadHistory() async {
+    state = const AsyncValue.loading();
+    state = await AsyncValue.guard(() async {
+      final List<AiMessage> messages = [_getHeaderAiMessage()];
+      messages.addAll(await aiRepo.getChatHistory());
+      return AiTutorState(messages: messages, stage: AiTutorStage.init);
+    });
   }
 
-  Future<void> _getAnswer(Emitter<AiTutorState> emit, String question) async {
-    final List<AiMessage> messages = List.of(state.messages);
+  Future<void> _getAnswer(String question) async {
+    final List<AiMessage> messages = List.of(state.value!.messages);
 
     final questionMessage = AiMessage(
       message: question,
@@ -93,8 +94,8 @@ class AiTutorController extends AsyncNotifier<AiTutorState> {
 
       final List<AiMessage> messagesWithProgressHold = List.of(messages);
       messagesWithProgressHold.add(answerMessageHold);
-      emit(
-        state.copyWith(
+      state = AsyncValue.data(
+        state.value!.copyWith(
           messages: messagesWithProgressHold,
           aiAnsweringOnQuestion: questionMessage,
           stage: AiTutorStage.sentAIAnswerProgress,
@@ -108,45 +109,46 @@ class AiTutorController extends AsyncNotifier<AiTutorState> {
       );
       messages.add(answerMessage);
       await aiRepo.addMessage(answerMessage);
-      emit(state.copyWith(messages: messages, stage: AiTutorStage.sentAIAnswerSuccess));
+      state = AsyncValue.data(state.value!.copyWith(messages: messages, stage: AiTutorStage.sentAIAnswerSuccess));
     } catch (e) {
       if (e is OpenAIServerError) {
-        emit(state.copyWith(messages: messages, stage: AiTutorStage.openAIServerError, error: e));
+        state = AsyncValue.error(e, StackTrace.current);
         FirebaseCrashlytics.instance.recordFlutterError(FlutterErrorDetails(exception: e));
         return;
       }
       if (e is OpenAIRateLimitError) {
-        await _changeTokenAndTryAgainGetAnswer(emit, questionMessage, messages, 1);
+        await _changeTokenAndTryAgainGetAnswer(questionMessage, messages, 1);
         return;
       }
       if (e is OpenAIAuthError) {
-        await _changeTokenAndTryAgainGetAnswer(emit, questionMessage, messages, 1);
+        await _changeTokenAndTryAgainGetAnswer(questionMessage, messages, 1);
         return;
       }
       if (e is RequestError) {
-        emit(state.copyWith(messages: messages, stage: AiTutorStage.openAIServerError, error: e));
+        state = AsyncValue.error(e, StackTrace.current);
         FirebaseCrashlytics.instance.recordFlutterError(FlutterErrorDetails(exception: e));
         return;
       }
-      emit(state.copyWith(messages: messages, stage: AiTutorStage.openAIServerError, error: e));
+      state = AsyncValue.error(e, StackTrace.current);
       FirebaseCrashlytics.instance.recordFlutterError(FlutterErrorDetails(exception: e));
     }
   }
 
-  Future<void> _tryAgainSendQuestion(Emitter<AiTutorState> emit, AiMessage question, List<AiMessage> messages) async {
+  Future<void> _tryAgainSendQuestion(AiMessage question, List<AiMessage> messages) async {
     final answerMessageHold = AiMessage(
       message: "",
       type: AiChatItemType.aiAnswer,
       date: DateFormat('h:mm a').format(DateTime.now()),
     );
-    final List<AiMessage> messagesWithProgressHold = List.of(state.messages);
+    final List<AiMessage> messagesWithProgressHold = List.of(state.value!.messages);
     messagesWithProgressHold.add(answerMessageHold);
-    emit(state.copyWith(messages: messagesWithProgressHold, stage: AiTutorStage.sentAIAnswerProgress));
-    await _changeTokenAndTryAgainGetAnswer(emit, question, messages, 1);
+    state = AsyncValue.data(
+      state.value!.copyWith(messages: messagesWithProgressHold, stage: AiTutorStage.sentAIAnswerProgress),
+    );
+    await _changeTokenAndTryAgainGetAnswer(question, messages, 1);
   }
 
   Future<void> _changeTokenAndTryAgainGetAnswer(
-    Emitter<AiTutorState> emit,
     AiMessage question,
     List<AiMessage> messages,
     int countRepeat, [
@@ -162,90 +164,99 @@ class AiTutorController extends AsyncNotifier<AiTutorState> {
         );
         messages.add(answerMessage);
         await aiRepo.addMessage(answerMessage);
-        emit(state.copyWith(messages: messages, stage: AiTutorStage.sentAIAnswerSuccess));
+        state = AsyncValue.data(state.value!.copyWith(messages: messages, stage: AiTutorStage.sentAIAnswerSuccess));
       } catch (e) {
         if (countRepeat < 3) {
-          await _changeTokenAndTryAgainGetAnswer(emit, question, messages, countRepeat + 1, e);
+          await _changeTokenAndTryAgainGetAnswer(question, messages, countRepeat + 1, e);
         } else {
-          emit(state.copyWith(messages: messages, stage: AiTutorStage.openAIServerError, error: e));
+          state = AsyncValue.error(e, StackTrace.current);
           FirebaseCrashlytics.instance.recordFlutterError(FlutterErrorDetails(exception: e));
         }
       }
     } else {
-      emit(state.copyWith(messages: messages, stage: AiTutorStage.openAIServerError, error: error));
+      state = AsyncValue.error(error ??= LocalError.noInternetConnection, StackTrace.current);
     }
   }
 
   // Assistants API v2 methods
-  Future<void> _initializeAssistant(Emitter<AiTutorState> emit) async {
-    emit(state.copyWith(stage: AiTutorStage.loading));
+  Future<void> _initializeAssistant() async {
+    state = const AsyncValue.loading();
     try {
       await aiRepo.setupAssistant();
       final threads = await aiRepo.getUserThreads();
-      emit(
-        state.copyWith(
+      state = AsyncValue.data(
+        state.value!.copyWith(
           stage: AiTutorStage.init,
           userThreads: threads,
           currentThreadId: threads.isNotEmpty ? threads.last : null,
         ),
       );
     } catch (e) {
-      emit(state.copyWith(stage: AiTutorStage.openAIServerError, error: e));
+      state = AsyncValue.error(e, StackTrace.current);
       FirebaseCrashlytics.instance.recordFlutterError(FlutterErrorDetails(exception: e));
     }
   }
 
-  Future<void> _createNewThread(Emitter<AiTutorState> emit) async {
-    emit(state.copyWith(stage: AiTutorStage.creatingThread));
+  Future<void> _createNewThread() async {
+    state = const AsyncValue.loading();
     try {
       final threadId = await aiRepo.createThread();
       final threads = await aiRepo.getUserThreads();
       final List<AiMessage> messages = [_getHeaderAiMessage()];
-      emit(
-        state.copyWith(stage: AiTutorStage.init, currentThreadId: threadId, userThreads: threads, messages: messages),
+      state = AsyncValue.data(
+        state.value!.copyWith(
+          stage: AiTutorStage.init,
+          currentThreadId: threadId,
+          userThreads: threads,
+          messages: messages,
+        ),
       );
     } catch (e) {
-      emit(state.copyWith(stage: AiTutorStage.openAIServerError, error: e));
+      state = AsyncValue.error(e, StackTrace.current);
       FirebaseCrashlytics.instance.recordFlutterError(FlutterErrorDetails(exception: e));
     }
   }
 
-  Future<void> _selectThread(Emitter<AiTutorState> emit, String threadId) async {
-    emit(state.copyWith(stage: AiTutorStage.loading));
+  Future<void> _selectThread(String threadId) async {
+    state = const AsyncValue.loading();
     try {
-      // TODO: Загрузить историю сообщений из thread через API
+      // TODO: Load message history from thread via API
       final List<AiMessage> messages = [_getHeaderAiMessage()];
-      emit(state.copyWith(stage: AiTutorStage.init, currentThreadId: threadId, messages: messages));
+      state = AsyncValue.data(
+        state.value!.copyWith(stage: AiTutorStage.init, currentThreadId: threadId, messages: messages),
+      );
     } catch (e) {
-      emit(state.copyWith(stage: AiTutorStage.openAIServerError, error: e));
+      state = AsyncValue.error(e, StackTrace.current);
     }
   }
 
-  Future<void> _deleteThread(Emitter<AiTutorState> emit, String threadId) async {
+  Future<void> _deleteThread(String threadId) async {
     try {
       await aiRepo.deleteThread(threadId);
       final threads = await aiRepo.getUserThreads();
-      String? newCurrentThreadId = state.currentThreadId;
-      List<AiMessage> messages = state.messages;
+      String? newCurrentThreadId = state.value!.currentThreadId;
+      List<AiMessage> messages = state.value!.messages;
 
-      if (state.currentThreadId == threadId) {
+      if (state.value!.currentThreadId == threadId) {
         newCurrentThreadId = null;
         messages = [_getHeaderAiMessage()];
       }
 
-      emit(state.copyWith(currentThreadId: newCurrentThreadId, userThreads: threads, messages: messages));
-    } catch (e) {
-      emit(state.copyWith(stage: AiTutorStage.openAIServerError, error: e));
+      state = AsyncValue.data(
+        state.value!.copyWith(currentThreadId: newCurrentThreadId, userThreads: threads, messages: messages),
+      );
+    } catch (e, s) {
+      state = AsyncValue.error(e, s);
     }
   }
 
-  Future<void> _sendQuestionToAssistant(Emitter<AiTutorState> emit, String question) async {
-    if (state.currentThreadId == null) {
-      await _createNewThread(emit);
-      if (state.currentThreadId == null) return;
+  Future<void> _sendQuestionToAssistant(String question) async {
+    if (state.value!.currentThreadId == null) {
+      await _createNewThread();
+      if (state.value!.currentThreadId == null) return;
     }
 
-    List<AiMessage> messages = List.of(state.messages);
+    List<AiMessage> messages = List.of(state.value!.messages);
 
     final questionMessage = AiMessage(
       message: question,
@@ -256,7 +267,7 @@ class AiTutorController extends AsyncNotifier<AiTutorState> {
     messages.add(questionMessage);
     await aiRepo.addMessage(questionMessage);
 
-    // Добавляем пустое сообщение для streaming
+    // Add empty message for streaming
     final streamingMessage = AiMessage(
       message: '',
       type: AiChatItemType.aiAnswer,
@@ -264,8 +275,8 @@ class AiTutorController extends AsyncNotifier<AiTutorState> {
     );
     messages.add(streamingMessage);
 
-    emit(
-      state.copyWith(
+    state = AsyncValue.data(
+      state.value!.copyWith(
         messages: messages,
         stage: AiTutorStage.streamingResponse,
         isStreaming: true,
@@ -278,14 +289,14 @@ class AiTutorController extends AsyncNotifier<AiTutorState> {
       _currentStreamingMessage = '';
       _streamSubscription?.cancel();
 
-      final stream = aiRepo.streamAssistantResponse(state.currentThreadId!, question);
+      final stream = aiRepo.streamAssistantResponse(state.value!.currentThreadId!, question);
 
       final completer = Completer<void>();
 
       _streamSubscription = stream.listen(
         (chunk) {
           _currentStreamingMessage += chunk;
-          add(StreamResponseUpdateEvent(chunk: _currentStreamingMessage));
+          handlerEvent(StreamResponseUpdateEvent(chunk: _currentStreamingMessage));
         },
         onDone: () {
           completer.complete();
@@ -307,11 +318,11 @@ class AiTutorController extends AsyncNotifier<AiTutorState> {
       await aiRepo.addMessage(finalMessage);
 
       // Обновляем последнее сообщение в списке
-      messages = List.of(state.messages);
+      messages = List.of(state.value!.messages);
       messages[messages.length - 1] = finalMessage;
 
-      emit(
-        state.copyWith(
+      state = AsyncValue.data(
+        state.value!.copyWith(
           messages: messages,
           stage: AiTutorStage.sentAIAnswerSuccess,
           isStreaming: false,
@@ -320,21 +331,21 @@ class AiTutorController extends AsyncNotifier<AiTutorState> {
         ),
       );
     } catch (e) {
-      emit(state.copyWith(stage: AiTutorStage.openAIServerError, error: e, isStreaming: false));
+      state = AsyncValue.error(e, StackTrace.current);
       FirebaseCrashlytics.instance.recordFlutterError(FlutterErrorDetails(exception: e));
     }
   }
 
-  void _updateStreamingResponse(Emitter<AiTutorState> emit, String chunk) {
-    if (state.isStreaming) {
-      final List<AiMessage> messages = List.of(state.messages);
+  void _updateStreamingResponse(String chunk) {
+    if (state.value!.isStreaming) {
+      final List<AiMessage> messages = List.of(state.value!.messages);
       if (messages.isNotEmpty) {
         messages[messages.length - 1] = AiMessage(
           message: chunk,
           type: AiChatItemType.aiAnswer,
           date: messages[messages.length - 1].date,
         );
-        emit(state.copyWith(messages: messages, streamingResponse: chunk));
+        state = AsyncValue.data(state.value!.copyWith(messages: messages, streamingResponse: chunk));
       }
     }
   }

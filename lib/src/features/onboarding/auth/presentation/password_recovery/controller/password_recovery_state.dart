@@ -10,4 +10,4 @@ class PasswordRecoveryState with _$PasswordRecoveryState {
   }) = _PasswordRecoveryState;
 }
 
-enum PasswordRecoveryStage { init, loading, success, error }
+enum PasswordRecoveryStage { init, success }

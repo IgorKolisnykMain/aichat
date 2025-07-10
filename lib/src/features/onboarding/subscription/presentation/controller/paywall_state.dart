@@ -18,10 +18,8 @@ class PaywallState with _$PaywallState {
 
 enum PaywallStage {
   initial,
-  loading,
   successGetCurrentOffering,
   successChangeSelectedPackageId,
   successPurchaseSelectedPackage,
   successRestorePurchase,
-  error,
 }

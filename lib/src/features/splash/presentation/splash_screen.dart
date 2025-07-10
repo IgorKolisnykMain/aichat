@@ -8,23 +8,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
-  final bool isLoggedIn;
 
-  const SplashScreen({super.key, required this.isLoggedIn});
+  const SplashScreen({super.key});
 
   @override
   ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends ConsumerState<SplashScreen> {
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(splashControllerProvider.notifier).delaySplashTime();
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     ref.listen(splashControllerProvider, (previous, next) {

@@ -18,7 +18,6 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$SignState {
   SignStage get stage => throw _privateConstructorUsedError;
-  Object? get error => throw _privateConstructorUsedError;
 
   /// Create a copy of SignState
   /// with the given fields replaced by the non-null parameter values.
@@ -32,7 +31,7 @@ abstract class $SignStateCopyWith<$Res> {
   factory $SignStateCopyWith(SignState value, $Res Function(SignState) then) =
       _$SignStateCopyWithImpl<$Res, SignState>;
   @useResult
-  $Res call({SignStage stage, Object? error});
+  $Res call({SignStage stage});
 }
 
 /// @nodoc
@@ -49,14 +48,13 @@ class _$SignStateCopyWithImpl<$Res, $Val extends SignState>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? stage = null, Object? error = freezed}) {
+  $Res call({Object? stage = null}) {
     return _then(
       _value.copyWith(
             stage: null == stage
                 ? _value.stage
                 : stage // ignore: cast_nullable_to_non_nullable
                       as SignStage,
-            error: freezed == error ? _value.error : error,
           )
           as $Val,
     );
@@ -72,7 +70,7 @@ abstract class _$$SignStateImplCopyWith<$Res>
   ) = __$$SignStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({SignStage stage, Object? error});
+  $Res call({SignStage stage});
 }
 
 /// @nodoc
@@ -88,14 +86,13 @@ class __$$SignStateImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? stage = null, Object? error = freezed}) {
+  $Res call({Object? stage = null}) {
     return _then(
       _$SignStateImpl(
         stage: null == stage
             ? _value.stage
             : stage // ignore: cast_nullable_to_non_nullable
                   as SignStage,
-        error: freezed == error ? _value.error : error,
       ),
     );
   }
@@ -104,16 +101,14 @@ class __$$SignStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SignStateImpl implements _SignState {
-  const _$SignStateImpl({required this.stage, this.error});
+  const _$SignStateImpl({required this.stage});
 
   @override
   final SignStage stage;
-  @override
-  final Object? error;
 
   @override
   String toString() {
-    return 'SignState(stage: $stage, error: $error)';
+    return 'SignState(stage: $stage)';
   }
 
   @override
@@ -121,16 +116,11 @@ class _$SignStateImpl implements _SignState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SignStateImpl &&
-            (identical(other.stage, stage) || other.stage == stage) &&
-            const DeepCollectionEquality().equals(other.error, error));
+            (identical(other.stage, stage) || other.stage == stage));
   }
 
   @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    stage,
-    const DeepCollectionEquality().hash(error),
-  );
+  int get hashCode => Object.hash(runtimeType, stage);
 
   /// Create a copy of SignState
   /// with the given fields replaced by the non-null parameter values.
@@ -142,15 +132,10 @@ class _$SignStateImpl implements _SignState {
 }
 
 abstract class _SignState implements SignState {
-  const factory _SignState({
-    required final SignStage stage,
-    final Object? error,
-  }) = _$SignStateImpl;
+  const factory _SignState({required final SignStage stage}) = _$SignStateImpl;
 
   @override
   SignStage get stage;
-  @override
-  Object? get error;
 
   /// Create a copy of SignState
   /// with the given fields replaced by the non-null parameter values.

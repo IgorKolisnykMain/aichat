@@ -9,7 +9,6 @@ class AiTutorState with _$AiTutorState {
     required AiTutorStage stage,
     required List<AiMessage> messages,
     AiMessage? aiAnsweringOnQuestion,
-    Object? error,
     String? currentThreadId,
     @Default([]) List<String> userThreads,
     String? streamingResponse,
@@ -19,11 +18,11 @@ class AiTutorState with _$AiTutorState {
 
 enum AiTutorStage {
   init,
-  loading,
   myQuestionSent,
   sentAIAnswerProgress,
   sentAIAnswerSuccess,
   openAIServerError,
   creatingThread,
-  streamingResponse, initial,
+  streamingResponse,
+  initial,
 }

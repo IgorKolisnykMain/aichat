@@ -1,4 +1,3 @@
-import 'package:aichat/src/common_widgets/bloc/bloced_state.dart';
 import 'package:aichat/src/common_widgets/buttons/app_primary_button.dart';
 import 'package:aichat/src/common_widgets/loading/loading_indicator.dart';
 import 'package:aichat/src/common_widgets/message_presenter.dart';
@@ -35,15 +34,15 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> with Me
   @override
   Widget build(BuildContext context) {
     ref.listen(paywallControllerProvider, (previousState, state) {
-      switch (state.value?.stage) {
-        case PaywallStage.error:
-          showSnackBar(state.error?.toString() ?? context.l10n.genericError, context);
-        case PaywallStage.successPurchaseSelectedPackage:
-        case PaywallStage.successRestorePurchase:
-          context.goNamed(RoutesName.home.name);
-        default:
-          break;
-      }
+      state.when(
+        data: (data) => switch (data.stage) {
+          PaywallStage.successPurchaseSelectedPackage => context.goNamed(RoutesName.home.name),
+          PaywallStage.successRestorePurchase => context.goNamed(RoutesName.home.name),
+          _ => null,
+        },
+        error: (error, stackTrace) => showSnackBar(context.l10n.genericError, context),
+        loading: () {},
+      );
     });
 
     return Scaffold(

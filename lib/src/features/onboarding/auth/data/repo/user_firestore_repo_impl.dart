@@ -1,42 +1,40 @@
 import 'dart:async';
 
+import 'package:aichat/src/core/di/modules/firebase_module.dart' show firestoreProvider;
+import 'package:aichat/src/features/onboarding/auth/data/repo/auth_firebase_repo_impl.dart';
+import 'package:aichat/src/features/onboarding/auth/domain/models/app_user.dart' show AppUser;
 import 'package:aichat/src/features/onboarding/auth/domain/repo/user_repo.dart';
+import 'package:aichat/src/utils/firestore/user/firestore_user_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-const _users = 'users';
-
-final firestoreProvider = Provider<FirebaseFirestore>((ref) {
-  return FirebaseFirestore.instance;
-});
-
-final userFirestoreRepoProvider = Provider<UserRepository>((ref) {
-  return UserFirestoreRepoImpl(fireStore: ref.read(firestoreProvider));
+final userFirestoreRepoProvider = FutureProvider<UserRepository>((ref) async {
+  final authRepo = await ref.read(authFirebaseRepoProvider.future);
+  final userRepo = UserFirestoreRepoImpl(fireStore: await ref.read(firestoreProvider.future), userStream: authRepo.authStateChanges());
+  ref.onDispose(userRepo.dispose);
+  return userRepo;
 });
 
 class UserFirestoreRepoImpl implements UserRepository {
   final FirebaseFirestore fireStore;
+  late StreamSubscription<AppUser?> _userStream;
 
   String? _userId;
 
-  UserFirestoreRepoImpl({required this.fireStore});
-
-  @override
-  DocumentReference<Map<String, dynamic>> get userDocRef {
-    if (userId != null) {
-      return fireStore.collection(_users).doc(userId);
-    } else {
-      throw Exception("Fail get user progress. Anonymous user unauthorized");
-    }
+  UserFirestoreRepoImpl({required this.fireStore, required Stream<AppUser?> userStream}) {
+    _userStream = userStream.listen((user) {
+      _userId = user?.uid;
+    });
   }
+
+  void dispose() {
+    _userStream.cancel();
+  }
+
+  DocumentReference<Map<String, dynamic>> get _userDocRef => getUserDocRef(_userId, fireStore);
 
   @override
   String? get userId => _userId;
-
-  @override
-  set userId(String? value) {
-    _userId = value;
-  }
 
   @override
   Future<void> loadData() async {
@@ -50,6 +48,6 @@ class UserFirestoreRepoImpl implements UserRepository {
 
   @override
   Future<void> deleteAccount() async {
-    await userDocRef.delete();
+    await _userDocRef.delete();
   }
 }

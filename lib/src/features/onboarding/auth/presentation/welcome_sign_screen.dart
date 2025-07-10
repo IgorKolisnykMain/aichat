@@ -2,7 +2,6 @@ import 'package:aichat/src/common_widgets/buttons/app_primary_button.dart';
 import 'package:aichat/src/common_widgets/message_presenter.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/enums/sign_source.dart';
 import 'package:aichat/src/features/onboarding/auth/presentation/controller/sign_controller.dart';
-import 'package:aichat/src/features/onboarding/auth/presentation/controller/sign_event.dart';
 import 'package:aichat/src/features/onboarding/auth/presentation/controller/sign_state.dart';
 import 'package:aichat/src/router/route_name.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
@@ -17,16 +16,15 @@ class WelcomeSignScreen extends ConsumerWidget with MessagePresenter {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(signControllerProvider, (previousState, state) {
-      switch (state.value?.stage) {
-        case SignStage.signInSuccess:
-          context.goNamed(RoutesName.home.name);
-        case SignStage.signUpSuccess:
-          context.goNamed(RoutesName.home.name);
-        case SignStage.error:
-          showSnackBar(context.l10n.signUpError, context);
-        default:
-          break;
-      }
+      state.when(
+        data: (data) => switch (data.stage) {
+          SignStage.signInSuccess => context.goNamed(RoutesName.home.name),
+          SignStage.signUpSuccess => context.goNamed(RoutesName.home.name),
+          _ => null,
+        },
+        error: (error, stackTrace) => showSnackBar(context.l10n.signUpError, context),
+        loading: () {},
+      );
     });
 
     return Scaffold(

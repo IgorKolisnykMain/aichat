@@ -7,4 +7,4 @@ class SplashState with _$SplashState {
   const factory SplashState({required SplashStage stage, String? notificationPayload}) = _SplashState;
 }
 
-enum SplashStage { init, showMainScreen, showWelcomeScreen, error, loading }
+enum SplashStage { init, showMainScreen, showWelcomeScreen }

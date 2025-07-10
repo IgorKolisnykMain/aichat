@@ -1,9 +1,10 @@
 import 'package:aichat/src/features/onboarding/auth/domain/enums/sign_source.dart';
+import 'package:aichat/src/features/onboarding/auth/domain/models/app_user.dart' show AppUser;
 import 'package:firebase_auth/firebase_auth.dart';
 
 abstract interface class AuthRepository {
-  String? get userUid;
-  Future<String?> get token;
+  Stream<AppUser?> authStateChanges();
+  AppUser? get currentUser;
 
   //todo change UserCredential model to AppUserModel
   Future<UserCredential?> signUpWithEmailAndPassword({required String email, required String password});
@@ -15,9 +16,4 @@ abstract interface class AuthRepository {
 
   Future<void> logout();
   Future<void> deleteAccount();
-
-  bool isExpiredSession();
-
-  Future<bool> isUserExists();
-  String? getEmailCurrentUser();
 }

@@ -1,11 +1,9 @@
 import 'package:aichat/src/common_widgets/app_bars/auth_app_bar.dart';
-import 'package:aichat/src/common_widgets/bloc/bloced_state.dart';
 import 'package:aichat/src/common_widgets/buttons/app_primary_button.dart';
 import 'package:aichat/src/common_widgets/inputs/app_text_form_field.dart';
 import 'package:aichat/src/common_widgets/loading/loading_indicator.dart';
 import 'package:aichat/src/common_widgets/message_presenter.dart';
 import 'package:aichat/src/features/onboarding/auth/presentation/password_recovery/controller/password_recovery_controller.dart';
-import 'package:aichat/src/features/onboarding/auth/presentation/password_recovery/controller/password_recovery_event.dart';
 import 'package:aichat/src/features/onboarding/auth/presentation/password_recovery/controller/password_recovery_state.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
 import 'package:flutter/material.dart';
@@ -41,15 +39,17 @@ class _PasswordRecoveryScreenState extends ConsumerState<PasswordRecoveryScreen>
   @override
   Widget build(BuildContext context) {
     ref.listen(passwordRecoveryControllerProvider, (previousState, state) {
-      switch (state.value?.stage) {
-        case PasswordRecoveryStage.success:
-          showSnackBar(context.l10n.passwordResetEmailSent(state.value!.email), context, const Duration(seconds: 3));
-          context.pop();
-        case PasswordRecoveryStage.error:
-          showSnackBar(context.l10n.passwordResetFailed, context);
-        default:
-          break;
-      }
+      state.when(
+        data: (data) => switch (data.stage) {
+          PasswordRecoveryStage.success => () {
+            showSnackBar(context.l10n.passwordResetEmailSent(state.value!.email), context, const Duration(seconds: 3));
+            context.pop();
+          },
+          _ => null,
+        },
+        error: (error, stackTrace) => showSnackBar(context.l10n.passwordResetFailed, context),
+        loading: () {},
+      );
     });
 
     return Scaffold(

@@ -20,7 +20,6 @@ mixin _$AiTutorState {
   AiTutorStage get stage => throw _privateConstructorUsedError;
   List<AiMessage> get messages => throw _privateConstructorUsedError;
   AiMessage? get aiAnsweringOnQuestion => throw _privateConstructorUsedError;
-  Object? get error => throw _privateConstructorUsedError;
   String? get currentThreadId => throw _privateConstructorUsedError;
   List<String> get userThreads => throw _privateConstructorUsedError;
   String? get streamingResponse => throw _privateConstructorUsedError;
@@ -29,19 +28,21 @@ mixin _$AiTutorState {
   /// Create a copy of AiTutorState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $AiTutorStateCopyWith<AiTutorState> get copyWith => throw _privateConstructorUsedError;
+  $AiTutorStateCopyWith<AiTutorState> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $AiTutorStateCopyWith<$Res> {
-  factory $AiTutorStateCopyWith(AiTutorState value, $Res Function(AiTutorState) then) =
-      _$AiTutorStateCopyWithImpl<$Res, AiTutorState>;
+  factory $AiTutorStateCopyWith(
+    AiTutorState value,
+    $Res Function(AiTutorState) then,
+  ) = _$AiTutorStateCopyWithImpl<$Res, AiTutorState>;
   @useResult
   $Res call({
     AiTutorStage stage,
     List<AiMessage> messages,
     AiMessage? aiAnsweringOnQuestion,
-    Object? error,
     String? currentThreadId,
     List<String> userThreads,
     String? streamingResponse,
@@ -52,7 +53,8 @@ abstract class $AiTutorStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$AiTutorStateCopyWithImpl<$Res, $Val extends AiTutorState> implements $AiTutorStateCopyWith<$Res> {
+class _$AiTutorStateCopyWithImpl<$Res, $Val extends AiTutorState>
+    implements $AiTutorStateCopyWith<$Res> {
   _$AiTutorStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -68,7 +70,6 @@ class _$AiTutorStateCopyWithImpl<$Res, $Val extends AiTutorState> implements $Ai
     Object? stage = null,
     Object? messages = null,
     Object? aiAnsweringOnQuestion = freezed,
-    Object? error = freezed,
     Object? currentThreadId = freezed,
     Object? userThreads = null,
     Object? streamingResponse = freezed,
@@ -88,7 +89,6 @@ class _$AiTutorStateCopyWithImpl<$Res, $Val extends AiTutorState> implements $Ai
                 ? _value.aiAnsweringOnQuestion
                 : aiAnsweringOnQuestion // ignore: cast_nullable_to_non_nullable
                       as AiMessage?,
-            error: freezed == error ? _value.error : error,
             currentThreadId: freezed == currentThreadId
                 ? _value.currentThreadId
                 : currentThreadId // ignore: cast_nullable_to_non_nullable
@@ -126,16 +126,18 @@ class _$AiTutorStateCopyWithImpl<$Res, $Val extends AiTutorState> implements $Ai
 }
 
 /// @nodoc
-abstract class _$$AiTutorStateImplCopyWith<$Res> implements $AiTutorStateCopyWith<$Res> {
-  factory _$$AiTutorStateImplCopyWith(_$AiTutorStateImpl value, $Res Function(_$AiTutorStateImpl) then) =
-      __$$AiTutorStateImplCopyWithImpl<$Res>;
+abstract class _$$AiTutorStateImplCopyWith<$Res>
+    implements $AiTutorStateCopyWith<$Res> {
+  factory _$$AiTutorStateImplCopyWith(
+    _$AiTutorStateImpl value,
+    $Res Function(_$AiTutorStateImpl) then,
+  ) = __$$AiTutorStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({
     AiTutorStage stage,
     List<AiMessage> messages,
     AiMessage? aiAnsweringOnQuestion,
-    Object? error,
     String? currentThreadId,
     List<String> userThreads,
     String? streamingResponse,
@@ -147,10 +149,13 @@ abstract class _$$AiTutorStateImplCopyWith<$Res> implements $AiTutorStateCopyWit
 }
 
 /// @nodoc
-class __$$AiTutorStateImplCopyWithImpl<$Res> extends _$AiTutorStateCopyWithImpl<$Res, _$AiTutorStateImpl>
+class __$$AiTutorStateImplCopyWithImpl<$Res>
+    extends _$AiTutorStateCopyWithImpl<$Res, _$AiTutorStateImpl>
     implements _$$AiTutorStateImplCopyWith<$Res> {
-  __$$AiTutorStateImplCopyWithImpl(_$AiTutorStateImpl _value, $Res Function(_$AiTutorStateImpl) _then)
-    : super(_value, _then);
+  __$$AiTutorStateImplCopyWithImpl(
+    _$AiTutorStateImpl _value,
+    $Res Function(_$AiTutorStateImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of AiTutorState
   /// with the given fields replaced by the non-null parameter values.
@@ -160,7 +165,6 @@ class __$$AiTutorStateImplCopyWithImpl<$Res> extends _$AiTutorStateCopyWithImpl<
     Object? stage = null,
     Object? messages = null,
     Object? aiAnsweringOnQuestion = freezed,
-    Object? error = freezed,
     Object? currentThreadId = freezed,
     Object? userThreads = null,
     Object? streamingResponse = freezed,
@@ -180,7 +184,6 @@ class __$$AiTutorStateImplCopyWithImpl<$Res> extends _$AiTutorStateCopyWithImpl<
             ? _value.aiAnsweringOnQuestion
             : aiAnsweringOnQuestion // ignore: cast_nullable_to_non_nullable
                   as AiMessage?,
-        error: freezed == error ? _value.error : error,
         currentThreadId: freezed == currentThreadId
             ? _value.currentThreadId
             : currentThreadId // ignore: cast_nullable_to_non_nullable
@@ -209,7 +212,6 @@ class _$AiTutorStateImpl implements _AiTutorState {
     required this.stage,
     required final List<AiMessage> messages,
     this.aiAnsweringOnQuestion,
-    this.error,
     this.currentThreadId,
     final List<String> userThreads = const [],
     this.streamingResponse,
@@ -230,8 +232,6 @@ class _$AiTutorStateImpl implements _AiTutorState {
   @override
   final AiMessage? aiAnsweringOnQuestion;
   @override
-  final Object? error;
-  @override
   final String? currentThreadId;
   final List<String> _userThreads;
   @override
@@ -250,7 +250,7 @@ class _$AiTutorStateImpl implements _AiTutorState {
 
   @override
   String toString() {
-    return 'AiTutorState(stage: $stage, messages: $messages, aiAnsweringOnQuestion: $aiAnsweringOnQuestion, error: $error, currentThreadId: $currentThreadId, userThreads: $userThreads, streamingResponse: $streamingResponse, isStreaming: $isStreaming)';
+    return 'AiTutorState(stage: $stage, messages: $messages, aiAnsweringOnQuestion: $aiAnsweringOnQuestion, currentThreadId: $currentThreadId, userThreads: $userThreads, streamingResponse: $streamingResponse, isStreaming: $isStreaming)';
   }
 
   @override
@@ -262,11 +262,16 @@ class _$AiTutorStateImpl implements _AiTutorState {
             const DeepCollectionEquality().equals(other._messages, _messages) &&
             (identical(other.aiAnsweringOnQuestion, aiAnsweringOnQuestion) ||
                 other.aiAnsweringOnQuestion == aiAnsweringOnQuestion) &&
-            const DeepCollectionEquality().equals(other.error, error) &&
-            (identical(other.currentThreadId, currentThreadId) || other.currentThreadId == currentThreadId) &&
-            const DeepCollectionEquality().equals(other._userThreads, _userThreads) &&
-            (identical(other.streamingResponse, streamingResponse) || other.streamingResponse == streamingResponse) &&
-            (identical(other.isStreaming, isStreaming) || other.isStreaming == isStreaming));
+            (identical(other.currentThreadId, currentThreadId) ||
+                other.currentThreadId == currentThreadId) &&
+            const DeepCollectionEquality().equals(
+              other._userThreads,
+              _userThreads,
+            ) &&
+            (identical(other.streamingResponse, streamingResponse) ||
+                other.streamingResponse == streamingResponse) &&
+            (identical(other.isStreaming, isStreaming) ||
+                other.isStreaming == isStreaming));
   }
 
   @override
@@ -275,7 +280,6 @@ class _$AiTutorStateImpl implements _AiTutorState {
     stage,
     const DeepCollectionEquality().hash(_messages),
     aiAnsweringOnQuestion,
-    const DeepCollectionEquality().hash(error),
     currentThreadId,
     const DeepCollectionEquality().hash(_userThreads),
     streamingResponse,
@@ -296,7 +300,6 @@ abstract class _AiTutorState implements AiTutorState {
     required final AiTutorStage stage,
     required final List<AiMessage> messages,
     final AiMessage? aiAnsweringOnQuestion,
-    final Object? error,
     final String? currentThreadId,
     final List<String> userThreads,
     final String? streamingResponse,
@@ -310,8 +313,6 @@ abstract class _AiTutorState implements AiTutorState {
   @override
   AiMessage? get aiAnsweringOnQuestion;
   @override
-  Object? get error;
-  @override
   String? get currentThreadId;
   @override
   List<String> get userThreads;
@@ -324,5 +325,6 @@ abstract class _AiTutorState implements AiTutorState {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AiTutorStateImplCopyWith<_$AiTutorStateImpl> get copyWith => throw _privateConstructorUsedError;
+  _$$AiTutorStateImplCopyWith<_$AiTutorStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

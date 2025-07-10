@@ -7,14 +7,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
-import 'package:injectable/injectable.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-@module
-abstract class FirebaseModule {
-  @singleton
-  @preResolve
-  Future<FirebaseApp> firebaseApp() async {
-    final app = await Firebase.initializeApp(
+final firebaseAppProvider = FutureProvider<FirebaseApp>((ref) async {
+  final app = await Firebase.initializeApp(
       options: Platform.isAndroid ? DefaultFirebaseOptions.currentPlatform : null,
     );
     await FirebaseAppCheck.instance.activate(
@@ -22,14 +18,16 @@ abstract class FirebaseModule {
       appleProvider: AppleProvider.appAttest,
     );
     return app;
-  }
+});
 
-  @singleton
-  FirebaseAuth firebaseAuth(FirebaseApp firebaseApp) => FirebaseAuth.instanceFor(app: firebaseApp);
+final firebaseAuthProvider = FutureProvider<FirebaseAuth>((ref) async {
+  return FirebaseAuth.instanceFor(app: await ref.read(firebaseAppProvider.future));
+});
 
-  @singleton
-  FirebaseFirestore firebaseFireStore(FirebaseApp firebaseApp) => FirebaseFirestore.instanceFor(app: firebaseApp);
+final firestoreProvider = FutureProvider<FirebaseFirestore>((ref) async {
+  return FirebaseFirestore.instanceFor(app: await ref.read(firebaseAppProvider.future));
+});
 
-  @singleton
-  FirebaseStorage firebaseStorage(FirebaseApp firebaseApp) => FirebaseStorage.instanceFor(app: firebaseApp);
-}
+final firebaseStorageProvider = FutureProvider<FirebaseStorage>((ref) async {
+  return FirebaseStorage.instanceFor(app: await ref.read(firebaseAppProvider.future));
+});

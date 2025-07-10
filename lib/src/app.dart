@@ -6,16 +6,17 @@ import 'package:aichat/src/utils/extensions/theme_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class App extends StatelessWidget {
+class App extends ConsumerWidget {
   final AppConfig appConfig;
-  final AppRouter appRouter;
 
-  const App({super.key, required this.appConfig, required this.appRouter});
+  const App({super.key, required this.appConfig});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(goRouterProvider);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
     return ScreenUtilInit(
       designSize: const Size(402, 874),
@@ -38,7 +39,7 @@ class App extends StatelessWidget {
             },
             theme: createLightTheme(),
             darkTheme: createDarkTheme(),
-            routerConfig: appRouter.router,
+            routerConfig: router,
           ),
         );
       },

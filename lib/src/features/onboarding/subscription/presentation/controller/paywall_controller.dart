@@ -25,7 +25,7 @@ class PaywallController extends AsyncNotifier<PaywallState> {
   Future<PaywallState> build() async {
     purchasesRepository = await ref.read(purchasesRepositoryProvider.future);
     connectivityService = ref.read(connectivityDetectorServiceProvider);
-    
+
     return const PaywallState(
       stage: PaywallStage.initial,
       currentOffering: null,
@@ -51,7 +51,7 @@ class PaywallController extends AsyncNotifier<PaywallState> {
 
   Future<void> _getCurrentOffering() async {
     state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
+    state = await AsyncValue.guard(() async {
       final currentOffering = await purchasesRepository.getCurrentOffering();
       final offeringMetadata = await purchasesRepository.getOfferingMetadata(currentOffering);
       final List<String> packagesWithFreeTrialEnabled = currentOffering != null
@@ -68,7 +68,6 @@ class PaywallController extends AsyncNotifier<PaywallState> {
         cheapestPackageId: cheapestPackageId,
       );
     });
-    state = result;
   }
 
   String? _findCheapestPackageId(List<Package> packages) {
@@ -104,16 +103,17 @@ class PaywallController extends AsyncNotifier<PaywallState> {
   }
 
   Future<void> _changeSelectedPackageId(String packageId) async {
-    state = AsyncValue.data(state.value!.copyWith(stage: PaywallStage.successChangeSelectedPackageId, selectedPackageId: packageId));
+    state = AsyncValue.data(
+      state.value!.copyWith(stage: PaywallStage.successChangeSelectedPackageId, selectedPackageId: packageId),
+    );
   }
 
   Future<void> _restorePurchase() async {
     state = const AsyncValue.loading();
-    final result = await AsyncValue.guard(() async {
+    state = await AsyncValue.guard(() async {
       await purchasesRepository.restorePurchases();
       return state.value!.copyWith(stage: PaywallStage.successRestorePurchase);
     });
-    state = result;
   }
 }
 

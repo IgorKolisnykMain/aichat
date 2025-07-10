@@ -1,34 +1,25 @@
-import 'package:aichat/src/common_widgets/bloc/bloced_state.dart';
 import 'package:aichat/src/common_widgets/loading/loading_indicator.dart';
-import 'package:aichat/src/features/ai_chat/domain/enums/ai_chat_item_type.dart';
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_controller.dart';
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_event.dart';
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_state.dart';
-import 'package:aichat/src/features/ai_chat/presentation/widgets/chat_message_widget.dart';
+import 'package:aichat/src/features/ai_chat/presentation/widgets/chat_list_widget.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class MainScreen extends StatefulWidget {
+class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  ConsumerState<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends BlocedState<MainScreen, AiTutorBloc, AiTutorState> {
+class _MainScreenState extends ConsumerState<MainScreen> {
   final horizontalPadding = 16.w;
   final verticalPadding = 8.sp;
   final scrollController = ScrollController();
   final textController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    // Инициализируем Assistant API и загружаем историю
-    bloc.add(const InitializeAssistantEvent());
-    bloc.add(LoadHistoryEvent());
-  }
 
   @override
   void dispose() {
@@ -39,32 +30,29 @@ class _MainScreenState extends BlocedState<MainScreen, AiTutorBloc, AiTutorState
 
   @override
   Widget build(BuildContext context) {
-    return blocListener(
-      listener: (context, state) {
-        if (state.stage == AiTutorStage.sentAIAnswerSuccess || state.stage == AiTutorStage.streamingResponse) {
-          _scrollToBottom();
-        }
-      },
-      child: Scaffold(
-        backgroundColor: context.colors.white,
-        body: SafeArea(
-          child: Column(
-            children: [
-              _buildHeader(),
-              Expanded(
-                child: Stack(
-                  children: [
-                    _buildChatList(),
-                    blocBuilder(
-                      builder: (context, state) =>
-                          state.stage == AiTutorStage.loading ? const LoadingIndicator() : const SizedBox(),
-                    ),
-                  ],
-                ),
+    ref.listen(aiTutorControllerProvider, (previousState, state) {
+      if (state.value?.stage == AiTutorStage.sentAIAnswerSuccess ||
+          state.value?.stage == AiTutorStage.streamingResponse) {
+        _scrollToBottom();
+      }
+    });
+
+    return Scaffold(
+      backgroundColor: context.colors.white,
+      body: SafeArea(
+        child: Column(
+          children: [
+            _buildHeader(),
+            Expanded(
+              child: Stack(
+                children: [
+                  ChatListWidget(scrollController: scrollController),
+                  LoadingIndicator(provider: aiTutorControllerProvider),
+                ],
               ),
-              _buildInputArea(),
-            ],
-          ),
+            ),
+            _buildInputArea(),
+          ],
         ),
       ),
     );
@@ -106,33 +94,6 @@ class _MainScreenState extends BlocedState<MainScreen, AiTutorBloc, AiTutorState
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildChatList() {
-    return blocBuilder(
-      builder: (context, state) {
-        if (state.messages.isEmpty) {
-          return const SizedBox();
-        }
-
-        return ListView.builder(
-          controller: scrollController,
-          padding: EdgeInsets.symmetric(vertical: 16.sp),
-          itemCount: state.messages.length,
-          itemBuilder: (context, index) {
-            final message = state.messages[index];
-            return ChatMessageWidget(
-              message: message,
-              isLoading:
-                  (state.stage == AiTutorStage.sentAIAnswerProgress ||
-                      state.stage == AiTutorStage.streamingResponse && state.isStreaming) &&
-                  index == state.messages.length - 1 &&
-                  message.type == AiChatItemType.aiAnswer,
-            );
-          },
-        );
-      },
     );
   }
 
@@ -188,8 +149,8 @@ class _MainScreenState extends BlocedState<MainScreen, AiTutorBloc, AiTutorState
   void _sendMessage(String text) {
     if (text.trim().isEmpty) return;
 
-    // Используем новый event для работы с Assistants API
-    bloc.add(SendQuestionToAssistantEvent(query: text.trim()));
+    // Use new event for working with Assistants API
+    ref.read(aiTutorControllerProvider.notifier).handlerEvent(SendQuestionToAssistantEvent(query: text.trim()));
     textController.clear();
     _scrollToBottom();
   }
@@ -212,8 +173,9 @@ class _MainScreenState extends BlocedState<MainScreen, AiTutorBloc, AiTutorState
       backgroundColor: context.colors.backgroundLight,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20.r))),
       builder: (BuildContext context) {
-        return blocBuilder(
-          builder: (context, state) {
+        return Consumer(
+          builder: (context, ref, child) {
+            final state = ref.watch(aiTutorControllerProvider);
             return Container(
               padding: EdgeInsets.all(16.sp),
               child: Column(
@@ -229,7 +191,7 @@ class _MainScreenState extends BlocedState<MainScreen, AiTutorBloc, AiTutorState
                   ElevatedButton.icon(
                     onPressed: () {
                       Navigator.pop(context);
-                      bloc.add(const CreateNewThreadEvent());
+                      ref.read(aiTutorControllerProvider.notifier).handlerEvent(const CreateNewThreadEvent());
                     },
                     icon: Icon(Icons.add, size: 20.sp),
                     label: Text(context.l10n.newConversation),
@@ -240,14 +202,14 @@ class _MainScreenState extends BlocedState<MainScreen, AiTutorBloc, AiTutorState
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
                     ),
                   ),
-                  if (state.userThreads.isNotEmpty) ...[
+                  if (state.value!.userThreads.isNotEmpty) ...[
                     SizedBox(height: 16.sp),
                     Text(
                       context.l10n.previousConversations,
                       style: context.textStyles.bodyMedium.copyWith(color: context.colors.textSecondary),
                     ),
                     SizedBox(height: 8.sp),
-                    ...state.userThreads.map((threadId) => _buildThreadItem(threadId, state)),
+                    ...state.value!.userThreads.map((threadId) => _buildThreadItem(threadId, state.value!)),
                   ],
                 ],
               ),
@@ -283,14 +245,14 @@ class _MainScreenState extends BlocedState<MainScreen, AiTutorBloc, AiTutorState
                 icon: Icon(Icons.chat_bubble_outline, size: 20.sp, color: context.colors.textSecondary),
                 onPressed: () {
                   Navigator.pop(context);
-                  bloc.add(SelectThreadEvent(threadId: threadId));
+                  ref.read(aiTutorControllerProvider.notifier).handlerEvent(SelectThreadEvent(threadId: threadId));
                 },
               ),
             IconButton(
               icon: Icon(Icons.delete_outline, size: 20.sp, color: Colors.red),
               onPressed: () {
                 Navigator.pop(context);
-                bloc.add(DeleteThreadEvent(threadId: threadId));
+                ref.read(aiTutorControllerProvider.notifier).handlerEvent(DeleteThreadEvent(threadId: threadId));
               },
             ),
           ],

@@ -9,10 +9,6 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:cloud_firestore/cloud_firestore.dart' as _i974;
-import 'package:firebase_auth/firebase_auth.dart' as _i59;
-import 'package:firebase_core/firebase_core.dart' as _i982;
-import 'package:firebase_storage/firebase_storage.dart' as _i457;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
@@ -21,7 +17,6 @@ import '../../features/onboarding/subscription/domain/repo/purchases_repository.
 import '../../utils/connection/domain/services/connectivity_detector_service.dart'
     as _i754;
 import '../config/domain/repository/app_config_repository.dart' as _i741;
-import 'modules/firebase_module.dart' as _i398;
 import 'modules/repository_module.dart' as _i554;
 import 'modules/service_module.dart' as _i681;
 
@@ -33,27 +28,13 @@ Future<_i174.GetIt> $configureDependencies(
 }) async {
   final gh = _i526.GetItHelper(getIt, environment, environmentFilter);
   final repositoryModule = _$RepositoryModule();
-  final firebaseModule = _$FirebaseModule();
   final serviceModule = _$ServiceModule();
   await gh.singletonAsync<_i741.AppConfigRepository>(
     () => repositoryModule.appConfigRepository(),
     preResolve: true,
   );
-  await gh.singletonAsync<_i982.FirebaseApp>(
-    () => firebaseModule.firebaseApp(),
-    preResolve: true,
-  );
   gh.singleton<_i754.ConnectivityDetectorService>(
     () => serviceModule.connectivityDetectorService(),
-  );
-  gh.singleton<_i59.FirebaseAuth>(
-    () => firebaseModule.firebaseAuth(gh<_i982.FirebaseApp>()),
-  );
-  gh.singleton<_i974.FirebaseFirestore>(
-    () => firebaseModule.firebaseFireStore(gh<_i982.FirebaseApp>()),
-  );
-  gh.singleton<_i457.FirebaseStorage>(
-    () => firebaseModule.firebaseStorage(gh<_i982.FirebaseApp>()),
   );
   gh.singleton<_i308.PurchasesRepository>(
     () => repositoryModule.purchasesRepository(gh<_i741.AppConfigRepository>()),
@@ -62,7 +43,5 @@ Future<_i174.GetIt> $configureDependencies(
 }
 
 class _$RepositoryModule extends _i554.RepositoryModule {}
-
-class _$FirebaseModule extends _i398.FirebaseModule {}
 
 class _$ServiceModule extends _i681.ServiceModule {}

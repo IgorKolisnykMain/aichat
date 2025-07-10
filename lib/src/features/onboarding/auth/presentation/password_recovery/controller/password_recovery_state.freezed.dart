@@ -23,19 +23,25 @@ mixin _$PasswordRecoveryState {
   /// Create a copy of PasswordRecoveryState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $PasswordRecoveryStateCopyWith<PasswordRecoveryState> get copyWith => throw _privateConstructorUsedError;
+  $PasswordRecoveryStateCopyWith<PasswordRecoveryState> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $PasswordRecoveryStateCopyWith<$Res> {
-  factory $PasswordRecoveryStateCopyWith(PasswordRecoveryState value, $Res Function(PasswordRecoveryState) then) =
-      _$PasswordRecoveryStateCopyWithImpl<$Res, PasswordRecoveryState>;
+  factory $PasswordRecoveryStateCopyWith(
+    PasswordRecoveryState value,
+    $Res Function(PasswordRecoveryState) then,
+  ) = _$PasswordRecoveryStateCopyWithImpl<$Res, PasswordRecoveryState>;
   @useResult
   $Res call({PasswordRecoveryStage stage, String email});
 }
 
 /// @nodoc
-class _$PasswordRecoveryStateCopyWithImpl<$Res, $Val extends PasswordRecoveryState>
+class _$PasswordRecoveryStateCopyWithImpl<
+  $Res,
+  $Val extends PasswordRecoveryState
+>
     implements $PasswordRecoveryStateCopyWith<$Res> {
   _$PasswordRecoveryStateCopyWithImpl(this._value, this._then);
 
@@ -66,7 +72,8 @@ class _$PasswordRecoveryStateCopyWithImpl<$Res, $Val extends PasswordRecoverySta
 }
 
 /// @nodoc
-abstract class _$$PasswordRecoveryStateImplCopyWith<$Res> implements $PasswordRecoveryStateCopyWith<$Res> {
+abstract class _$$PasswordRecoveryStateImplCopyWith<$Res>
+    implements $PasswordRecoveryStateCopyWith<$Res> {
   factory _$$PasswordRecoveryStateImplCopyWith(
     _$PasswordRecoveryStateImpl value,
     $Res Function(_$PasswordRecoveryStateImpl) then,
@@ -78,7 +85,8 @@ abstract class _$$PasswordRecoveryStateImplCopyWith<$Res> implements $PasswordRe
 
 /// @nodoc
 class __$$PasswordRecoveryStateImplCopyWithImpl<$Res>
-    extends _$PasswordRecoveryStateCopyWithImpl<$Res, _$PasswordRecoveryStateImpl>
+    extends
+        _$PasswordRecoveryStateCopyWithImpl<$Res, _$PasswordRecoveryStateImpl>
     implements _$$PasswordRecoveryStateImplCopyWith<$Res> {
   __$$PasswordRecoveryStateImplCopyWithImpl(
     _$PasswordRecoveryStateImpl _value,
@@ -108,7 +116,10 @@ class __$$PasswordRecoveryStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$PasswordRecoveryStateImpl implements _PasswordRecoveryState {
-  const _$PasswordRecoveryStateImpl({this.stage = PasswordRecoveryStage.init, this.email = ''});
+  const _$PasswordRecoveryStateImpl({
+    this.stage = PasswordRecoveryStage.init,
+    this.email = '',
+  });
 
   @override
   @JsonKey()
@@ -139,13 +150,19 @@ class _$PasswordRecoveryStateImpl implements _PasswordRecoveryState {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$PasswordRecoveryStateImplCopyWith<_$PasswordRecoveryStateImpl> get copyWith =>
-      __$$PasswordRecoveryStateImplCopyWithImpl<_$PasswordRecoveryStateImpl>(this, _$identity);
+  _$$PasswordRecoveryStateImplCopyWith<_$PasswordRecoveryStateImpl>
+  get copyWith =>
+      __$$PasswordRecoveryStateImplCopyWithImpl<_$PasswordRecoveryStateImpl>(
+        this,
+        _$identity,
+      );
 }
 
 abstract class _PasswordRecoveryState implements PasswordRecoveryState {
-  const factory _PasswordRecoveryState({final PasswordRecoveryStage stage, final String email}) =
-      _$PasswordRecoveryStateImpl;
+  const factory _PasswordRecoveryState({
+    final PasswordRecoveryStage stage,
+    final String email,
+  }) = _$PasswordRecoveryStateImpl;
 
   @override
   PasswordRecoveryStage get stage;
@@ -156,5 +173,6 @@ abstract class _PasswordRecoveryState implements PasswordRecoveryState {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$PasswordRecoveryStateImplCopyWith<_$PasswordRecoveryStateImpl> get copyWith => throw _privateConstructorUsedError;
+  _$$PasswordRecoveryStateImplCopyWith<_$PasswordRecoveryStateImpl>
+  get copyWith => throw _privateConstructorUsedError;
 }
