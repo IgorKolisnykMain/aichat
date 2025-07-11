@@ -9,8 +9,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final userFirestoreRepoProvider = FutureProvider<UserRepository>((ref) async {
-  final authRepo = await ref.read(authFirebaseRepoProvider.future);
-  final userRepo = UserFirestoreRepoImpl(fireStore: await ref.read(firestoreProvider.future), userStream: authRepo.authStateChanges());
+  final authRepo = await ref.read(authRepoProvider.future);
+  final userRepo = UserFirestoreRepoImpl(
+    fireStore: await ref.read(firestoreProvider.future),
+    userStream: authRepo.authStateChanges(),
+  );
   ref.onDispose(userRepo.dispose);
   return userRepo;
 });

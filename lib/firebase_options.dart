@@ -3,13 +3,17 @@ import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb, Tar
 
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
-    const environment = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
+    const environment = String.fromEnvironment('environment', defaultValue: 'dev');
 
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      switch (environment) {
+        case 'dev':
+          return devWeb;
+        case 'prod':
+          return prodWeb;
+        default:
+          throw UnsupportedError('Unknown environment: $environment');
+      }
     }
 
     switch (environment) {
@@ -108,5 +112,24 @@ class DefaultFirebaseOptions {
     projectId: 'ai-chat-7d6dd',
     storageBucket: 'ai-chat-7d6dd.firebasestorage.app',
     iosBundleId: 'com.pet.aichat',
+  );
+
+  // Web environment Firebase options (using same config for dev and prod as they share the same project)
+  static const FirebaseOptions devWeb = FirebaseOptions(
+    apiKey: 'AIzaSyCbq-IS4awh3VCmeMesAFCrG6QdJB43NCA',
+    appId: '1:132804793310:web:a79fe7c8ce722b4ac2034f',
+    messagingSenderId: '132804793310',
+    projectId: 'ai-chat-7d6dd',
+    authDomain: 'ai-chat-7d6dd.firebaseapp.com',
+    storageBucket: 'ai-chat-7d6dd.firebasestorage.app',
+  );
+
+  static const FirebaseOptions prodWeb = FirebaseOptions(
+    apiKey: 'AIzaSyCbq-IS4awh3VCmeMesAFCrG6QdJB43NCA',
+    appId: '1:132804793310:web:a79fe7c8ce722b4ac2034f',
+    messagingSenderId: '132804793310',
+    projectId: 'ai-chat-7d6dd',
+    authDomain: 'ai-chat-7d6dd.firebaseapp.com',
+    storageBucket: 'ai-chat-7d6dd.firebasestorage.app',
   );
 }

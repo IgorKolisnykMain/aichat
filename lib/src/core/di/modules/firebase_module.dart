@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:aichat/firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
@@ -9,13 +7,17 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+//todo add to
+const kWebRecaptchaSiteKey = '6LfZpH8rAAAAAIKDt-CmSdwTS8SliRe2zHXCFoXC';
+
 final firebaseAppProvider = FutureProvider<FirebaseApp>((ref) async {
   final app = await Firebase.initializeApp(
-      options: Platform.isAndroid ? DefaultFirebaseOptions.currentPlatform : null,
+      options: DefaultFirebaseOptions.currentPlatform,
     );
     await FirebaseAppCheck.instance.activate(
       androidProvider: kDebugMode ? AndroidProvider.debug : AndroidProvider.playIntegrity,
       appleProvider: AppleProvider.appAttest,
+      webProvider: kDebugMode ? ReCaptchaV3Provider(kWebRecaptchaSiteKey) : ReCaptchaV3Provider(kWebRecaptchaSiteKey),
     );
     return app;
 });

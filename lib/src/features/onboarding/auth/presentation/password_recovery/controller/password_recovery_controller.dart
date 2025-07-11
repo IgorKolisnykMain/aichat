@@ -13,7 +13,7 @@ class PasswordRecoveryController extends AsyncNotifier<PasswordRecoveryState> {
 
   @override
   Future<PasswordRecoveryState> build() async {
-    authFirebaseRep = await ref.read(authFirebaseRepoProvider.future);
+    authFirebaseRep = await ref.read(authRepoProvider.future);
     return const PasswordRecoveryState();
   }
 

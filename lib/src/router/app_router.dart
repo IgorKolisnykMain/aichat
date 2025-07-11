@@ -1,4 +1,5 @@
 import 'package:aichat/src/features/ai_chat/presentation/main_screen.dart';
+import 'package:aichat/src/features/onboarding/auth/data/repo/auth_firebase_repo_impl.dart';
 import 'package:aichat/src/features/onboarding/auth/presentation/email_sign_in_screen.dart';
 import 'package:aichat/src/features/onboarding/auth/presentation/email_sign_up_screen.dart';
 import 'package:aichat/src/features/onboarding/auth/presentation/password_recovery/password_recovery_screen.dart';
@@ -12,15 +13,32 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' show Provider;
 import 'package:go_router/go_router.dart';
 
+final rootNavigatorKey = GlobalKey<NavigatorState>();
+final mainObserver = MyNavigatorObserver();
+
 final goRouterProvider = Provider<GoRouter>((ref) {
-  final rootNavigatorKey = GlobalKey<NavigatorState>();
-  final mainObserver = MyNavigatorObserver();
 
   return GoRouter(
     navigatorKey: rootNavigatorKey,
     debugLogDiagnostics: true,
     initialLocation: RoutesName.splash.rootPath,
     observers: [mainObserver],
+    // refreshListenable: authRepository.value != null ? RefreshStreamToNotifier(authRepository.value!.authStateChanges()) : null,
+    redirect: (context, state) {
+      final isLoggedIn = ref.read(authRepoProvider).value?.currentUser != null;
+      final path = state.uri.path;
+      if (isLoggedIn &&
+          (path == RoutesName.wizard.rootPath ||
+              path == RoutesName.welcomeSign.rootPath ||
+              path == RoutesName.emailSignUp.rootPath ||
+              path == RoutesName.emailSignIn.rootPath ||
+              path == RoutesName.passwordRecovery.rootPath)) {
+        return RoutesName.home.rootPath;
+      } else if (!isLoggedIn && (path == RoutesName.home.rootPath)) {
+        return RoutesName.splash.rootPath;
+      }
+      return null;
+    },
     routes: [
       GoRoute(
         name: RoutesName.splash.name,
@@ -54,7 +72,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 name: RoutesName.passwordRecovery.name,
                 path: RoutesName.passwordRecovery.path,
                 pageBuilder: (context, state) {
-                  final preFilledEmail = state.extra as String? ?? "";
+                  final preFilledEmail = state.extra as String? ?? ""; //todo change to pathParameters
                   return NoTransitionPage(child: PasswordRecoveryScreen(preFilledEmail: preFilledEmail));
                 },
               ),

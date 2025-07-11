@@ -29,10 +29,38 @@
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
+  <!-- Google Sign-In -->
+  <meta name="google-signin-client_id" content="132804793310-fn0u2mari325j6l9c0k440rjsihhq861.apps.googleusercontent.com">
+
   <title>aichat</title>
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
+  <!-- Firebase SDKs -->
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+    import { getAuth } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+    import { getFirestore } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+    import { getStorage } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-storage.js";
+    
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCbq-IS4awh3VCmeMesAFCrG6QdJB43NCA",
+      authDomain: "ai-chat-7d6dd.firebaseapp.com",
+      projectId: "ai-chat-7d6dd",
+      storageBucket: "ai-chat-7d6dd.firebasestorage.app",
+      messagingSenderId: "132804793310",
+      appId: "1:132804793310:web:a79fe7c8ce722b4ac2034f"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    
+    // Make Firebase available globally for Flutter
+    window.flutterfire_web_sdk_version = '11.9.1';
+  </script>
+  
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

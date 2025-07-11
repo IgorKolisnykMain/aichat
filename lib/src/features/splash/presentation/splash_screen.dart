@@ -1,3 +1,4 @@
+import 'package:aichat/src/common_widgets/message_presenter.dart';
 import 'package:aichat/src/features/splash/presentation/controller/splash_controller.dart';
 import 'package:aichat/src/features/splash/presentation/controller/splash_state.dart';
 import 'package:aichat/src/router/route_name.dart';
@@ -8,27 +9,34 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
-
   const SplashScreen({super.key});
 
   @override
   ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends ConsumerState<SplashScreen> {
+class _SplashScreenState extends ConsumerState<SplashScreen> with MessagePresenter {
   @override
   Widget build(BuildContext context) {
     ref.listen(splashControllerProvider, (previous, next) {
-        switch (next.value?.stage) {
-          case SplashStage.showWelcomeScreen:
-            context.goNamed(RoutesName.wizard.name);
-          case SplashStage.showMainScreen:
-            context.goNamed(RoutesName.home.name);
-          default:
-            break;
-        }
-      },
-    );
+      next.when(
+        data: (data) {
+          switch (data.stage) {
+            case SplashStage.showWelcomeScreen:
+              context.goNamed(RoutesName.wizard.name);
+            case SplashStage.showMainScreen:
+              context.goNamed(RoutesName.home.name);
+            default:
+              break;
+          }
+        },
+        error: (error, stackTrace) {
+          showSnackBar(error.toString(), context);
+        },
+        loading: () {},
+      );
+    });
+    
     return Scaffold(
       body: SafeArea(
         child: Column(

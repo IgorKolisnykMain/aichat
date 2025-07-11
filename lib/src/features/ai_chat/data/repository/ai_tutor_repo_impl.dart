@@ -17,7 +17,7 @@ final aiTutorOpenAiRepoProvider = FutureProvider<AiTutorRepo>((ref) async {
   final repo = AiTutorOpenAiRepoImpl(
     fireStore: await ref.read(firestoreProvider.future),
     settings: await appConfig.getAiSettings(),
-    userStream: (await ref.read(authFirebaseRepoProvider.future)).authStateChanges(),
+    userStream: (await ref.read(authRepoProvider.future)).authStateChanges(),
   );
   ref.onDispose(repo.dispose);
   return repo;

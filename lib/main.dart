@@ -23,19 +23,22 @@ void main() async {
 
   final appConfig = locator<AppConfigRepository>().config;
 
-  runApp(
-    ProviderScope(
-      child: App(appConfig: appConfig),
-    ),
-  );
+  runApp(ProviderScope(child: App(appConfig: appConfig)));
 }
 
 void _registerErrorHandlers() {
   FlutterError.onError = (errorDetails) {
-    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+    FlutterError.presentError(errorDetails);
+    debugPrint(errorDetails.toString());
+    if (kIsWeb == false) {
+      FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+    }
   };
   PlatformDispatcher.instance.onError = (error, stack) {
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    debugPrint(error.toString());
+    if (kIsWeb == false) {
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    }
     return true;
   };
 }

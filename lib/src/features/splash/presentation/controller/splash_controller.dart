@@ -15,7 +15,7 @@ class SplashController extends AsyncNotifier<SplashState> {
   @override
   Future<SplashState> build() async {
     state = const AsyncValue.loading();
-    authFirebaseRepo = await ref.read(authFirebaseRepoProvider.future);
+    authFirebaseRepo = await ref.read(authRepoProvider.future);
 
     final isLoggedIn = authFirebaseRepo.currentUser != null;
     if (!isLoggedIn) {

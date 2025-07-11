@@ -7,10 +7,10 @@
       "request": "launch",
       "type": "dart",
       "args": [
-          "--flavor",
-          "dev",
-          "--dart-define",
-          "environment=dev"
+        "--flavor",
+        "dev",
+        "--dart-define",
+        "environment=dev"
       ]
     },
     {
@@ -19,11 +19,22 @@
       "type": "dart",
       "program": "lib/main.dart",
       "args": [
-          "--flavor",
-          "prod",
-          "--dart-define",
-          "environment=prod"
+        "--flavor",
+        "prod",
+        "--dart-define",
+        "environment=prod"
       ]
+    },
+    {
+      "name": "Web (dev, html, chrome)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": [
+        "--dart-define=environment=dev"
+      ],
+      "deviceId": "chrome", // Ensures Chrome is targeted
+      "flutterMode": "debug" // Explicitly set debug mode
     }
   ]
 }

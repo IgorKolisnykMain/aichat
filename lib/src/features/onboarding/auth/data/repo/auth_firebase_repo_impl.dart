@@ -13,7 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-final authFirebaseRepoProvider = FutureProvider<AuthRepository>((ref) async {
+final authRepoProvider = FutureProvider<AuthRepository>((ref) async {
   return AuthFirebaseRepositoryImpl(
     firebaseAuth: await ref.read(firebaseAuthProvider.future),
     googleSignIn: GoogleSignIn(),
@@ -24,10 +24,7 @@ class AuthFirebaseRepositoryImpl implements AuthRepository {
   final FirebaseAuth firebaseAuth;
   final GoogleSignIn googleSignIn;
 
-  AuthFirebaseRepositoryImpl({
-    required this.firebaseAuth,
-    required this.googleSignIn,
-  });
+  AuthFirebaseRepositoryImpl({required this.firebaseAuth, required this.googleSignIn});
 
   @override
   Stream<AppUser?> authStateChanges() {

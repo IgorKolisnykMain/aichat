@@ -11,10 +11,9 @@ final signControllerProvider = AsyncNotifierProvider.autoDispose<SignController,
 class SignController extends AsyncNotifier<SignState> {
   late final AuthRepository authFirebaseRep;
 
-
   @override
   Future<SignState> build() async {
-    authFirebaseRep = await ref.read(authFirebaseRepoProvider.future);
+    authFirebaseRep = await ref.read(authRepoProvider.future);
     return const SignState(stage: SignStage.init);
   }
 
@@ -24,9 +23,7 @@ class SignController extends AsyncNotifier<SignState> {
       //todo change UserCredential model to AppUserModel
       final userCredential = await authFirebaseRep.signVia(signSource);
       if (userCredential != null) {
-        (userCredential.additionalUserInfo?.isNewUser ?? true)
-            ? await _successSignUp()
-            : await _successSignIn();
+        (userCredential.additionalUserInfo?.isNewUser ?? true) ? await _successSignUp() : await _successSignIn();
       }
       state = const AsyncValue.data(SignState(stage: SignStage.init));
     } catch (e, s) {
