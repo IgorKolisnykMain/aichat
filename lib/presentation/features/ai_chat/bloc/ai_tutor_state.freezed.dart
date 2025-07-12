@@ -29,16 +29,13 @@ mixin _$AiTutorState {
   /// Create a copy of AiTutorState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $AiTutorStateCopyWith<AiTutorState> get copyWith =>
-      throw _privateConstructorUsedError;
+  $AiTutorStateCopyWith<AiTutorState> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $AiTutorStateCopyWith<$Res> {
-  factory $AiTutorStateCopyWith(
-    AiTutorState value,
-    $Res Function(AiTutorState) then,
-  ) = _$AiTutorStateCopyWithImpl<$Res, AiTutorState>;
+  factory $AiTutorStateCopyWith(AiTutorState value, $Res Function(AiTutorState) then) =
+      _$AiTutorStateCopyWithImpl<$Res, AiTutorState>;
   @useResult
   $Res call({
     AiTutorStage stage,
@@ -55,8 +52,7 @@ abstract class $AiTutorStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$AiTutorStateCopyWithImpl<$Res, $Val extends AiTutorState>
-    implements $AiTutorStateCopyWith<$Res> {
+class _$AiTutorStateCopyWithImpl<$Res, $Val extends AiTutorState> implements $AiTutorStateCopyWith<$Res> {
   _$AiTutorStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -130,12 +126,9 @@ class _$AiTutorStateCopyWithImpl<$Res, $Val extends AiTutorState>
 }
 
 /// @nodoc
-abstract class _$$AiTutorStateImplCopyWith<$Res>
-    implements $AiTutorStateCopyWith<$Res> {
-  factory _$$AiTutorStateImplCopyWith(
-    _$AiTutorStateImpl value,
-    $Res Function(_$AiTutorStateImpl) then,
-  ) = __$$AiTutorStateImplCopyWithImpl<$Res>;
+abstract class _$$AiTutorStateImplCopyWith<$Res> implements $AiTutorStateCopyWith<$Res> {
+  factory _$$AiTutorStateImplCopyWith(_$AiTutorStateImpl value, $Res Function(_$AiTutorStateImpl) then) =
+      __$$AiTutorStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({
@@ -154,13 +147,10 @@ abstract class _$$AiTutorStateImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$AiTutorStateImplCopyWithImpl<$Res>
-    extends _$AiTutorStateCopyWithImpl<$Res, _$AiTutorStateImpl>
+class __$$AiTutorStateImplCopyWithImpl<$Res> extends _$AiTutorStateCopyWithImpl<$Res, _$AiTutorStateImpl>
     implements _$$AiTutorStateImplCopyWith<$Res> {
-  __$$AiTutorStateImplCopyWithImpl(
-    _$AiTutorStateImpl _value,
-    $Res Function(_$AiTutorStateImpl) _then,
-  ) : super(_value, _then);
+  __$$AiTutorStateImplCopyWithImpl(_$AiTutorStateImpl _value, $Res Function(_$AiTutorStateImpl) _then)
+    : super(_value, _then);
 
   /// Create a copy of AiTutorState
   /// with the given fields replaced by the non-null parameter values.
@@ -273,16 +263,10 @@ class _$AiTutorStateImpl implements _AiTutorState {
             (identical(other.aiAnsweringOnQuestion, aiAnsweringOnQuestion) ||
                 other.aiAnsweringOnQuestion == aiAnsweringOnQuestion) &&
             const DeepCollectionEquality().equals(other.error, error) &&
-            (identical(other.currentThreadId, currentThreadId) ||
-                other.currentThreadId == currentThreadId) &&
-            const DeepCollectionEquality().equals(
-              other._userThreads,
-              _userThreads,
-            ) &&
-            (identical(other.streamingResponse, streamingResponse) ||
-                other.streamingResponse == streamingResponse) &&
-            (identical(other.isStreaming, isStreaming) ||
-                other.isStreaming == isStreaming));
+            (identical(other.currentThreadId, currentThreadId) || other.currentThreadId == currentThreadId) &&
+            const DeepCollectionEquality().equals(other._userThreads, _userThreads) &&
+            (identical(other.streamingResponse, streamingResponse) || other.streamingResponse == streamingResponse) &&
+            (identical(other.isStreaming, isStreaming) || other.isStreaming == isStreaming));
   }
 
   @override
@@ -340,6 +324,5 @@ abstract class _AiTutorState implements AiTutorState {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AiTutorStateImplCopyWith<_$AiTutorStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$AiTutorStateImplCopyWith<_$AiTutorStateImpl> get copyWith => throw _privateConstructorUsedError;
 }

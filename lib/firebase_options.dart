@@ -4,14 +4,14 @@ import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb, Tar
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     const environment = String.fromEnvironment('FLAVOR', defaultValue: 'dev');
-    
+
     if (kIsWeb) {
       throw UnsupportedError(
         'DefaultFirebaseOptions have not been configured for web - '
         'you can reconfigure this by running the FlutterFire CLI again.',
       );
     }
-    
+
     switch (environment) {
       case 'dev':
         return _getDevOptions();
@@ -21,7 +21,7 @@ class DefaultFirebaseOptions {
         throw UnsupportedError('Unknown environment: $environment');
     }
   }
-  
+
   static FirebaseOptions _getDevOptions() {
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -47,7 +47,7 @@ class DefaultFirebaseOptions {
         throw UnsupportedError('DefaultFirebaseOptions are not supported for this platform.');
     }
   }
-  
+
   static FirebaseOptions _getProdOptions() {
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -91,7 +91,7 @@ class DefaultFirebaseOptions {
     storageBucket: 'ai-chat-7d6dd.firebasestorage.app',
     iosBundleId: 'com.pet.aichat.dev',
   );
-  
+
   // Production environment Firebase options
   static const FirebaseOptions prodAndroid = FirebaseOptions(
     apiKey: 'AIzaSyDU532Rv2oTWQf5qK7x1MTp5z_OQ-1syX4',

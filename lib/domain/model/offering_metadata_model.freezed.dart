@@ -15,9 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
-OfferingMetadataModel _$OfferingMetadataModelFromJson(
-  Map<String, dynamic> json,
-) {
+OfferingMetadataModel _$OfferingMetadataModelFromJson(Map<String, dynamic> json) {
   return _OfferingMetadataModel.fromJson(json);
 }
 
@@ -32,25 +30,19 @@ mixin _$OfferingMetadataModel {
   /// Create a copy of OfferingMetadataModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $OfferingMetadataModelCopyWith<OfferingMetadataModel> get copyWith =>
-      throw _privateConstructorUsedError;
+  $OfferingMetadataModelCopyWith<OfferingMetadataModel> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $OfferingMetadataModelCopyWith<$Res> {
-  factory $OfferingMetadataModelCopyWith(
-    OfferingMetadataModel value,
-    $Res Function(OfferingMetadataModel) then,
-  ) = _$OfferingMetadataModelCopyWithImpl<$Res, OfferingMetadataModel>;
+  factory $OfferingMetadataModelCopyWith(OfferingMetadataModel value, $Res Function(OfferingMetadataModel) then) =
+      _$OfferingMetadataModelCopyWithImpl<$Res, OfferingMetadataModel>;
   @useResult
   $Res call({@JsonKey(name: 'packages') List<PackageMetadataModel> packages});
 }
 
 /// @nodoc
-class _$OfferingMetadataModelCopyWithImpl<
-  $Res,
-  $Val extends OfferingMetadataModel
->
+class _$OfferingMetadataModelCopyWithImpl<$Res, $Val extends OfferingMetadataModel>
     implements $OfferingMetadataModelCopyWith<$Res> {
   _$OfferingMetadataModelCopyWithImpl(this._value, this._then);
 
@@ -77,8 +69,7 @@ class _$OfferingMetadataModelCopyWithImpl<
 }
 
 /// @nodoc
-abstract class _$$OfferingMetadataModelImplCopyWith<$Res>
-    implements $OfferingMetadataModelCopyWith<$Res> {
+abstract class _$$OfferingMetadataModelImplCopyWith<$Res> implements $OfferingMetadataModelCopyWith<$Res> {
   factory _$$OfferingMetadataModelImplCopyWith(
     _$OfferingMetadataModelImpl value,
     $Res Function(_$OfferingMetadataModelImpl) then,
@@ -90,8 +81,7 @@ abstract class _$$OfferingMetadataModelImplCopyWith<$Res>
 
 /// @nodoc
 class __$$OfferingMetadataModelImplCopyWithImpl<$Res>
-    extends
-        _$OfferingMetadataModelCopyWithImpl<$Res, _$OfferingMetadataModelImpl>
+    extends _$OfferingMetadataModelCopyWithImpl<$Res, _$OfferingMetadataModelImpl>
     implements _$$OfferingMetadataModelImplCopyWith<$Res> {
   __$$OfferingMetadataModelImplCopyWithImpl(
     _$OfferingMetadataModelImpl _value,
@@ -117,13 +107,10 @@ class __$$OfferingMetadataModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$OfferingMetadataModelImpl implements _OfferingMetadataModel {
-  const _$OfferingMetadataModelImpl({
-    @JsonKey(name: 'packages')
-    required final List<PackageMetadataModel> packages,
-  }) : _packages = packages;
+  const _$OfferingMetadataModelImpl({@JsonKey(name: 'packages') required final List<PackageMetadataModel> packages})
+    : _packages = packages;
 
-  factory _$OfferingMetadataModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$OfferingMetadataModelImplFromJson(json);
+  factory _$OfferingMetadataModelImpl.fromJson(Map<String, dynamic> json) => _$$OfferingMetadataModelImplFromJson(json);
 
   final List<PackageMetadataModel> _packages;
   @override
@@ -149,20 +136,15 @@ class _$OfferingMetadataModelImpl implements _OfferingMetadataModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_packages));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_packages));
 
   /// Create a copy of OfferingMetadataModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$OfferingMetadataModelImplCopyWith<_$OfferingMetadataModelImpl>
-  get copyWith =>
-      __$$OfferingMetadataModelImplCopyWithImpl<_$OfferingMetadataModelImpl>(
-        this,
-        _$identity,
-      );
+  _$$OfferingMetadataModelImplCopyWith<_$OfferingMetadataModelImpl> get copyWith =>
+      __$$OfferingMetadataModelImplCopyWithImpl<_$OfferingMetadataModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -172,12 +154,10 @@ class _$OfferingMetadataModelImpl implements _OfferingMetadataModel {
 
 abstract class _OfferingMetadataModel implements OfferingMetadataModel {
   const factory _OfferingMetadataModel({
-    @JsonKey(name: 'packages')
-    required final List<PackageMetadataModel> packages,
+    @JsonKey(name: 'packages') required final List<PackageMetadataModel> packages,
   }) = _$OfferingMetadataModelImpl;
 
-  factory _OfferingMetadataModel.fromJson(Map<String, dynamic> json) =
-      _$OfferingMetadataModelImpl.fromJson;
+  factory _OfferingMetadataModel.fromJson(Map<String, dynamic> json) = _$OfferingMetadataModelImpl.fromJson;
 
   @override
   @JsonKey(name: 'packages')
@@ -187,6 +167,5 @@ abstract class _OfferingMetadataModel implements OfferingMetadataModel {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$OfferingMetadataModelImplCopyWith<_$OfferingMetadataModelImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$OfferingMetadataModelImplCopyWith<_$OfferingMetadataModelImpl> get copyWith => throw _privateConstructorUsedError;
 }

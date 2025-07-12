@@ -30,8 +30,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get defaultError => 'Something went wrong. Please try again.';
 
   @override
-  String get noInternetConnection =>
-      'No internet connection. Please check your network.';
+  String get noInternetConnection => 'No internet connection. Please check your network.';
 
   @override
   String get serverError => 'Server error. Please try again later.';
@@ -46,15 +45,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get wizardPage1Title => 'Personalized Help';
 
   @override
-  String get wizardPage1Subtitle =>
-      'Get insights and gentle guidance tailored to you.';
+  String get wizardPage1Subtitle => 'Get insights and gentle guidance tailored to you.';
 
   @override
   String get wizardPage2Title => 'Express Yourself';
 
   @override
-  String get wizardPage2Subtitle =>
-      'Talk to our AI psychologist—express your feelings without judgment.';
+  String get wizardPage2Subtitle => 'Talk to our AI psychologist—express your feelings without judgment.';
 
   @override
   String get skip => 'Skip';
@@ -66,8 +63,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get getStarted => 'Get Started';
 
   @override
-  String get welcomeDescription =>
-      'You\'re on track to feeling heard and supported.';
+  String get welcomeDescription => 'You\'re on track to feeling heard and supported.';
 
   @override
   String get continueWithApple => 'Continue with Apple';
@@ -153,8 +149,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get continueText => 'Continue';
 
   @override
-  String get alreadySubscribedRestore =>
-      'Already subscribed? Restore Purchase.';
+  String get alreadySubscribedRestore => 'Already subscribed? Restore Purchase.';
 
   @override
   String get genericError => 'Something went wrong. Please try again.';

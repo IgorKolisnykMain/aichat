@@ -115,122 +115,123 @@ class ThemeTextStyles extends ThemeExtension<ThemeTextStyles> {
     );
   }
 
-  ThemeTextStyles.light() : this._(
-    // Plus Jakarta Sans Styles
-    onboardingTitle: TextStyle(
-      fontFamily: plusJakartaSans,
-      fontWeight: FontWeight.w700,
-      fontSize: 28.sp,
-      height: 1.2,
-      color: AppColors.textPrimary,
-    ),
-    splashTitle: TextStyle(
-      fontFamily: plusJakartaSans,
-      fontWeight: FontWeight.w700,
-      fontSize: 32.sp,
-      height: 1.2,
-      color: AppColors.textPrimary,
-    ),
-    subscriptionTitle: TextStyle(
-      fontFamily: plusJakartaSans,
-      fontWeight: FontWeight.w700,
-      fontSize: 18.sp,
-      height: 1.3,
-      color: AppColors.textPrimary,
-    ),
-    planTitle: TextStyle(
-      fontFamily: plusJakartaSans,
-      fontWeight: FontWeight.w700,
-      fontSize: 16.sp,
-      height: 1.3,
-      color: AppColors.textPrimary,
-    ),
-    priceDisplay: TextStyle(
-      fontFamily: plusJakartaSans,
-      fontWeight: FontWeight.w800,
-      fontSize: 36.sp,
-      height: 1.1,
-      color: AppColors.textPrimary,
-    ),
-    bodyLarge: TextStyle(
-      fontFamily: plusJakartaSans,
-      fontWeight: FontWeight.w400,
-      fontSize: 16.sp,
-      height: 1.5,
-      color: AppColors.textSecondary,
-    ),
-    bodyMedium: TextStyle(
-      fontFamily: plusJakartaSans,
-      fontWeight: FontWeight.w400,
-      fontSize: 14.sp,
-      height: 1.5,
-      color: AppColors.textSecondary,
-    ),
-    bodySmall: TextStyle(
-      fontFamily: plusJakartaSans,
-      fontWeight: FontWeight.w400,
-      fontSize: 13.sp,
-      height: 1.5,
-      color: AppColors.textSecondary,
-    ),
-    buttonLarge: TextStyle(
-      fontFamily: plusJakartaSans,
-      fontWeight: FontWeight.w700,
-      fontSize: 16.sp,
-      height: 1.25,
-      color: AppColors.textPrimary,
-    ),
-    buttonMedium: TextStyle(
-      fontFamily: plusJakartaSans,
-      fontWeight: FontWeight.w700,
-      fontSize: 14.sp,
-      height: 1.25,
-      color: AppColors.textPrimary,
-    ),
-    saveBadge: TextStyle(
-      fontFamily: plusJakartaSans,
-      fontWeight: FontWeight.w500,
-      fontSize: 12.sp,
-      height: 1.3,
-      color: AppColors.textPrimary,
-    ),
-    // Lexend Styles
-    authBrand: TextStyle(
-      fontFamily: lexend,
-      fontWeight: FontWeight.w700,
-      fontSize: 24.sp,
-      height: 1.2,
-      color: AppColors.textPrimary,
-    ),
-    authTitle: TextStyle(
-      fontFamily: lexend,
-      fontWeight: FontWeight.w700,
-      fontSize: 18.sp,
-      height: 1.3,
-      color: AppColors.textPrimary,
-    ),
-    authBody: TextStyle(
-      fontFamily: lexend,
-      fontWeight: FontWeight.w400,
-      fontSize: 16.sp,
-      height: 1.5,
-      color: AppColors.textSecondary,
-    ),
-    authButton: TextStyle(
-      fontFamily: lexend,
-      fontWeight: FontWeight.w700,
-      fontSize: 16.sp,
-      height: 1.25,
-      color: AppColors.textPrimary,
-    ),
-    authLink: TextStyle(
-      fontFamily: lexend,
-      fontWeight: FontWeight.w400,
-      fontSize: 14.sp,
-      height: 1.5,
-      color: AppColors.textSecondary,
-    ),
-  );
+  ThemeTextStyles.light()
+    : this._(
+        // Plus Jakarta Sans Styles
+        onboardingTitle: TextStyle(
+          fontFamily: plusJakartaSans,
+          fontWeight: FontWeight.w700,
+          fontSize: 28.sp,
+          height: 1.2,
+          color: AppColors.textPrimary,
+        ),
+        splashTitle: TextStyle(
+          fontFamily: plusJakartaSans,
+          fontWeight: FontWeight.w700,
+          fontSize: 32.sp,
+          height: 1.2,
+          color: AppColors.textPrimary,
+        ),
+        subscriptionTitle: TextStyle(
+          fontFamily: plusJakartaSans,
+          fontWeight: FontWeight.w700,
+          fontSize: 18.sp,
+          height: 1.3,
+          color: AppColors.textPrimary,
+        ),
+        planTitle: TextStyle(
+          fontFamily: plusJakartaSans,
+          fontWeight: FontWeight.w700,
+          fontSize: 16.sp,
+          height: 1.3,
+          color: AppColors.textPrimary,
+        ),
+        priceDisplay: TextStyle(
+          fontFamily: plusJakartaSans,
+          fontWeight: FontWeight.w800,
+          fontSize: 36.sp,
+          height: 1.1,
+          color: AppColors.textPrimary,
+        ),
+        bodyLarge: TextStyle(
+          fontFamily: plusJakartaSans,
+          fontWeight: FontWeight.w400,
+          fontSize: 16.sp,
+          height: 1.5,
+          color: AppColors.textSecondary,
+        ),
+        bodyMedium: TextStyle(
+          fontFamily: plusJakartaSans,
+          fontWeight: FontWeight.w400,
+          fontSize: 14.sp,
+          height: 1.5,
+          color: AppColors.textSecondary,
+        ),
+        bodySmall: TextStyle(
+          fontFamily: plusJakartaSans,
+          fontWeight: FontWeight.w400,
+          fontSize: 13.sp,
+          height: 1.5,
+          color: AppColors.textSecondary,
+        ),
+        buttonLarge: TextStyle(
+          fontFamily: plusJakartaSans,
+          fontWeight: FontWeight.w700,
+          fontSize: 16.sp,
+          height: 1.25,
+          color: AppColors.textPrimary,
+        ),
+        buttonMedium: TextStyle(
+          fontFamily: plusJakartaSans,
+          fontWeight: FontWeight.w700,
+          fontSize: 14.sp,
+          height: 1.25,
+          color: AppColors.textPrimary,
+        ),
+        saveBadge: TextStyle(
+          fontFamily: plusJakartaSans,
+          fontWeight: FontWeight.w500,
+          fontSize: 12.sp,
+          height: 1.3,
+          color: AppColors.textPrimary,
+        ),
+        // Lexend Styles
+        authBrand: TextStyle(
+          fontFamily: lexend,
+          fontWeight: FontWeight.w700,
+          fontSize: 24.sp,
+          height: 1.2,
+          color: AppColors.textPrimary,
+        ),
+        authTitle: TextStyle(
+          fontFamily: lexend,
+          fontWeight: FontWeight.w700,
+          fontSize: 18.sp,
+          height: 1.3,
+          color: AppColors.textPrimary,
+        ),
+        authBody: TextStyle(
+          fontFamily: lexend,
+          fontWeight: FontWeight.w400,
+          fontSize: 16.sp,
+          height: 1.5,
+          color: AppColors.textSecondary,
+        ),
+        authButton: TextStyle(
+          fontFamily: lexend,
+          fontWeight: FontWeight.w700,
+          fontSize: 16.sp,
+          height: 1.25,
+          color: AppColors.textPrimary,
+        ),
+        authLink: TextStyle(
+          fontFamily: lexend,
+          fontWeight: FontWeight.w400,
+          fontSize: 14.sp,
+          height: 1.5,
+          color: AppColors.textSecondary,
+        ),
+      );
 
   ThemeTextStyles.dark() : this.light();
 }

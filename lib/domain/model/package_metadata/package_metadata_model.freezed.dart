@@ -32,28 +32,19 @@ mixin _$PackageMetadataModel {
   /// Create a copy of PackageMetadataModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $PackageMetadataModelCopyWith<PackageMetadataModel> get copyWith =>
-      throw _privateConstructorUsedError;
+  $PackageMetadataModelCopyWith<PackageMetadataModel> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $PackageMetadataModelCopyWith<$Res> {
-  factory $PackageMetadataModelCopyWith(
-    PackageMetadataModel value,
-    $Res Function(PackageMetadataModel) then,
-  ) = _$PackageMetadataModelCopyWithImpl<$Res, PackageMetadataModel>;
+  factory $PackageMetadataModelCopyWith(PackageMetadataModel value, $Res Function(PackageMetadataModel) then) =
+      _$PackageMetadataModelCopyWithImpl<$Res, PackageMetadataModel>;
   @useResult
-  $Res call({
-    @JsonKey(name: 'id') String id,
-    @JsonKey(name: 'discount') double discount,
-  });
+  $Res call({@JsonKey(name: 'id') String id, @JsonKey(name: 'discount') double discount});
 }
 
 /// @nodoc
-class _$PackageMetadataModelCopyWithImpl<
-  $Res,
-  $Val extends PackageMetadataModel
->
+class _$PackageMetadataModelCopyWithImpl<$Res, $Val extends PackageMetadataModel>
     implements $PackageMetadataModelCopyWith<$Res> {
   _$PackageMetadataModelCopyWithImpl(this._value, this._then);
 
@@ -84,18 +75,14 @@ class _$PackageMetadataModelCopyWithImpl<
 }
 
 /// @nodoc
-abstract class _$$PackageMetadataModelImplCopyWith<$Res>
-    implements $PackageMetadataModelCopyWith<$Res> {
+abstract class _$$PackageMetadataModelImplCopyWith<$Res> implements $PackageMetadataModelCopyWith<$Res> {
   factory _$$PackageMetadataModelImplCopyWith(
     _$PackageMetadataModelImpl value,
     $Res Function(_$PackageMetadataModelImpl) then,
   ) = __$$PackageMetadataModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({
-    @JsonKey(name: 'id') String id,
-    @JsonKey(name: 'discount') double discount,
-  });
+  $Res call({@JsonKey(name: 'id') String id, @JsonKey(name: 'discount') double discount});
 }
 
 /// @nodoc
@@ -135,8 +122,7 @@ class _$PackageMetadataModelImpl implements _PackageMetadataModel {
     @JsonKey(name: 'discount') required this.discount,
   });
 
-  factory _$PackageMetadataModelImpl.fromJson(Map<String, dynamic> json) =>
-      _$$PackageMetadataModelImplFromJson(json);
+  factory _$PackageMetadataModelImpl.fromJson(Map<String, dynamic> json) => _$$PackageMetadataModelImplFromJson(json);
 
   @override
   @JsonKey(name: 'id')
@@ -156,8 +142,7 @@ class _$PackageMetadataModelImpl implements _PackageMetadataModel {
         (other.runtimeType == runtimeType &&
             other is _$PackageMetadataModelImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.discount, discount) ||
-                other.discount == discount));
+            (identical(other.discount, discount) || other.discount == discount));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -169,12 +154,8 @@ class _$PackageMetadataModelImpl implements _PackageMetadataModel {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$PackageMetadataModelImplCopyWith<_$PackageMetadataModelImpl>
-  get copyWith =>
-      __$$PackageMetadataModelImplCopyWithImpl<_$PackageMetadataModelImpl>(
-        this,
-        _$identity,
-      );
+  _$$PackageMetadataModelImplCopyWith<_$PackageMetadataModelImpl> get copyWith =>
+      __$$PackageMetadataModelImplCopyWithImpl<_$PackageMetadataModelImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -188,8 +169,7 @@ abstract class _PackageMetadataModel implements PackageMetadataModel {
     @JsonKey(name: 'discount') required final double discount,
   }) = _$PackageMetadataModelImpl;
 
-  factory _PackageMetadataModel.fromJson(Map<String, dynamic> json) =
-      _$PackageMetadataModelImpl.fromJson;
+  factory _PackageMetadataModel.fromJson(Map<String, dynamic> json) = _$PackageMetadataModelImpl.fromJson;
 
   @override
   @JsonKey(name: 'id')
@@ -202,6 +182,5 @@ abstract class _PackageMetadataModel implements PackageMetadataModel {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$PackageMetadataModelImplCopyWith<_$PackageMetadataModelImpl>
-  get copyWith => throw _privateConstructorUsedError;
+  _$$PackageMetadataModelImplCopyWith<_$PackageMetadataModelImpl> get copyWith => throw _privateConstructorUsedError;
 }
