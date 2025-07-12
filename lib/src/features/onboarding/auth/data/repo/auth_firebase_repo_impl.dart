@@ -20,6 +20,15 @@ final authRepoProvider = FutureProvider<AuthRepository>((ref) async {
   );
 });
 
+final authStateChangesProvider = StreamProvider.autoDispose<AppUser?>((ref) {
+  final authRepository = ref.watch(authRepoProvider);
+  return authRepository.when(
+    data: (data) => data.authStateChanges(),
+    error: (error, stack) => Stream.value(null),
+    loading: () => Stream.value(null),
+  );
+});
+
 class AuthFirebaseRepositoryImpl implements AuthRepository {
   final FirebaseAuth firebaseAuth;
   final GoogleSignIn googleSignIn;

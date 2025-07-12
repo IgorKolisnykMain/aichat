@@ -5,6 +5,7 @@ import 'package:aichat/src/common_widgets/loading/loading_indicator.dart';
 import 'package:aichat/src/common_widgets/message_presenter.dart';
 import 'package:aichat/src/features/onboarding/auth/presentation/controller/sign_controller.dart';
 import 'package:aichat/src/features/onboarding/auth/presentation/controller/sign_state.dart';
+import 'package:aichat/src/router/arguments/email_arg.dart';
 import 'package:aichat/src/router/route_name.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
 import 'package:flutter/material.dart';
@@ -93,7 +94,12 @@ class _EmailSignInScreenState extends ConsumerState<EmailSignInScreen> with Mess
                 Align(
                   alignment: Alignment.centerLeft,
                   child: GestureDetector(
-                    onTap: () => context.goNamed(RoutesName.passwordRecovery.name),
+                    //todo remove comment code
+                    // onTap: () => context.goNamed(RoutesName.passwordRecovery.name, pathParameters: {"email": _emailController.text}),
+                    onTap: () => context.goNamed(
+                      RoutesName.passwordRecovery.name,
+                      queryParameters: EmailArg(email: _emailController.text).toJson(),
+                    ),
                     child: Padding(
                       padding: EdgeInsets.symmetric(vertical: 4.sp),
                       child: Text(

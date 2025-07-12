@@ -43,7 +43,7 @@ class _EmailSignUpScreenState extends ConsumerState<EmailSignUpScreen> with Mess
         loading: () {},
       );
     });
-    
+
     return Scaffold(
       appBar: const AuthAppBar(),
       body: SafeArea(
@@ -91,10 +91,9 @@ class _EmailSignUpScreenState extends ConsumerState<EmailSignUpScreen> with Mess
             text: context.l10n.signUp,
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                ref.read(signControllerProvider.notifier).signUpViaEmail(
-                      email: _emailController.text.trim(),
-                      password: _passwordController.text,
-                    );
+                ref
+                    .read(signControllerProvider.notifier)
+                    .signUpViaEmail(email: _emailController.text.trim(), password: _passwordController.text);
               }
             },
           ),

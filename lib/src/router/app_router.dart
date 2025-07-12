@@ -7,25 +7,29 @@ import 'package:aichat/src/features/onboarding/auth/presentation/welcome_sign_sc
 import 'package:aichat/src/features/onboarding/subscription/presentation/subscription_screen.dart';
 import 'package:aichat/src/features/onboarding/wizard/presentation/wizard_screen.dart';
 import 'package:aichat/src/features/splash/presentation/splash_screen.dart';
+import 'package:aichat/src/router/arguments/email_arg.dart';
+import 'package:aichat/src/router/auth_state_notifier.dart';
 import 'package:aichat/src/router/navigation_observer.dart';
+import 'package:aichat/src/router/not_found_screen.dart';
 import 'package:aichat/src/router/route_name.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart' show Provider;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-final rootNavigatorKey = GlobalKey<NavigatorState>();
-final mainObserver = MyNavigatorObserver();
-
 final goRouterProvider = Provider<GoRouter>((ref) {
+  final rootNavigatorKey = GlobalKey<NavigatorState>();
+  final mainObserver = MyNavigatorObserver();
 
   return GoRouter(
     navigatorKey: rootNavigatorKey,
     debugLogDiagnostics: true,
     initialLocation: RoutesName.splash.rootPath,
     observers: [mainObserver],
-    // refreshListenable: authRepository.value != null ? RefreshStreamToNotifier(authRepository.value!.authStateChanges()) : null,
+    refreshListenable: AuthStateNotifier(ref),
     redirect: (context, state) {
-      final isLoggedIn = ref.read(authRepoProvider).value?.currentUser != null;
+      final authRepoAsync = ref.read(authRepoProvider);
+      final isLoggedIn = authRepoAsync.maybeWhen(data: (data) => data.currentUser != null, orElse: () => false);
+
       final path = state.uri.path;
       if (isLoggedIn &&
           (path == RoutesName.wizard.rootPath ||
@@ -35,10 +39,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
               path == RoutesName.passwordRecovery.rootPath)) {
         return RoutesName.home.rootPath;
       } else if (!isLoggedIn && (path == RoutesName.home.rootPath)) {
-        return RoutesName.splash.rootPath;
+        return RoutesName.welcomeSign.rootPath;
       }
       return null;
     },
+    errorPageBuilder: (context, state) => const NoTransitionPage(child: NotFoundScreen()),
     routes: [
       GoRoute(
         name: RoutesName.splash.name,
@@ -72,7 +77,8 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 name: RoutesName.passwordRecovery.name,
                 path: RoutesName.passwordRecovery.path,
                 pageBuilder: (context, state) {
-                  final preFilledEmail = state.extra as String? ?? ""; //todo change to pathParameters
+                  final emailArg = EmailArg.fromJson(state.uri.queryParameters);
+                  final preFilledEmail = emailArg.email;
                   return NoTransitionPage(child: PasswordRecoveryScreen(preFilledEmail: preFilledEmail));
                 },
               ),

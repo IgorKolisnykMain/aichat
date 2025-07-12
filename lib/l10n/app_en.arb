@@ -1,5 +1,6 @@
 {
   "appTitle": "Hear Me Out",
+  "pageNotFound": "404 - Page not found!",
   "welcome": "Welcome",
   "signIn": "Sign In",
   "signUp": "Sign Up",
@@ -60,5 +61,6 @@
   "newConversation": "New Conversation",
   "previousConversations": "Previous Conversations",
   "aiPsychologist": "AI Psychologist",
-  "user": "User"
+  "user": "User",
+  "goHome": "Go Home"
 }

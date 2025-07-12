@@ -7,19 +7,20 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-//todo add to
 const kWebRecaptchaSiteKey = '6LfZpH8rAAAAAIKDt-CmSdwTS8SliRe2zHXCFoXC';
 
 final firebaseAppProvider = FutureProvider<FirebaseApp>((ref) async {
-  final app = await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
+  final app = await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  try {
     await FirebaseAppCheck.instance.activate(
       androidProvider: kDebugMode ? AndroidProvider.debug : AndroidProvider.playIntegrity,
       appleProvider: AppleProvider.appAttest,
       webProvider: kDebugMode ? ReCaptchaV3Provider(kWebRecaptchaSiteKey) : ReCaptchaV3Provider(kWebRecaptchaSiteKey),
     );
-    return app;
+  } catch (e) {
+    debugPrint(e.toString());
+  }
+  return app;
 });
 
 final firebaseAuthProvider = FutureProvider<FirebaseAuth>((ref) async {

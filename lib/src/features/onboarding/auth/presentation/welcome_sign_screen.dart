@@ -1,3 +1,4 @@
+import 'package:aichat/generated/assets.gen.dart';
 import 'package:aichat/src/common_widgets/buttons/app_primary_button.dart';
 import 'package:aichat/src/common_widgets/message_presenter.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/enums/sign_source.dart';
@@ -42,18 +43,20 @@ class WelcomeSignScreen extends ConsumerWidget with MessagePresenter {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.all(16.w),
+                  Expanded(
                     child: Container(
-                      height: 451.h,
                       width: double.infinity,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage('assets/images/welcome_illustration.png'),
-                          fit: BoxFit.cover,
+                      padding: EdgeInsets.all(16.w),
+                      child: Container(
+                        constraints: BoxConstraints(maxHeight: 451.h),
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: Assets.images.welcomeIllustration.provider(),
+                            fit: BoxFit.cover,
+                          ),
+                          borderRadius: const BorderRadius.all(Radius.circular(12)),
                         ),
-                        borderRadius: BorderRadius.all(Radius.circular(12)),
                       ),
                     ),
                   ),

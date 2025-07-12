@@ -19,26 +19,21 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$PaywallState {
   PaywallStage get stage => throw _privateConstructorUsedError;
   Offering? get currentOffering => throw _privateConstructorUsedError;
-  OfferingMetadataModel? get offeringMetadata =>
-      throw _privateConstructorUsedError;
-  List<String> get packagesWithFreeTrialEligible =>
-      throw _privateConstructorUsedError;
+  OfferingMetadataModel? get offeringMetadata => throw _privateConstructorUsedError;
+  List<String> get packagesWithFreeTrialEligible => throw _privateConstructorUsedError;
   String? get selectedPackageId => throw _privateConstructorUsedError;
   String? get cheapestPackageId => throw _privateConstructorUsedError;
 
   /// Create a copy of PaywallState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $PaywallStateCopyWith<PaywallState> get copyWith =>
-      throw _privateConstructorUsedError;
+  $PaywallStateCopyWith<PaywallState> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $PaywallStateCopyWith<$Res> {
-  factory $PaywallStateCopyWith(
-    PaywallState value,
-    $Res Function(PaywallState) then,
-  ) = _$PaywallStateCopyWithImpl<$Res, PaywallState>;
+  factory $PaywallStateCopyWith(PaywallState value, $Res Function(PaywallState) then) =
+      _$PaywallStateCopyWithImpl<$Res, PaywallState>;
   @useResult
   $Res call({
     PaywallStage stage,
@@ -54,8 +49,7 @@ abstract class $PaywallStateCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$PaywallStateCopyWithImpl<$Res, $Val extends PaywallState>
-    implements $PaywallStateCopyWith<$Res> {
+class _$PaywallStateCopyWithImpl<$Res, $Val extends PaywallState> implements $PaywallStateCopyWith<$Res> {
   _$PaywallStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -129,21 +123,16 @@ class _$PaywallStateCopyWithImpl<$Res, $Val extends PaywallState>
       return null;
     }
 
-    return $OfferingMetadataModelCopyWith<$Res>(_value.offeringMetadata!, (
-      value,
-    ) {
+    return $OfferingMetadataModelCopyWith<$Res>(_value.offeringMetadata!, (value) {
       return _then(_value.copyWith(offeringMetadata: value) as $Val);
     });
   }
 }
 
 /// @nodoc
-abstract class _$$PaywallStateImplCopyWith<$Res>
-    implements $PaywallStateCopyWith<$Res> {
-  factory _$$PaywallStateImplCopyWith(
-    _$PaywallStateImpl value,
-    $Res Function(_$PaywallStateImpl) then,
-  ) = __$$PaywallStateImplCopyWithImpl<$Res>;
+abstract class _$$PaywallStateImplCopyWith<$Res> implements $PaywallStateCopyWith<$Res> {
+  factory _$$PaywallStateImplCopyWith(_$PaywallStateImpl value, $Res Function(_$PaywallStateImpl) then) =
+      __$$PaywallStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({
@@ -162,13 +151,10 @@ abstract class _$$PaywallStateImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$PaywallStateImplCopyWithImpl<$Res>
-    extends _$PaywallStateCopyWithImpl<$Res, _$PaywallStateImpl>
+class __$$PaywallStateImplCopyWithImpl<$Res> extends _$PaywallStateCopyWithImpl<$Res, _$PaywallStateImpl>
     implements _$$PaywallStateImplCopyWith<$Res> {
-  __$$PaywallStateImplCopyWithImpl(
-    _$PaywallStateImpl _value,
-    $Res Function(_$PaywallStateImpl) _then,
-  ) : super(_value, _then);
+  __$$PaywallStateImplCopyWithImpl(_$PaywallStateImpl _value, $Res Function(_$PaywallStateImpl) _then)
+    : super(_value, _then);
 
   /// Create a copy of PaywallState
   /// with the given fields replaced by the non-null parameter values.
@@ -234,8 +220,7 @@ class _$PaywallStateImpl implements _PaywallState {
   final List<String> _packagesWithFreeTrialEligible;
   @override
   List<String> get packagesWithFreeTrialEligible {
-    if (_packagesWithFreeTrialEligible is EqualUnmodifiableListView)
-      return _packagesWithFreeTrialEligible;
+    if (_packagesWithFreeTrialEligible is EqualUnmodifiableListView) return _packagesWithFreeTrialEligible;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_packagesWithFreeTrialEligible);
   }
@@ -256,18 +241,14 @@ class _$PaywallStateImpl implements _PaywallState {
         (other.runtimeType == runtimeType &&
             other is _$PaywallStateImpl &&
             (identical(other.stage, stage) || other.stage == stage) &&
-            (identical(other.currentOffering, currentOffering) ||
-                other.currentOffering == currentOffering) &&
-            (identical(other.offeringMetadata, offeringMetadata) ||
-                other.offeringMetadata == offeringMetadata) &&
+            (identical(other.currentOffering, currentOffering) || other.currentOffering == currentOffering) &&
+            (identical(other.offeringMetadata, offeringMetadata) || other.offeringMetadata == offeringMetadata) &&
             const DeepCollectionEquality().equals(
               other._packagesWithFreeTrialEligible,
               _packagesWithFreeTrialEligible,
             ) &&
-            (identical(other.selectedPackageId, selectedPackageId) ||
-                other.selectedPackageId == selectedPackageId) &&
-            (identical(other.cheapestPackageId, cheapestPackageId) ||
-                other.cheapestPackageId == cheapestPackageId));
+            (identical(other.selectedPackageId, selectedPackageId) || other.selectedPackageId == selectedPackageId) &&
+            (identical(other.cheapestPackageId, cheapestPackageId) || other.cheapestPackageId == cheapestPackageId));
   }
 
   @override
@@ -317,6 +298,5 @@ abstract class _PaywallState implements PaywallState {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$PaywallStateImplCopyWith<_$PaywallStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$PaywallStateImplCopyWith<_$PaywallStateImpl> get copyWith => throw _privateConstructorUsedError;
 }

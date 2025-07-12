@@ -22,21 +22,18 @@ mixin _$SignState {
   /// Create a copy of SignState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $SignStateCopyWith<SignState> get copyWith =>
-      throw _privateConstructorUsedError;
+  $SignStateCopyWith<SignState> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $SignStateCopyWith<$Res> {
-  factory $SignStateCopyWith(SignState value, $Res Function(SignState) then) =
-      _$SignStateCopyWithImpl<$Res, SignState>;
+  factory $SignStateCopyWith(SignState value, $Res Function(SignState) then) = _$SignStateCopyWithImpl<$Res, SignState>;
   @useResult
   $Res call({SignStage stage});
 }
 
 /// @nodoc
-class _$SignStateCopyWithImpl<$Res, $Val extends SignState>
-    implements $SignStateCopyWith<$Res> {
+class _$SignStateCopyWithImpl<$Res, $Val extends SignState> implements $SignStateCopyWith<$Res> {
   _$SignStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -62,25 +59,18 @@ class _$SignStateCopyWithImpl<$Res, $Val extends SignState>
 }
 
 /// @nodoc
-abstract class _$$SignStateImplCopyWith<$Res>
-    implements $SignStateCopyWith<$Res> {
-  factory _$$SignStateImplCopyWith(
-    _$SignStateImpl value,
-    $Res Function(_$SignStateImpl) then,
-  ) = __$$SignStateImplCopyWithImpl<$Res>;
+abstract class _$$SignStateImplCopyWith<$Res> implements $SignStateCopyWith<$Res> {
+  factory _$$SignStateImplCopyWith(_$SignStateImpl value, $Res Function(_$SignStateImpl) then) =
+      __$$SignStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({SignStage stage});
 }
 
 /// @nodoc
-class __$$SignStateImplCopyWithImpl<$Res>
-    extends _$SignStateCopyWithImpl<$Res, _$SignStateImpl>
+class __$$SignStateImplCopyWithImpl<$Res> extends _$SignStateCopyWithImpl<$Res, _$SignStateImpl>
     implements _$$SignStateImplCopyWith<$Res> {
-  __$$SignStateImplCopyWithImpl(
-    _$SignStateImpl _value,
-    $Res Function(_$SignStateImpl) _then,
-  ) : super(_value, _then);
+  __$$SignStateImplCopyWithImpl(_$SignStateImpl _value, $Res Function(_$SignStateImpl) _then) : super(_value, _then);
 
   /// Create a copy of SignState
   /// with the given fields replaced by the non-null parameter values.
@@ -141,6 +131,5 @@ abstract class _SignState implements SignState {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SignStateImplCopyWith<_$SignStateImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$SignStateImplCopyWith<_$SignStateImpl> get copyWith => throw _privateConstructorUsedError;
 }

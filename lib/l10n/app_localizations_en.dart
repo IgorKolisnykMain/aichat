@@ -12,6 +12,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'Hear Me Out';
 
   @override
+  String get pageNotFound => '404 - Page not found!';
+
+  @override
   String get welcome => 'Welcome';
 
   @override
@@ -174,4 +177,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get user => 'User';
+
+  @override
+  String get goHome => 'Go Home';
 }

@@ -97,6 +97,12 @@ abstract class AppLocalizations {
   /// **'Hear Me Out'**
   String get appTitle;
 
+  /// No description provided for @pageNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'404 - Page not found!'**
+  String get pageNotFound;
+
   /// No description provided for @welcome.
   ///
   /// In en, this message translates to:
@@ -420,6 +426,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'User'**
   String get user;
+
+  /// No description provided for @goHome.
+  ///
+  /// In en, this message translates to:
+  /// **'Go Home'**
+  String get goHome;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -36,7 +36,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with MessagePresent
         loading: () {},
       );
     });
-    
+
     return Scaffold(
       body: SafeArea(
         child: Column(

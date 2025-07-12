@@ -9,30 +9,20 @@ class LoadingIndicator extends ConsumerWidget {
   final Color? backgroundColor;
   final Color? indicatorColor;
 
-  const LoadingIndicator({
-    super.key,
-    required this.provider,
-    this.backgroundColor,
-    this.indicatorColor,
-  });
+  const LoadingIndicator({super.key, required this.provider, this.backgroundColor, this.indicatorColor});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final asyncValue = ref.watch(provider);
-    
+
     return asyncValue.isLoading
         ? ColoredBox(
             color: backgroundColor ?? Colors.black.withValues(alpha: 0.3),
             child: Center(
               child: Container(
                 padding: EdgeInsets.all(20.sp),
-                decoration: BoxDecoration(
-                  color: context.colors.white,
-                  borderRadius: BorderRadius.circular(12.r),
-                ),
-                child: CircularProgressIndicator(
-                  color: indicatorColor ?? context.colors.primary,
-                ),
+                decoration: BoxDecoration(color: context.colors.white, borderRadius: BorderRadius.circular(12.r)),
+                child: CircularProgressIndicator(color: indicatorColor ?? context.colors.primary),
               ),
             ),
           )
