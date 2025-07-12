@@ -3,11 +3,12 @@ import 'package:aichat/src/common_widgets/buttons/app_primary_button.dart';
 import 'package:aichat/src/common_widgets/inputs/app_text_form_field.dart';
 import 'package:aichat/src/common_widgets/loading/loading_indicator.dart';
 import 'package:aichat/src/common_widgets/message_presenter.dart';
+import 'package:aichat/src/common_widgets/responsive_UI/responsive_center.dart';
 import 'package:aichat/src/features/onboarding/auth/presentation/controller/sign_controller.dart';
 import 'package:aichat/src/features/onboarding/auth/presentation/controller/sign_state.dart';
 import 'package:aichat/src/router/route_name.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
-import 'package:aichat/src/utils/responsive_utils.dart';
+import 'package:aichat/src/utils/extensions/responsive_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -47,11 +48,13 @@ class _EmailSignUpScreenState extends ConsumerState<EmailSignUpScreen> with Mess
     return Scaffold(
       appBar: const AuthAppBar(),
       body: SafeArea(
-        child: Stack(
-          children: [
-            Padding(padding: EdgeInsets.all(16.rw), child: buildScreen()),
-            LoadingIndicator(provider: signControllerProvider),
-          ],
+        child: ResponsiveCenter(
+          child: Stack(
+            children: [
+              Padding(padding: EdgeInsets.all(16.rw), child: buildScreen()),
+              LoadingIndicator(provider: signControllerProvider),
+            ],
+          ),
         ),
       ),
     );

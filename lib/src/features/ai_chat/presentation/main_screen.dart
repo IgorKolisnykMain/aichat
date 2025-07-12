@@ -1,10 +1,11 @@
 import 'package:aichat/src/common_widgets/loading/loading_indicator.dart';
+import 'package:aichat/src/common_widgets/responsive_UI/responsive_center.dart';
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_controller.dart';
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_event.dart';
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_state.dart';
 import 'package:aichat/src/features/ai_chat/presentation/widgets/chat_list_widget.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
-import 'package:aichat/src/utils/responsive_utils.dart';
+import 'package:aichat/src/utils/extensions/responsive_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -40,19 +41,21 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     return Scaffold(
       backgroundColor: context.colors.white,
       body: SafeArea(
-        child: Column(
-          children: [
-            _buildHeader(),
-            Expanded(
-              child: Stack(
-                children: [
-                  ChatListWidget(scrollController: scrollController),
-                  LoadingIndicator(provider: aiTutorControllerProvider),
-                ],
+        child: ResponsiveCenter(
+          child: Column(
+            children: [
+              _buildHeader(),
+              Expanded(
+                child: Stack(
+                  children: [
+                    ChatListWidget(scrollController: scrollController),
+                    LoadingIndicator(provider: aiTutorControllerProvider),
+                  ],
+                ),
               ),
-            ),
-            _buildInputArea(),
-          ],
+              _buildInputArea(),
+            ],
+          ),
         ),
       ),
     );

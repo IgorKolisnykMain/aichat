@@ -6,7 +6,7 @@ extension ResponsiveExtension on num {
   /// Responsive font size
   double get rsp {
     if (kIsWeb) {
-      return toDouble();
+      return toDouble() * 2;
     }
     return sp;
   }
@@ -14,7 +14,7 @@ extension ResponsiveExtension on num {
   /// Responsive width
   double get rw {
     if (kIsWeb) {
-      return toDouble();
+      return toDouble() * 2;
     }
     return w;
   }
@@ -22,7 +22,7 @@ extension ResponsiveExtension on num {
   /// Responsive height
   double get rh {
     if (kIsWeb) {
-      return toDouble();
+      return toDouble() * 2;
     }
     return h;
   }
@@ -30,7 +30,7 @@ extension ResponsiveExtension on num {
   /// Responsive radius
   double get rr {
     if (kIsWeb) {
-      return toDouble();
+      return toDouble() * 2;
     }
     return r;
   }

@@ -3,10 +3,11 @@ import 'package:aichat/src/common_widgets/buttons/app_primary_button.dart';
 import 'package:aichat/src/common_widgets/inputs/app_text_form_field.dart';
 import 'package:aichat/src/common_widgets/loading/loading_indicator.dart';
 import 'package:aichat/src/common_widgets/message_presenter.dart';
+import 'package:aichat/src/common_widgets/responsive_UI/responsive_center.dart';
 import 'package:aichat/src/features/onboarding/auth/presentation/password_recovery/controller/password_recovery_controller.dart';
 import 'package:aichat/src/features/onboarding/auth/presentation/password_recovery/controller/password_recovery_state.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
-import 'package:aichat/src/utils/responsive_utils.dart';
+import 'package:aichat/src/utils/extensions/responsive_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -55,11 +56,13 @@ class _PasswordRecoveryScreenState extends ConsumerState<PasswordRecoveryScreen>
     return Scaffold(
       appBar: const AuthAppBar(),
       body: SafeArea(
-        child: Stack(
-          children: [
-            Padding(padding: EdgeInsets.fromLTRB(16.rw, 16.rsp, 16.rw, 8.rsp), child: buildScreen()),
-            LoadingIndicator(provider: passwordRecoveryControllerProvider),
-          ],
+        child: ResponsiveCenter(
+          child: Stack(
+            children: [
+              Padding(padding: EdgeInsets.fromLTRB(16.rw, 16.rsp, 16.rw, 8.rsp), child: buildScreen()),
+              LoadingIndicator(provider: passwordRecoveryControllerProvider),
+            ],
+          ),
         ),
       ),
     );

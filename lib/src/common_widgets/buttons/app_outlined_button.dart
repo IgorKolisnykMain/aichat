@@ -1,6 +1,6 @@
 import 'package:aichat/src/common_widgets/buttons/app_primary_button.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
-import 'package:aichat/src/utils/responsive_utils.dart';
+import 'package:aichat/src/utils/extensions/responsive_extension.dart';
 import 'package:flutter/material.dart';
 
 class AppOutlinedButton extends StatelessWidget {

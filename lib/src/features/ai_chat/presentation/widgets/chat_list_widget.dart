@@ -2,7 +2,7 @@ import 'package:aichat/src/features/ai_chat/domain/enums/ai_chat_item_type.dart'
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_controller.dart';
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_state.dart';
 import 'package:aichat/src/features/ai_chat/presentation/widgets/chat_message_widget.dart';
-import 'package:aichat/src/utils/responsive_utils.dart';
+import 'package:aichat/src/utils/extensions/responsive_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

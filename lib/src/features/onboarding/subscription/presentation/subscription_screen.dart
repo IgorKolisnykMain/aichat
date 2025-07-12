@@ -1,6 +1,7 @@
 import 'package:aichat/src/common_widgets/buttons/app_primary_button.dart';
 import 'package:aichat/src/common_widgets/loading/loading_indicator.dart';
 import 'package:aichat/src/common_widgets/message_presenter.dart';
+import 'package:aichat/src/common_widgets/responsive_UI/responsive_center.dart';
 import 'package:aichat/src/features/onboarding/subscription/domain/enums/subscription_plan.dart';
 import 'package:aichat/src/features/onboarding/subscription/presentation/controller/paywall_controller.dart';
 import 'package:aichat/src/features/onboarding/subscription/presentation/controller/paywall_event.dart'
@@ -9,7 +10,7 @@ import 'package:aichat/src/features/onboarding/subscription/presentation/control
 import 'package:aichat/src/features/onboarding/subscription/presentation/widgets/subscription_plan_card.dart';
 import 'package:aichat/src/router/route_name.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
-import 'package:aichat/src/utils/responsive_utils.dart';
+import 'package:aichat/src/utils/extensions/responsive_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -48,24 +49,26 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> with Me
     return Scaffold(
       backgroundColor: context.colors.white,
       body: SafeArea(
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                _buildHeader(),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-                      child: buildScreen(),
+        child: ResponsiveCenter(
+          child: Stack(
+            children: [
+              Column(
+                children: [
+                  _buildHeader(),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+                        child: buildScreen(),
+                      ),
                     ),
                   ),
-                ),
-                _buildBottomSection(),
-              ],
-            ),
-            LoadingIndicator(provider: paywallControllerProvider),
-          ],
+                  _buildBottomSection(),
+                ],
+              ),
+              LoadingIndicator(provider: paywallControllerProvider),
+            ],
+          ),
         ),
       ),
     );

@@ -1,6 +1,6 @@
 import 'package:aichat/src/features/onboarding/subscription/domain/enums/subscription_plan.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
-import 'package:aichat/src/utils/responsive_utils.dart';
+import 'package:aichat/src/utils/extensions/responsive_extension.dart';
 import 'package:flutter/material.dart';
 
 class SubscriptionPlanCard extends StatelessWidget {

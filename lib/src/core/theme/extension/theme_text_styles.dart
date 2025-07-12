@@ -1,5 +1,5 @@
 import 'package:aichat/src/core/theme/constants.dart';
-import 'package:aichat/src/utils/responsive_utils.dart';
+import 'package:aichat/src/utils/extensions/responsive_extension.dart';
 import 'package:flutter/material.dart';
 
 class ThemeTextStyles extends ThemeExtension<ThemeTextStyles> {

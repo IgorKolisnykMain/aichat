@@ -1,4 +1,4 @@
-import 'package:aichat/src/utils/responsive_utils.dart';
+import 'package:aichat/src/utils/extensions/responsive_extension.dart';
 import 'package:flutter/material.dart';
 
 const plusJakartaSans = 'PlusJakartaSans';
