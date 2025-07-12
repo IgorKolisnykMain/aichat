@@ -2,9 +2,9 @@ import 'package:aichat/src/features/ai_chat/domain/enums/ai_chat_item_type.dart'
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_controller.dart';
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_state.dart';
 import 'package:aichat/src/features/ai_chat/presentation/widgets/chat_message_widget.dart';
+import 'package:aichat/src/utils/responsive_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChatListWidget extends ConsumerWidget {
   const ChatListWidget({super.key, required this.scrollController});
@@ -21,7 +21,7 @@ class ChatListWidget extends ConsumerWidget {
 
     return ListView.builder(
       controller: scrollController,
-      padding: EdgeInsets.symmetric(vertical: 16.sp),
+      padding: EdgeInsets.symmetric(vertical: 16.rsp),
       itemCount: state.value!.messages.length,
       itemBuilder: (context, index) {
         final message = state.value!.messages[index];

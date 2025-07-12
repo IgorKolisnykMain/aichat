@@ -1,5 +1,5 @@
+import 'package:aichat/src/utils/responsive_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 const plusJakartaSans = 'PlusJakartaSans';
 const lexend = 'Lexend';
@@ -38,13 +38,13 @@ class AppDimensions {
 
   AppDimensions._();
 
-  double get paddingSmall => 8.w;
-  double get paddingMedium => 16.w;
-  double get paddingLarge => 24.w;
-  double get paddingExtraLarge => 32.w;
+  double get paddingSmall => 8.rw;
+  double get paddingMedium => 16.rw;
+  double get paddingLarge => 24.rw;
+  double get paddingExtraLarge => 32.rw;
 
-  double get radiusSmall => 4.r;
-  double get radiusMedium => 8.r;
-  double get radiusLarge => 16.r;
-  double get radiusExtraLarge => 24.r;
+  double get radiusSmall => 4.rr;
+  double get radiusMedium => 8.rr;
+  double get radiusLarge => 16.rr;
+  double get radiusExtraLarge => 24.rr;
 }

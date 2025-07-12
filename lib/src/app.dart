@@ -3,46 +3,68 @@ import 'package:aichat/src/common_widgets/app_config_provider.dart';
 import 'package:aichat/src/core/config/models/app_config/app_config.dart';
 import 'package:aichat/src/router/app_router.dart';
 import 'package:aichat/src/utils/extensions/theme_extensions.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class App extends ConsumerWidget {
+class AppAdaptiveUI extends StatelessWidget {
   final AppConfig appConfig;
 
-  const App({super.key, required this.appConfig});
+  const AppAdaptiveUI({required this.appConfig});
+
+  @override
+  Widget build(BuildContext context) {
+    // For web, use a fixed design size that works well with web layouts
+    const webDesignSize = Size(1920, 1080); // Standard web resolution
+    const mobileDesignSize = Size(402, 874); // Mobile design size
+
+    // Wrap the app conditionally
+    if (kIsWeb) {
+      // For web, we can either skip ScreenUtilInit or use it with web-friendly settings
+      return _App(appConfig: appConfig);
+    } else {
+      // For mobile, use ScreenUtilInit as before
+      return ScreenUtilInit(
+        designSize: mobileDesignSize,
+        useInheritedMediaQuery: true,
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (context, child) {
+          return _App(appConfig: appConfig);
+        },
+      );
+    }
+  }
+}
+
+class _App extends ConsumerWidget {
+  final AppConfig appConfig;
+
+  const _App({required this.appConfig});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final router = ref.watch(goRouterProvider);
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
-    return ScreenUtilInit(
-      designSize: const Size(402, 874),
-      useInheritedMediaQuery: true,
-      minTextAdapt: true,
-      splitScreenMode: true,
-      builder: (context, child) {
-        return AppConfigProvider(
-          config: appConfig,
-          child: MaterialApp.router(
-            debugShowCheckedModeBanner: false,
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            builder: (context, child) {
-              return child!;
-            },
-            theme: createLightTheme(),
-            darkTheme: createDarkTheme(),
-            routerConfig: router,
-          ),
-        );
-      },
+
+    // For web, use a fixed design size that works well with web layouts
+    return AppConfigProvider(
+      config: appConfig,
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        theme: createLightTheme(),
+        darkTheme: createDarkTheme(),
+        routerConfig: router,
+      ),
     );
   }
 }

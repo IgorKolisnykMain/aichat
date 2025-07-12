@@ -1,7 +1,7 @@
 import 'package:aichat/src/common_widgets/buttons/app_primary_button.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
+import 'package:aichat/src/utils/responsive_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppOutlinedButton extends StatelessWidget {
   final String? text;
@@ -92,12 +92,12 @@ class AppOutlinedButton extends StatelessWidget {
       child: OutlinedButton(
         onPressed: enabled ? onPressed : null,
         style: OutlinedButton.styleFrom(
-          minimumSize: minimumSize ?? Size(84.w, 40.h),
-          padding: padding ?? EdgeInsets.symmetric(vertical: 12.sp, horizontal: 16.w),
+          minimumSize: minimumSize ?? Size(84.rw, 40.rh),
+          padding: padding ?? EdgeInsets.symmetric(vertical: 12.rsp, horizontal: 16.rw),
           backgroundColor: Colors.transparent,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadius ?? 20.r)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadius ?? 20.rr)),
           side: BorderSide(
-            width: 1.r,
+            width: 1.rr,
             color: enabled
                 ? (borderColor ?? context.colors.borderSubtle)
                 : (borderColor ?? context.colors.borderSubtle).withValues(alpha: 0.5),

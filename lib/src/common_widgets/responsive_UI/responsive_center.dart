@@ -1,4 +1,5 @@
 import 'package:aichat/src/constants/breakpoints.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 /// Reusable widget for showing a child with a maximum content width constraint.
@@ -25,7 +26,7 @@ class ResponsiveCenter extends StatelessWidget {
       // See this thread for more info:
       // https://twitter.com/biz84/status/1445400059894542337
       child: SizedBox(
-        width: maxContentWidth,
+        width: kIsWeb ? maxContentWidth : null,
         child: Padding(padding: padding, child: child),
       ),
     );

@@ -1,5 +1,3 @@
-
-
 // @module
 // abstract class BlocModule {
 //   @factoryMethod

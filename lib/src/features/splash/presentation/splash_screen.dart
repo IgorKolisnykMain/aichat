@@ -3,9 +3,9 @@ import 'package:aichat/src/features/splash/presentation/controller/splash_contro
 import 'package:aichat/src/features/splash/presentation/controller/splash_state.dart';
 import 'package:aichat/src/router/route_name.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
+import 'package:aichat/src/utils/responsive_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
@@ -45,14 +45,14 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with MessagePresent
               child: Column(
                 children: [
                   Container(
-                    height: 260.h,
+                    height: 260.rh,
                     width: double.infinity,
                     decoration: const BoxDecoration(
                       image: DecorationImage(image: AssetImage('assets/images/splash_logo.png'), fit: BoxFit.cover),
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(16.w, 36.sp, 16.w, 12.sp),
+                    padding: EdgeInsets.fromLTRB(16.rw, 36.rsp, 16.rw, 12.rsp),
                     child: Text(
                       context.l10n.splashTitle,
                       style: context.textStyles.splashTitle,
@@ -60,7 +60,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with MessagePresent
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.fromLTRB(16.w, 4.sp, 16.w, 12.sp),
+                    padding: EdgeInsets.fromLTRB(16.rw, 4.rsp, 16.rw, 12.rsp),
                     child: Text(
                       context.l10n.splashSubtitle,
                       style: context.textStyles.bodyLarge,
@@ -70,7 +70,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with MessagePresent
                 ],
               ),
             ),
-            SizedBox(height: 20.h),
+            SizedBox(height: 20.rh),
           ],
         ),
       ),

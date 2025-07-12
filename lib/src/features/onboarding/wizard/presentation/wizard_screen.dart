@@ -1,3 +1,4 @@
+import 'package:aichat/src/common_widgets/responsive_UI/responsive_center.dart';
 import 'package:aichat/src/features/onboarding/wizard/presentation/widgets/wizard_page_widget.dart';
 import 'package:aichat/src/router/route_name.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
@@ -40,31 +41,33 @@ class _WizardScreenState extends State<WizardScreen> {
     return Scaffold(
       backgroundColor: context.colors.backgroundLight,
       body: SafeArea(
-        child: PageView(
-          controller: _pageController,
-          onPageChanged: (int page) {
-            setState(() {
-              _currentPage = page;
-            });
-          },
-          children: [
-            WizardPageWidget(
-              imagePath: 'assets/images/wizard_page1.png',
-              title: context.l10n.wizardPage1Title,
-              subtitle: context.l10n.wizardPage1Subtitle,
-              onSkip: _navigateToWelcome,
-              onNext: _nextPage,
-              buttonText: context.l10n.next,
-            ),
-            WizardPageWidget(
-              imagePath: 'assets/images/wizard_page2.png',
-              title: context.l10n.wizardPage2Title,
-              subtitle: context.l10n.wizardPage2Subtitle,
-              onSkip: _navigateToWelcome,
-              onNext: _nextPage,
-              buttonText: context.l10n.getStarted,
-            ),
-          ],
+        child: ResponsiveCenter(
+          child: PageView(
+            controller: _pageController,
+            onPageChanged: (int page) {
+              setState(() {
+                _currentPage = page;
+              });
+            },
+            children: [
+              WizardPageWidget(
+                imagePath: 'assets/images/wizard_page1.png',
+                title: context.l10n.wizardPage1Title,
+                subtitle: context.l10n.wizardPage1Subtitle,
+                onSkip: _navigateToWelcome,
+                onNext: _nextPage,
+                buttonText: context.l10n.next,
+              ),
+              WizardPageWidget(
+                imagePath: 'assets/images/wizard_page2.png',
+                title: context.l10n.wizardPage2Title,
+                subtitle: context.l10n.wizardPage2Subtitle,
+                onSkip: _navigateToWelcome,
+                onNext: _nextPage,
+                buttonText: context.l10n.getStarted,
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -23,7 +23,7 @@ void main() async {
 
   final appConfig = locator<AppConfigRepository>().config;
 
-  runApp(ProviderScope(child: App(appConfig: appConfig)));
+  runApp(ProviderScope(child: AppAdaptiveUI(appConfig: appConfig)));
 }
 
 void _registerErrorHandlers() {

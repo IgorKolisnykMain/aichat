@@ -1,6 +1,6 @@
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
+import 'package:aichat/src/utils/responsive_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 enum ButtonViewStyle { base, widthInfinity, expanded }
 
@@ -107,8 +107,8 @@ class AppPrimaryButton extends StatelessWidget {
             if (enabled) onPressed?.call();
           },
           elevation: 0,
-          padding: EdgeInsets.symmetric(vertical: 12.sp, horizontal: horizontalPadding ?? 16.w),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadius ?? 12.r)),
+          padding: EdgeInsets.symmetric(vertical: 12.rsp, horizontal: horizontalPadding ?? 16.rw),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadius ?? 12.rr)),
           child: child ?? textWidget(context),
         ),
       ),

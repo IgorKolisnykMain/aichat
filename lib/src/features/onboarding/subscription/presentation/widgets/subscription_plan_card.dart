@@ -1,7 +1,7 @@
 import 'package:aichat/src/features/onboarding/subscription/domain/enums/subscription_plan.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
+import 'package:aichat/src/utils/responsive_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SubscriptionPlanCard extends StatelessWidget {
   final SubscriptionPlan plan;
@@ -16,20 +16,20 @@ class SubscriptionPlanCard extends StatelessWidget {
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
       child: Container(
-        padding: EdgeInsets.all(24.sp),
+        padding: EdgeInsets.all(24.rsp),
         decoration: BoxDecoration(
           color: context.colors.backgroundLight,
-          borderRadius: BorderRadius.circular(12.r),
+          borderRadius: BorderRadius.circular(12.rr),
           border: Border.all(
             color: isSelected ? context.colors.primaryLight : context.colors.borderSubtle,
-            width: isSelected ? 2.w : 1.w,
+            width: isSelected ? 2.rw : 1.rw,
           ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _buildHeader(context),
-            SizedBox(height: 16.sp),
+            SizedBox(height: 16.rsp),
             _buildFeatures(context),
           ],
         ),
@@ -47,16 +47,16 @@ class SubscriptionPlanCard extends StatelessWidget {
             Text(_getPlanTitle(context), style: context.textStyles.planTitle),
             if (plan == SubscriptionPlan.yearly)
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 3.sp),
+                padding: EdgeInsets.symmetric(horizontal: 12.rw, vertical: 3.rsp),
                 decoration: BoxDecoration(
                   color: context.colors.primaryLight,
-                  borderRadius: BorderRadius.circular(12.r),
+                  borderRadius: BorderRadius.circular(12.rr),
                 ),
                 child: Text(context.l10n.save20Percent, style: context.textStyles.saveBadge),
               ),
           ],
         ),
-        SizedBox(height: 4.sp),
+        SizedBox(height: 4.rsp),
         _buildPriceText(context),
       ],
     );
@@ -71,8 +71,8 @@ class SubscriptionPlanCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.baseline,
           textBaseline: TextBaseline.alphabetic,
           children: [
-            Text('\$9.99', style: context.textStyles.priceDisplay.copyWith(letterSpacing: -0.02.sw)),
-            SizedBox(width: 4.w),
+            Text('\$9.99', style: context.textStyles.priceDisplay.copyWith(letterSpacing: -0.02.rw)),
+            SizedBox(width: 4.rw),
             Text(context.l10n.perMonth, style: context.textStyles.planTitle),
           ],
         );
@@ -81,8 +81,8 @@ class SubscriptionPlanCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.baseline,
           textBaseline: TextBaseline.alphabetic,
           children: [
-            Text('\$99', style: context.textStyles.priceDisplay.copyWith(letterSpacing: -0.02.sw)),
-            SizedBox(width: 4.w),
+            Text('\$99', style: context.textStyles.priceDisplay.copyWith(letterSpacing: -0.02.rw)),
+            SizedBox(width: 4.rw),
             Text(context.l10n.perYear, style: context.textStyles.planTitle),
           ],
         );
@@ -94,7 +94,7 @@ class SubscriptionPlanCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildFeatureItem(context, context.l10n.unlimitedAIChats),
-        SizedBox(height: 8.sp),
+        SizedBox(height: 8.rsp),
         _buildFeatureItem(context, context.l10n.weeklySummary),
       ],
     );
@@ -103,8 +103,8 @@ class SubscriptionPlanCard extends StatelessWidget {
   Widget _buildFeatureItem(BuildContext context, String text) {
     return Row(
       children: [
-        Icon(Icons.check_circle, size: 20.sp, color: context.colors.textPrimary),
-        SizedBox(width: 12.w),
+        Icon(Icons.check_circle, size: 20.rsp, color: context.colors.textPrimary),
+        SizedBox(width: 12.rw),
         Text(text, style: context.textStyles.bodySmall),
       ],
     );

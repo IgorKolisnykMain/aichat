@@ -1,6 +1,6 @@
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
+import 'package:aichat/src/utils/responsive_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppTextFormField extends StatelessWidget {
   final String? hintText;
@@ -69,28 +69,28 @@ class AppTextFormField extends StatelessWidget {
         prefixIcon: prefixIcon,
         filled: true,
         fillColor: fillColor ?? context.colors.backgroundAccentSubtle,
-        contentPadding: contentPadding ?? EdgeInsets.all(16.sp),
+        contentPadding: contentPadding ?? EdgeInsets.all(16.rsp),
         hintStyle: hintStyle ?? context.textStyles.authBody.copyWith(color: context.colors.primaryMedium),
         labelStyle: context.textStyles.authBody.copyWith(color: context.colors.primaryMedium),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius ?? 12.r),
+          borderRadius: BorderRadius.circular(borderRadius ?? 12.rr),
           borderSide: BorderSide.none,
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius ?? 12.r),
+          borderRadius: BorderRadius.circular(borderRadius ?? 12.rr),
           borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius ?? 12.r),
-          borderSide: BorderSide(color: borderColor ?? context.colors.primary, width: 1.w),
+          borderRadius: BorderRadius.circular(borderRadius ?? 12.rr),
+          borderSide: BorderSide(color: borderColor ?? context.colors.primary, width: 1.rw),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius ?? 12.r),
-          borderSide: BorderSide(color: Colors.red, width: 1.w),
+          borderRadius: BorderRadius.circular(borderRadius ?? 12.rr),
+          borderSide: BorderSide(color: Colors.red, width: 1.rw),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(borderRadius ?? 12.r),
-          borderSide: BorderSide(color: Colors.red, width: 1.w),
+          borderRadius: BorderRadius.circular(borderRadius ?? 12.rr),
+          borderSide: BorderSide(color: Colors.red, width: 1.rw),
         ),
       ),
     );

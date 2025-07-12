@@ -9,9 +9,9 @@ import 'package:aichat/src/features/onboarding/subscription/presentation/control
 import 'package:aichat/src/features/onboarding/subscription/presentation/widgets/subscription_plan_card.dart';
 import 'package:aichat/src/router/route_name.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
+import 'package:aichat/src/utils/responsive_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
@@ -23,7 +23,7 @@ class SubscriptionScreen extends ConsumerStatefulWidget {
 }
 
 class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> with MessagePresenter {
-  final horizontalPadding = 16.w;
+  final horizontalPadding = 16.rw;
 
   @override
   void initState() {
@@ -74,18 +74,18 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> with Me
   Widget _buildHeader() {
     return Container(
       color: context.colors.backgroundLight,
-      padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 16.sp),
+      padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 16.rsp),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           IconButton(
             onPressed: () => context.pop(),
-            icon: Icon(Icons.arrow_back, size: 24.sp, color: context.colors.textPrimary),
+            icon: Icon(Icons.arrow_back, size: 24.rsp, color: context.colors.textPrimary),
             padding: EdgeInsets.zero,
-            constraints: BoxConstraints(minWidth: 48.w, minHeight: 48.sp),
+            constraints: BoxConstraints(minWidth: 48.rw, minHeight: 48.rsp),
           ),
           Text(context.l10n.chooseYourPlan, style: context.textStyles.subscriptionTitle),
-          SizedBox(width: 48.w),
+          SizedBox(width: 48.rw),
         ],
       ),
     );
@@ -95,13 +95,13 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> with Me
     final state = ref.watch(paywallControllerProvider.select((state) => state.value));
     return Column(
       children: [
-        SizedBox(height: 12.sp),
+        SizedBox(height: 12.rsp),
         ...state!.currentOffering!.availablePackages.map((package) {
           final plan = _mapPackageToPlan(package);
           if (plan == null) return const SizedBox.shrink();
 
           return Padding(
-            padding: EdgeInsets.only(bottom: 10.sp),
+            padding: EdgeInsets.only(bottom: 10.rsp),
             child: SubscriptionPlanCard(
               plan: plan,
               isSelected: state.selectedPackageId == package.identifier,
@@ -111,7 +111,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> with Me
             ),
           );
         }),
-        SizedBox(height: 14.sp),
+        SizedBox(height: 14.rsp),
       ],
     );
   }
@@ -142,7 +142,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> with Me
             onTap: () => ref.read(paywallControllerProvider.notifier).handleEvent(RestorePurchaseEvent()),
             behavior: HitTestBehavior.opaque,
             child: Padding(
-              padding: EdgeInsets.fromLTRB(horizontalPadding, 4.sp, horizontalPadding, 12.sp),
+              padding: EdgeInsets.fromLTRB(horizontalPadding, 4.rsp, horizontalPadding, 12.rsp),
               child: Text(
                 context.l10n.alreadySubscribedRestore,
                 style: context.textStyles.bodyMedium.copyWith(color: context.colors.primary),
@@ -150,7 +150,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> with Me
               ),
             ),
           ),
-          SizedBox(height: 20.sp),
+          SizedBox(height: 20.rsp),
         ],
       ),
     );

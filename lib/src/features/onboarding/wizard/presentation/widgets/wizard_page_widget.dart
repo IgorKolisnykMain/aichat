@@ -1,8 +1,8 @@
 import 'package:aichat/src/common_widgets/buttons/app_outlined_button.dart';
 import 'package:aichat/src/common_widgets/buttons/app_primary_button.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
+import 'package:aichat/src/utils/responsive_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WizardPageWidget extends StatelessWidget {
   final String imagePath;
@@ -38,27 +38,27 @@ class WizardPageWidget extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(16.w, 20.sp, 16.w, 12.sp),
+                padding: EdgeInsets.fromLTRB(16.rw, 20.rsp, 16.rw, 12.rsp),
                 child: Text(title, style: context.textStyles.onboardingTitle, textAlign: TextAlign.center),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(16.w, 4.sp, 16.w, 12.sp),
+                padding: EdgeInsets.fromLTRB(16.rw, 4.rsp, 16.rw, 12.rsp),
                 child: Text(subtitle, style: context.textStyles.bodyLarge, textAlign: TextAlign.center),
               ),
             ],
           ),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(16.w, 12.sp, 16.w, 0),
+          padding: EdgeInsets.fromLTRB(16.rw, 12.rsp, 16.rw, 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               AppOutlinedButton(text: context.l10n.skip, onPressed: onSkip),
-              AppPrimaryButton(text: buttonText, onPressed: onNext, horizontalPadding: 16.w),
+              AppPrimaryButton(text: buttonText, onPressed: onNext, horizontalPadding: 16.rw),
             ],
           ),
         ),
-        SizedBox(height: 20.h),
+        SizedBox(height: 20.rh),
       ],
     );
   }

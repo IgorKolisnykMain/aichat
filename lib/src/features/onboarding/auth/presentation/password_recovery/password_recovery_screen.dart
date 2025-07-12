@@ -6,9 +6,9 @@ import 'package:aichat/src/common_widgets/message_presenter.dart';
 import 'package:aichat/src/features/onboarding/auth/presentation/password_recovery/controller/password_recovery_controller.dart';
 import 'package:aichat/src/features/onboarding/auth/presentation/password_recovery/controller/password_recovery_state.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
+import 'package:aichat/src/utils/responsive_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class PasswordRecoveryScreen extends ConsumerStatefulWidget {
@@ -57,7 +57,7 @@ class _PasswordRecoveryScreenState extends ConsumerState<PasswordRecoveryScreen>
       body: SafeArea(
         child: Stack(
           children: [
-            Padding(padding: EdgeInsets.fromLTRB(16.w, 16.sp, 16.w, 8.sp), child: buildScreen()),
+            Padding(padding: EdgeInsets.fromLTRB(16.rw, 16.rsp, 16.rw, 8.rsp), child: buildScreen()),
             LoadingIndicator(provider: passwordRecoveryControllerProvider),
           ],
         ),
@@ -92,7 +92,7 @@ class _PasswordRecoveryScreenState extends ConsumerState<PasswordRecoveryScreen>
             }
           },
         ),
-        SizedBox(height: 20.h),
+        SizedBox(height: 20.rh),
       ],
     );
   }

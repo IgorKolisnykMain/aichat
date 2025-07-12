@@ -7,9 +7,9 @@ import 'package:aichat/src/features/onboarding/auth/presentation/controller/sign
 import 'package:aichat/src/features/onboarding/auth/presentation/controller/sign_state.dart';
 import 'package:aichat/src/router/route_name.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
+import 'package:aichat/src/utils/responsive_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
 class EmailSignUpScreen extends ConsumerStatefulWidget {
@@ -49,7 +49,7 @@ class _EmailSignUpScreenState extends ConsumerState<EmailSignUpScreen> with Mess
       body: SafeArea(
         child: Stack(
           children: [
-            Padding(padding: EdgeInsets.all(16.w), child: buildScreen()),
+            Padding(padding: EdgeInsets.all(16.rw), child: buildScreen()),
             LoadingIndicator(provider: signControllerProvider),
           ],
         ),
@@ -74,7 +74,7 @@ class _EmailSignUpScreenState extends ConsumerState<EmailSignUpScreen> with Mess
               return null;
             },
           ),
-          SizedBox(height: 16.h),
+          SizedBox(height: 16.rh),
           AppTextFormField(
             controller: _passwordController,
             hintText: context.l10n.password,
@@ -97,7 +97,7 @@ class _EmailSignUpScreenState extends ConsumerState<EmailSignUpScreen> with Mess
               }
             },
           ),
-          SizedBox(height: 16.h),
+          SizedBox(height: 16.rh),
           GestureDetector(
             onTap: () => context.goNamed(RoutesName.emailSignIn.name),
             child: Text(

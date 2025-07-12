@@ -4,9 +4,9 @@ import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_eve
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_state.dart';
 import 'package:aichat/src/features/ai_chat/presentation/widgets/chat_list_widget.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
+import 'package:aichat/src/utils/responsive_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key});
@@ -16,8 +16,8 @@ class MainScreen extends ConsumerStatefulWidget {
 }
 
 class _MainScreenState extends ConsumerState<MainScreen> {
-  final horizontalPadding = 16.w;
-  final verticalPadding = 8.sp;
+  final horizontalPadding = 16.rw;
+  final verticalPadding = 8.rsp;
   final scrollController = ScrollController();
   final textController = TextEditingController();
 
@@ -70,7 +70,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         children: [
           Expanded(
             child: Padding(
-              padding: EdgeInsets.only(left: 48.w),
+              padding: EdgeInsets.only(left: 48.rw),
               child: Text(
                 context.l10n.hearMeOutAiPsychologist,
                 style: context.textStyles.authTitle.copyWith(color: context.colors.textDark),
@@ -79,17 +79,17 @@ class _MainScreenState extends ConsumerState<MainScreen> {
             ),
           ),
           Container(
-            width: 48.w,
-            height: 48.h,
+            width: 48.rw,
+            height: 48.rh,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12.r),
+              borderRadius: BorderRadius.circular(12.rr),
               border: Border.all(color: context.colors.borderSubtle),
             ),
             child: IconButton(
               onPressed: () {
                 _showThreadsMenu();
               },
-              icon: Icon(Icons.menu, size: 24.sp, color: context.colors.textDark),
+              icon: Icon(Icons.menu, size: 24.rsp, color: context.colors.textDark),
             ),
           ),
         ],
@@ -104,14 +104,14 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         border: Border(top: BorderSide(color: context.colors.borderSubtle)),
       ),
       child: Padding(
-        padding: EdgeInsets.all(12.sp),
+        padding: EdgeInsets.all(12.rsp),
         child: Row(
           children: [
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
                   color: context.colors.backgroundAccent,
-                  borderRadius: BorderRadius.circular(12.r),
+                  borderRadius: BorderRadius.circular(12.rr),
                 ),
                 child: TextField(
                   controller: textController,
@@ -120,7 +120,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                     hintText: context.l10n.tellMeHowYouFeel,
                     hintStyle: context.textStyles.bodyMedium.copyWith(color: context.colors.textSecondary),
                     border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.sp),
+                    contentPadding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 16.rsp),
                   ),
                   maxLines: 4,
                   minLines: 1,
@@ -129,15 +129,15 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                 ),
               ),
             ),
-            SizedBox(width: 8.w),
+            SizedBox(width: 8.rw),
             Container(
               decoration: BoxDecoration(
                 color: context.colors.backgroundAccent,
-                borderRadius: BorderRadius.circular(12.r),
+                borderRadius: BorderRadius.circular(12.rr),
               ),
               child: IconButton(
                 onPressed: () => _sendMessage(textController.text),
-                icon: Icon(Icons.send, size: 24.sp, color: context.colors.textSecondary),
+                icon: Icon(Icons.send, size: 24.rsp, color: context.colors.textSecondary),
               ),
             ),
           ],
@@ -171,13 +171,13 @@ class _MainScreenState extends ConsumerState<MainScreen> {
     showModalBottomSheet(
       context: context,
       backgroundColor: context.colors.backgroundLight,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20.r))),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20.rr))),
       builder: (BuildContext context) {
         return Consumer(
           builder: (context, ref, child) {
             final state = ref.watch(aiTutorControllerProvider);
             return Container(
-              padding: EdgeInsets.all(16.sp),
+              padding: EdgeInsets.all(16.rsp),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -187,28 +187,28 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                     style: context.textStyles.bodyMedium.copyWith(color: context.colors.textDark),
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 16.sp),
+                  SizedBox(height: 16.rsp),
                   ElevatedButton.icon(
                     onPressed: () {
                       Navigator.pop(context);
                       ref.read(aiTutorControllerProvider.notifier).handlerEvent(const CreateNewThreadEvent());
                     },
-                    icon: Icon(Icons.add, size: 20.sp),
+                    icon: Icon(Icons.add, size: 20.rsp),
                     label: Text(context.l10n.newConversation),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: context.colors.primary,
                       foregroundColor: context.colors.white,
-                      padding: EdgeInsets.symmetric(vertical: 12.sp),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
+                      padding: EdgeInsets.symmetric(vertical: 12.rsp),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.rr)),
                     ),
                   ),
                   if (state.value!.userThreads.isNotEmpty) ...[
-                    SizedBox(height: 16.sp),
+                    SizedBox(height: 16.rsp),
                     Text(
                       context.l10n.previousConversations,
                       style: context.textStyles.bodyMedium.copyWith(color: context.colors.textSecondary),
                     ),
-                    SizedBox(height: 8.sp),
+                    SizedBox(height: 8.rsp),
                     ...state.value!.userThreads.map((threadId) => _buildThreadItem(threadId, state.value!)),
                   ],
                 ],
@@ -223,14 +223,14 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   Widget _buildThreadItem(String threadId, AiTutorState state) {
     final isSelected = state.currentThreadId == threadId;
     return Container(
-      margin: EdgeInsets.only(bottom: 8.sp),
+      margin: EdgeInsets.only(bottom: 8.rsp),
       decoration: BoxDecoration(
         color: isSelected ? context.colors.primary.withValues(alpha: 0.1) : context.colors.backgroundAccent,
-        borderRadius: BorderRadius.circular(12.r),
+        borderRadius: BorderRadius.circular(12.rr),
         border: Border.all(color: isSelected ? context.colors.primary : context.colors.borderSubtle),
       ),
       child: ListTile(
-        contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.sp),
+        contentPadding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 4.rsp),
         title: Text(
           'Thread ${threadId.substring(0, 8)}...',
           style: context.textStyles.bodyMedium.copyWith(
@@ -242,14 +242,14 @@ class _MainScreenState extends ConsumerState<MainScreen> {
           children: [
             if (!isSelected)
               IconButton(
-                icon: Icon(Icons.chat_bubble_outline, size: 20.sp, color: context.colors.textSecondary),
+                icon: Icon(Icons.chat_bubble_outline, size: 20.rsp, color: context.colors.textSecondary),
                 onPressed: () {
                   Navigator.pop(context);
                   ref.read(aiTutorControllerProvider.notifier).handlerEvent(SelectThreadEvent(threadId: threadId));
                 },
               ),
             IconButton(
-              icon: Icon(Icons.delete_outline, size: 20.sp, color: Colors.red),
+              icon: Icon(Icons.delete_outline, size: 20.rsp, color: Colors.red),
               onPressed: () {
                 Navigator.pop(context);
                 ref.read(aiTutorControllerProvider.notifier).handlerEvent(DeleteThreadEvent(threadId: threadId));
