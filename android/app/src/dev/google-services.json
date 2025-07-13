@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "132804793310-ubkg8j0l9bnm07anb381lm4ttr7lnv2e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pet.aichat",
+            "certificate_hash": "2142876e29f4369235a776530ab73302a1ede042"
+          }
+        },
+        {
           "client_id": "132804793310-fn0u2mari325j6l9c0k440rjsihhq861.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -49,6 +57,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "132804793310-0e1hijrd0kr2ur4nmqg3qmqq9ghv1ukt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pet.aichat.dev",
+            "certificate_hash": "9d3847e65c63639e6e37b248fa02cf81f629fce4"
+          }
+        },
         {
           "client_id": "132804793310-fn0u2mari325j6l9c0k440rjsihhq861.apps.googleusercontent.com",
           "client_type": 3

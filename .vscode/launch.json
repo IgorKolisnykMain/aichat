@@ -10,7 +10,8 @@
         "--flavor",
         "dev",
         "--dart-define",
-        "environment=dev"
+        "environment=dev",
+        "--release"
       ]
     },
     {

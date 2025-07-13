@@ -36,13 +36,13 @@ android {
     }
 
     signingConfigs {
-        create("dev") {
+        create("development") {
             keyAlias = developmentKeystoreProperties["keyAlias"] as String?
             keyPassword = developmentKeystoreProperties["keyPassword"] as String?
             storeFile = developmentKeystoreProperties["storeFile"]?.let { file(it as String) }
             storePassword = developmentKeystoreProperties["storePassword"] as String?
         }
-        create("prod") {
+        create("production") {
             keyAlias = productionKeystoreProperties["keyAlias"] as String?
             keyPassword = productionKeystoreProperties["keyPassword"] as String?
             storeFile = productionKeystoreProperties["storeFile"]?.let { file(it as String) }
@@ -54,15 +54,15 @@ android {
     productFlavors {
         create("dev") {
             dimension = "environment"
-            applicationId = "com.pet.aichat"
+            applicationId = "com.pet.aichat.dev"
             resValue("string", "app_name", "AiChat Dev")
-            signingConfig = signingConfigs.getByName("dev")
+            signingConfig = signingConfigs.getByName("development")
         }
         create("prod") {
             dimension = "environment"
             applicationId = "com.pet.aichat"
             resValue("string", "app_name", "AiChat")
-            signingConfig = signingConfigs.getByName("prod")
+            signingConfig = signingConfigs.getByName("production")
         }
     }
 
@@ -74,11 +74,14 @@ android {
     }
 
     buildTypes {
-        debug {
+        getByName("debug") {
+            signingConfig = null
         }
-        release {
+        getByName("release") {
+            signingConfig = null
         }
     }
+    
 }
 
 flutter {
