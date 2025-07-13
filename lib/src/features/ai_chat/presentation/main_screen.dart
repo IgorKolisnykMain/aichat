@@ -4,6 +4,7 @@ import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_con
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_event.dart';
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_state.dart';
 import 'package:aichat/src/features/ai_chat/presentation/widgets/chat_list_widget.dart';
+import 'package:aichat/src/features/onboarding/auth/data/repo/auth_firebase_repo_impl.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
 import 'package:aichat/src/utils/extensions/responsive_extension.dart';
 import 'package:flutter/material.dart';
@@ -71,14 +72,25 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          Container(
+            width: 48.rw,
+            height: 48.rh,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12.rr),
+              border: Border.all(color: context.colors.borderSubtle),
+            ),
+            child: IconButton(
+              onPressed: () {
+                _logout();
+              },
+              icon: Icon(Icons.logout, size: 24.rsp, color: context.colors.textDark),
+            ),
+          ),
           Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(left: 48.rw),
-              child: Text(
-                context.l10n.hearMeOutAiPsychologist,
-                style: context.textStyles.authTitle.copyWith(color: context.colors.textDark),
-                textAlign: TextAlign.center,
-              ),
+            child: Text(
+              context.l10n.hearMeOutAiPsychologist,
+              style: context.textStyles.authTitle.copyWith(color: context.colors.textDark),
+              textAlign: TextAlign.center,
             ),
           ),
           Container(
@@ -168,6 +180,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         );
       }
     });
+  }
+
+  Future<void> _logout() async {
+    (await ref.read(authRepoProvider.future)).logout();
   }
 
   void _showThreadsMenu() {

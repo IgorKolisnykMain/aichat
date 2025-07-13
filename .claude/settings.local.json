@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pod install:*)",
+      "WebFetch(domain:pub.dev)"
+    ],
+    "deny": []
+  }
+}
