@@ -56,10 +56,11 @@ class _PasswordRecoveryScreenState extends ConsumerState<PasswordRecoveryScreen>
     return Scaffold(
       appBar: const AuthAppBar(),
       body: SafeArea(
+        //todo create ResponsiveSafeArea widget with loading indicator
         child: ResponsiveCenter(
           child: Stack(
             children: [
-              Padding(padding: EdgeInsets.fromLTRB(16.rw, 16.rsp, 16.rw, 8.rsp), child: buildScreen()),
+              Padding(padding: EdgeInsets.fromLTRB(16.rw, 16.rsp, 16.rw, 8.rsp), child: _buildScreen()),
               LoadingIndicator(provider: passwordRecoveryControllerProvider),
             ],
           ),
@@ -68,7 +69,7 @@ class _PasswordRecoveryScreenState extends ConsumerState<PasswordRecoveryScreen>
     );
   }
 
-  Widget buildScreen() {
+  Widget _buildScreen() {
     return Column(
       children: [
         const Spacer(),

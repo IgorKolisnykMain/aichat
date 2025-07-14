@@ -53,7 +53,7 @@ class _EmailSignInScreenState extends ConsumerState<EmailSignInScreen> with Mess
         child: ResponsiveCenter(
           child: Stack(
             children: [
-              Padding(padding: EdgeInsets.all(16.rw), child: buildScreen()),
+              Padding(padding: EdgeInsets.all(16.rw), child: _buildScreen()),
               LoadingIndicator(provider: signControllerProvider),
             ],
           ),
@@ -62,7 +62,7 @@ class _EmailSignInScreenState extends ConsumerState<EmailSignInScreen> with Mess
     );
   }
 
-  Widget buildScreen() {
+  Widget _buildScreen() {
     return Column(
       children: [
         Expanded(

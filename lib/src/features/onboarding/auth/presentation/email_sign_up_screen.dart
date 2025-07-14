@@ -48,10 +48,11 @@ class _EmailSignUpScreenState extends ConsumerState<EmailSignUpScreen> with Mess
     return Scaffold(
       appBar: const AuthAppBar(),
       body: SafeArea(
+        //todo create ResponsiveSafeArea widget with loading indicator
         child: ResponsiveCenter(
           child: Stack(
             children: [
-              Padding(padding: EdgeInsets.all(16.rw), child: buildScreen()),
+              Padding(padding: EdgeInsets.all(16.rw), child: _buildScreen()),
               LoadingIndicator(provider: signControllerProvider),
             ],
           ),
@@ -60,7 +61,7 @@ class _EmailSignUpScreenState extends ConsumerState<EmailSignUpScreen> with Mess
     );
   }
 
-  Widget buildScreen() {
+  Widget _buildScreen() {
     return Form(
       key: _formKey,
       child: Column(

@@ -1,4 +1,3 @@
-import 'package:aichat/src/utils/extensions/responsive_extension.dart';
 import 'package:flutter/material.dart';
 
 const plusJakartaSans = 'PlusJakartaSans';
@@ -38,13 +37,13 @@ class AppDimensions {
 
   AppDimensions._();
 
-  double get paddingSmall => 8.rw;
-  double get paddingMedium => 16.rw;
-  double get paddingLarge => 24.rw;
-  double get paddingExtraLarge => 32.rw;
+  double get paddingSmall => 8;
+  double get paddingMedium => 16;
+  double get paddingLarge => 24;
+  double get paddingExtraLarge => 32;
 
-  double get radiusSmall => 4.rr;
-  double get radiusMedium => 8.rr;
-  double get radiusLarge => 16.rr;
-  double get radiusExtraLarge => 24.rr;
+  double get radiusSmall => 4;
+  double get radiusMedium => 8;
+  double get radiusLarge => 16;
+  double get radiusExtraLarge => 24;
 }

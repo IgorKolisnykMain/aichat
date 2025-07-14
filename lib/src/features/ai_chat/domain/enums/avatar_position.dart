@@ -1,0 +1,1 @@
+enum AvatarPosition { left, right }

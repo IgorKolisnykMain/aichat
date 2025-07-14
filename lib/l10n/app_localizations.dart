@@ -432,6 +432,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Go Home'**
   String get goHome;
+
+  /// No description provided for @threadId.
+  ///
+  /// In en, this message translates to:
+  /// **'Thread {threadId}...'**
+  String threadId(String threadId);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

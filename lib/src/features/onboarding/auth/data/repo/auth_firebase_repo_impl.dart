@@ -107,7 +107,7 @@ class AuthFirebaseRepositoryImpl implements AuthRepository {
     return userCredential;
   }
 
-  Future<UserCredential?> _signViaGoogleAndroid() async {
+  Future<UserCredential?> _signViaGoogle() async {
     final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
 
     if (googleUser == null) return null;
@@ -122,7 +122,7 @@ class AuthFirebaseRepositoryImpl implements AuthRepository {
   Future<UserCredential?> signVia(SignSource signType) async {
     try {
       final userCredential = switch (signType) {
-        SignSource.google => await _signViaGoogleAndroid(),
+        SignSource.google => await _signViaGoogle(),
         SignSource.apple => await _signViaAppleId(),
         SignSource.anonymous => await _signInAnonymously(),
       };

@@ -180,4 +180,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get goHome => 'Go Home';
+
+  @override
+  String threadId(String threadId) {
+    return 'Thread $threadId...';
+  }
 }
