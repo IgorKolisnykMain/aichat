@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:aichat/src/core/di/modules/firebase_module.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/enums/sign_source.dart';
+import 'package:aichat/src/features/onboarding/auth/domain/models/additional_app_user_info.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/models/app_user.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/repo/auth_repo.dart';
 import 'package:aichat/src/utils/error/domain/enums/local_error.dart';
@@ -48,11 +49,11 @@ class AuthFirebaseRepositoryImpl implements AuthRepository {
       : null;
 
   @override
-  Future<UserCredential?> signUpWithEmailAndPassword({required String email, required String password}) async {
+  Future<AppUser?> signUpWithEmailAndPassword({required String email, required String password}) async {
     try {
       final userCredential = await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
       if (userCredential.user != null) {
-        return userCredential;
+        return AppUser(uid: userCredential.user!.uid, email: userCredential.user!.email);
       } else {
         return null;
       }
@@ -72,11 +73,11 @@ class AuthFirebaseRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<UserCredential?> signInWithEmailAndPassword({required String email, required String password}) async {
+  Future<AppUser?> signInWithEmailAndPassword({required String email, required String password}) async {
     try {
       final userCredential = await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
       if (userCredential.user != null) {
-        return userCredential;
+        return AppUser(uid: userCredential.user!.uid, email: userCredential.user!.email);
       } else {
         return null;
       }
@@ -119,7 +120,7 @@ class AuthFirebaseRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<UserCredential?> signVia(SignSource signType) async {
+  Future<AdditionalAppUserInfo?> signVia(SignSource signType) async {
     try {
       final userCredential = switch (signType) {
         SignSource.google => await _signViaGoogle(),
@@ -128,7 +129,10 @@ class AuthFirebaseRepositoryImpl implements AuthRepository {
       };
       if (userCredential == null) return null;
       if (userCredential.user != null) {
-        return userCredential;
+        return AdditionalAppUserInfo(
+          user: AppUser(uid: userCredential.user!.uid, email: userCredential.user!.email),
+          isNewUser: userCredential.additionalUserInfo?.isNewUser ?? true,
+        );
       } else {
         return null;
       }

@@ -20,10 +20,9 @@ class SignController extends AsyncNotifier<SignState> {
   Future<void> signVia(SignSource signSource) async {
     state = const AsyncValue.loading();
     try {
-      //todo change UserCredential model to AppUserModel
-      final userCredential = await authFirebaseRep.signVia(signSource);
-      if (userCredential != null) {
-        (userCredential.additionalUserInfo?.isNewUser ?? true) ? await _successSignUp() : await _successSignIn();
+      final appUserInfo = await authFirebaseRep.signVia(signSource);
+      if (appUserInfo != null) {
+        (appUserInfo.isNewUser ?? true) ? await _successSignUp() : await _successSignIn();
       }
       state = const AsyncValue.data(SignState(stage: SignStage.init));
     } catch (e, s) {
@@ -34,9 +33,8 @@ class SignController extends AsyncNotifier<SignState> {
   Future<void> signUpViaEmail({required String email, required String password}) async {
     state = const AsyncValue.loading();
     try {
-      //todo change UserCredential model to AppUserModel
-      final userCredential = await authFirebaseRep.signUpWithEmailAndPassword(email: email, password: password);
-      if (userCredential != null) {
+      final appUser = await authFirebaseRep.signUpWithEmailAndPassword(email: email, password: password);
+      if (appUser != null) {
         await _successSignUp();
       }
     } catch (e, s) {
@@ -47,9 +45,8 @@ class SignController extends AsyncNotifier<SignState> {
   Future<void> signInViaEmail({required String email, required String password}) async {
     state = const AsyncValue.loading();
     try {
-      //todo change UserCredential model to AppUserModel
-      final userCredential = await authFirebaseRep.signInWithEmailAndPassword(email: email, password: password);
-      if (userCredential != null) {
+      final appUser = await authFirebaseRep.signInWithEmailAndPassword(email: email, password: password);
+      if (appUser != null) {
         await _successSignIn();
       }
     } catch (e, s) {
