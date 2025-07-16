@@ -23,8 +23,9 @@ class SignController extends AsyncNotifier<SignState> {
       final appUserInfo = await authFirebaseRep.signVia(signSource);
       if (appUserInfo != null) {
         (appUserInfo.isNewUser ?? true) ? await _successSignUp() : await _successSignIn();
+      } else {
+        state = const AsyncValue.data(SignState(stage: SignStage.init));
       }
-      state = const AsyncValue.data(SignState(stage: SignStage.init));
     } catch (e, s) {
       state = AsyncValue.error(e, s);
     }

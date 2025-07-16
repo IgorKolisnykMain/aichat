@@ -48,3 +48,6 @@ app.*.map.json
 /android/app/*.keystore
 /android/keystore.properties
 .env
+
+# Coverage
+coverage/lcov.info
