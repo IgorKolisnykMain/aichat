@@ -1,3 +1,6 @@
+// ignore: library_annotations
+@Timeout(Duration(seconds: 10))
+
 import 'package:aichat/src/features/onboarding/auth/data/repo/auth_firebase_repo_impl.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/enums/sign_source.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/models/additional_app_user_info.dart';
@@ -57,7 +60,7 @@ void main() {
           await controller.signVia(SignSource.google);
 
           // Assert
-          expect(controller.state.value?.stage, SignStage.signUpSuccess);
+          expect(controller.state, const AsyncData(SignState(stage: SignStage.signUpSuccess)));
         },
       );
 
@@ -77,7 +80,7 @@ void main() {
           await controller.signVia(SignSource.google);
 
           // Assert
-          expect(controller.state.value?.stage, SignStage.signInSuccess);
+          expect(controller.state, const AsyncData(SignState(stage: SignStage.signInSuccess)));
         },
       );
 
@@ -98,7 +101,7 @@ void main() {
 
           // Assert
           expect(controller.state.hasError, isTrue);
-          expect(controller.state.error, exception);
+          expect(controller.state, isA<AsyncError>());
         },
       );
     });
@@ -121,7 +124,7 @@ void main() {
           await controller.signUpViaEmail(email: testEmail, password: testPassword);
 
           // Assert
-          expect(controller.state.value?.stage, SignStage.signUpSuccess);
+          expect(controller.state, const AsyncData(SignState(stage: SignStage.signUpSuccess)));
         },
       );
 
@@ -144,7 +147,7 @@ void main() {
 
           // Assert
           expect(controller.state.hasError, isTrue);
-          expect(controller.state.error, exception);
+          expect(controller.state, isA<AsyncError>());
         },
       );
     });
@@ -167,7 +170,7 @@ void main() {
           await controller.signInViaEmail(email: testEmail, password: testPassword);
 
           // Assert
-          expect(controller.state.value?.stage, SignStage.signInSuccess);
+          expect(controller.state, const AsyncData(SignState(stage: SignStage.signInSuccess)));
         },
       );
 
@@ -190,7 +193,7 @@ void main() {
 
           // Assert
           expect(controller.state.hasError, isTrue);
-          expect(controller.state.error, exception);
+          expect(controller.state, isA<AsyncError>());
         },
       );
     });

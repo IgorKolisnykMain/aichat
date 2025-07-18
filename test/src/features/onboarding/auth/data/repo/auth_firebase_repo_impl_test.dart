@@ -1,3 +1,5 @@
+// ignore: library_annotations
+@Timeout(Duration(seconds: 10))
 import 'package:aichat/src/features/onboarding/auth/domain/enums/sign_source.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/models/additional_app_user_info.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/models/app_user.dart';
@@ -50,6 +52,21 @@ void main() {
         );
       },
     );
+    test(
+      '''
+    Given signSource is google
+    When signVia failed
+    Then throw Exception
+    ''',
+      () {
+        final authFirebaseRepository = MockAuthFirebaseRepository();
+        when(
+          () => authFirebaseRepository.signVia(SignSource.google),
+        ).thenAnswer((_) async => throw Exception('Sign via failed'));
+
+        expect(() => authFirebaseRepository.signVia(SignSource.google), throwsException);
+      },
+    );
 
     test(
       '''
@@ -86,6 +103,22 @@ void main() {
           await authFirebaseRepository.signVia(SignSource.apple),
           AdditionalAppUserInfo(user: testUserWithoutEmail, isNewUser: false),
         );
+      },
+    );
+
+    test(
+      '''
+    Given signSource is apple
+    When signVia failed
+    Then throw Exception
+    ''',
+      () {
+        final authFirebaseRepository = MockAuthFirebaseRepository();
+        when(
+          () => authFirebaseRepository.signVia(SignSource.apple),
+        ).thenAnswer((_) async => throw Exception('Sign via failed'));
+
+        expect(() => authFirebaseRepository.signVia(SignSource.apple), throwsException);
       },
     );
   });

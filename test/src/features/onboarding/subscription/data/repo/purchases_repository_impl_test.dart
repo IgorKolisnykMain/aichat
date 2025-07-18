@@ -1,3 +1,6 @@
+// ignore: library_annotations
+@Timeout(Duration(seconds: 10))
+
 import 'package:aichat/src/features/onboarding/subscription/data/repo/purchases_repository_impl.dart' show PurchasesRepositoryImpl;
 import 'package:flutter_test/flutter_test.dart';
 

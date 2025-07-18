@@ -35,7 +35,6 @@ class _WizardScreenState extends State<WizardScreen> {
   void _navigateToWelcome() {
     context.goNamed(RoutesName.welcomeSign.name);
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,26 +44,28 @@ class _WizardScreenState extends State<WizardScreen> {
           child: PageView(
             controller: _pageController,
             onPageChanged: (int page) {
-              setState(() {
-                _currentPage = page;
-              });
+              _currentPage = page;
             },
             children: [
-              WizardPageWidget(
-                imagePath: 'assets/images/wizard_page1.png',
-                title: context.l10n.wizardPage1Title,
-                subtitle: context.l10n.wizardPage1Subtitle,
-                onSkip: _navigateToWelcome,
-                onNext: _nextPage,
-                buttonText: context.l10n.next,
+              RepaintBoundary(
+                child: WizardPageWidget(
+                  imagePath: 'assets/images/wizard_page1.png',
+                  title: context.l10n.wizardPage1Title,
+                  subtitle: context.l10n.wizardPage1Subtitle,
+                  onSkip: _navigateToWelcome,
+                  onNext: _nextPage,
+                  buttonText: context.l10n.next,
+                ),
               ),
-              WizardPageWidget(
-                imagePath: 'assets/images/wizard_page2.png',
-                title: context.l10n.wizardPage2Title,
-                subtitle: context.l10n.wizardPage2Subtitle,
-                onSkip: _navigateToWelcome,
-                onNext: _nextPage,
-                buttonText: context.l10n.getStarted,
+              RepaintBoundary(
+                child: WizardPageWidget(
+                  imagePath: 'assets/images/wizard_page2.png',
+                  title: context.l10n.wizardPage2Title,
+                  subtitle: context.l10n.wizardPage2Subtitle,
+                  onSkip: _navigateToWelcome,
+                  onNext: _nextPage,
+                  buttonText: context.l10n.getStarted,
+                ),
               ),
             ],
           ),
