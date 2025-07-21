@@ -10,11 +10,16 @@ import 'package:aichat/src/router/arguments/email_arg.dart';
 import 'package:aichat/src/router/route_name.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
 import 'package:aichat/src/utils/extensions/responsive_extension.dart';
+import 'package:aichat/src/utils/validators/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class EmailSignInScreen extends ConsumerStatefulWidget {
+    // * Keys for testing using find.byKey()
+  static const emailKey = Key('email_text_form_field');
+  static const passwordKey = Key('password_text_form_field');
+
   const EmailSignInScreen({super.key});
 
   @override
@@ -72,7 +77,7 @@ class _EmailSignInScreenState extends ConsumerState<EmailSignInScreen> with Mess
               children: [
                 const Spacer(),
                 AppTextFormField(
-                  key: const Key('email_text_form_field'),
+                  key: EmailSignInScreen.emailKey,
                   controller: _emailController,
                   hintText: context.l10n.emailAddress,
                   keyboardType: TextInputType.emailAddress,
@@ -80,12 +85,15 @@ class _EmailSignInScreenState extends ConsumerState<EmailSignInScreen> with Mess
                     if (value == null || value.isEmpty) {
                       return context.l10n.pleaseEnterEmail;
                     }
+                    if (!EmailValidator().validate(value)) {
+                      return context.l10n.pleaseEnterValidEmail;
+                    }
                     return null;
                   },
                 ),
                 SizedBox(height: 16.rh),
                 AppTextFormField(
-                  key: const Key('password_text_form_field'),
+                  key: EmailSignInScreen.passwordKey,
                   controller: _passwordController,
                   hintText: context.l10n.password,
                   obscureText: true,
