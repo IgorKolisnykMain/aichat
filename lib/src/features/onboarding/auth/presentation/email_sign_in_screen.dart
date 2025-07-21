@@ -72,6 +72,7 @@ class _EmailSignInScreenState extends ConsumerState<EmailSignInScreen> with Mess
               children: [
                 const Spacer(),
                 AppTextFormField(
+                  key: const Key('email_text_form_field'),
                   controller: _emailController,
                   hintText: context.l10n.emailAddress,
                   keyboardType: TextInputType.emailAddress,
@@ -84,6 +85,7 @@ class _EmailSignInScreenState extends ConsumerState<EmailSignInScreen> with Mess
                 ),
                 SizedBox(height: 16.rh),
                 AppTextFormField(
+                  key: const Key('password_text_form_field'),
                   controller: _passwordController,
                   hintText: context.l10n.password,
                   obscureText: true,

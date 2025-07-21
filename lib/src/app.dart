@@ -1,5 +1,6 @@
 import 'package:aichat/l10n/app_localizations.dart';
 import 'package:aichat/src/common_widgets/app_config_provider.dart';
+import 'package:aichat/src/constants/design_sizes.dart';
 import 'package:aichat/src/core/config/models/app_config/app_config.dart';
 import 'package:aichat/src/router/app_router.dart';
 import 'package:aichat/src/utils/extensions/theme_extensions.dart';
@@ -17,10 +18,6 @@ class AppAdaptiveUI extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // For web, use a fixed design size that works well with web layouts
-    const webDesignSize = Size(1920, 1080); // Standard web resolution
-    const mobileDesignSize = Size(402, 874); // Mobile design size
-
     // Wrap the app conditionally
     if (kIsWeb) {
       // For web, we can either skip ScreenUtilInit or use it with web-friendly settings
@@ -28,7 +25,7 @@ class AppAdaptiveUI extends StatelessWidget {
     } else {
       // For mobile, use ScreenUtilInit as before
       return ScreenUtilInit(
-        designSize: mobileDesignSize,
+        designSize: DesignSize.mobile,
         useInheritedMediaQuery: true,
         minTextAdapt: true,
         splitScreenMode: true,
