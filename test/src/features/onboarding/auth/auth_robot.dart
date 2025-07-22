@@ -3,6 +3,7 @@ import 'package:aichat/src/constants/design_sizes.dart';
 import 'package:aichat/src/features/onboarding/auth/data/repo/auth_firebase_repo_impl.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/repo/auth_repo.dart';
 import 'package:aichat/src/features/onboarding/auth/presentation/email_sign_in_screen.dart';
+import 'package:aichat/src/features/onboarding/auth/presentation/email_sign_up_screen.dart';
 import 'package:aichat/src/features/onboarding/auth/presentation/welcome_sign_screen.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
 import 'package:flutter/material.dart';
@@ -20,10 +21,11 @@ class AuthRobot {
   AuthRobot({required this.tester, this.designSize = DesignSize.mobile})
     : appRobot = AppRobot(tester: tester, designSize: designSize);
 
-  Future<void> pumpWelcomeSignScreen() async {
-    final mockAuthRepository = MockAuthFirebaseRepository();
+  Future<void> pumpWelcomeSignScreen({AuthRepository? authRepo}) async {
     await appRobot.pumpAppScreen(
-      overrides: [authRepoProvider.overrideWith((ref) => mockAuthRepository)],
+      overrides: [
+        if (authRepo != null) authRepoProvider.overrideWith((ref) => authRepo),
+      ],
       screen: const WelcomeSignScreen(),
     );
   }
@@ -43,13 +45,23 @@ class AuthRobot {
   }
 
   Future<void> expectEmailSignInScreen() async {
-    expect(find.byType(EmailSignInScreen), findsOneWidget);
+    await tester.runAsync(() async {
+      expect(find.byType(EmailSignInScreen), findsOneWidget);
+    });
   }
 
   Future<void> expectGoogleAndEmailContinueBtns() async {
     final element = tester.element(find.byType(WelcomeSignScreen));
     expect(find.text(element.l10n.continueWithGoogle), findsOneWidget);
     expect(find.text(element.l10n.continueWithEmail), findsOneWidget);
+  }
+
+  Future<void> tapContinueWithEmailSubmitButton() async {
+    final element = tester.element(find.byType(WelcomeSignScreen));
+    final continueWithEmailButton = find.text(element.l10n.continueWithEmail);
+    expect(continueWithEmailButton, findsOneWidget);
+    await tester.tap(continueWithEmailButton);
+    await tester.pumpAndSettle();
   }
 
   Future<void> enterEmail(String testEmail) async {
@@ -68,6 +80,15 @@ class AuthRobot {
     final appPrimaryButton = find.byType(AppPrimaryButton);
     expect(appPrimaryButton, findsOneWidget);
     await tester.tap(appPrimaryButton);
+    await tester.pumpAndSettle();
+  }
+
+  Future<void> tapHaveAccountLogInLink() async {
+    final element = tester.element(find.byType(EmailSignUpScreen));
+    final logInLink = find.text(element.l10n.haveAccountLogIn);
+    expect(logInLink, findsOneWidget);
+    await tester.tap(logInLink);
+    await tester.pump();
     await tester.pumpAndSettle();
   }
 

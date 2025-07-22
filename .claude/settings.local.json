@@ -3,7 +3,21 @@
     "allow": [
       "Bash(pod install:*)",
       "WebFetch(domain:pub.dev)",
-      "Bash(touch:*)"
+      "Bash(touch:*)",
+      "Bash(find:*)",
+      "Bash(claude mcp:*)",
+      "Bash(claude --debug --mcp-debug)",
+      "Bash(npx:*)",
+      "Bash(whereis:*)",
+      "Bash(claude --version)",
+      "Bash(node:*)",
+      "Bash(npm:*)",
+      "Bash(curl:*)",
+      "Bash(claude --debug)",
+      "mcp__context7__resolve-library-id",
+      "Bash(ls:*)",
+      "Bash(chmod:*)",
+      "Bash(/home/ihor/figma-mcp-wrapper.sh:*)"
     ],
     "deny": []
   }

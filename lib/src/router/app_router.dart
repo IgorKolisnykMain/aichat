@@ -57,35 +57,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         parentNavigatorKey: rootNavigatorKey,
         pageBuilder: (context, state) => NoTransitionPage(key: state.pageKey, child: const WizardScreen()),
       ),
-      GoRoute(
-        name: RoutesName.welcomeSign.name,
-        path: RoutesName.welcomeSign.rootPath,
-        parentNavigatorKey: rootNavigatorKey,
-        pageBuilder: (context, state) => const NoTransitionPage(child: WelcomeSignScreen()),
-        routes: [
-          GoRoute(
-            name: RoutesName.emailSignUp.name,
-            path: RoutesName.emailSignUp.path,
-            pageBuilder: (context, state) => const NoTransitionPage(child: EmailSignUpScreen()),
-          ),
-          GoRoute(
-            name: RoutesName.emailSignIn.name,
-            path: RoutesName.emailSignIn.path,
-            pageBuilder: (context, state) => const NoTransitionPage(child: EmailSignInScreen()),
-            routes: [
-              GoRoute(
-                name: RoutesName.passwordRecovery.name,
-                path: RoutesName.passwordRecovery.path,
-                pageBuilder: (context, state) {
-                  final emailArg = EmailArg.fromJson(state.uri.queryParameters);
-                  final preFilledEmail = emailArg.email;
-                  return NoTransitionPage(child: PasswordRecoveryScreen(preFilledEmail: preFilledEmail));
-                },
-              ),
-            ],
-          ),
-        ],
-      ),
+      getAuthFlow(parentNavigatorKey: rootNavigatorKey),
       GoRoute(
         name: RoutesName.subscription.name,
         path: RoutesName.subscription.rootPath,
@@ -101,3 +73,33 @@ final goRouterProvider = Provider<GoRouter>((ref) {
     ],
   );
 });
+
+GoRoute getAuthFlow({GlobalKey<NavigatorState>? parentNavigatorKey}) => GoRoute(
+  name: RoutesName.welcomeSign.name,
+  path: RoutesName.welcomeSign.rootPath,
+  parentNavigatorKey: parentNavigatorKey,
+  pageBuilder: (context, state) => const NoTransitionPage(child: WelcomeSignScreen()),
+  routes: [
+    GoRoute(
+      name: RoutesName.emailSignUp.name,
+      path: RoutesName.emailSignUp.path,
+      pageBuilder: (context, state) => const NoTransitionPage(child: EmailSignUpScreen()),
+    ),
+    GoRoute(
+      name: RoutesName.emailSignIn.name,
+      path: RoutesName.emailSignIn.path,
+      pageBuilder: (context, state) => const NoTransitionPage(child: EmailSignInScreen()),
+      routes: [
+        GoRoute(
+          name: RoutesName.passwordRecovery.name,
+          path: RoutesName.passwordRecovery.path,
+          pageBuilder: (context, state) {
+            final emailArg = EmailArg.fromJson(state.uri.queryParameters);
+            final preFilledEmail = emailArg.email;
+            return NoTransitionPage(child: PasswordRecoveryScreen(preFilledEmail: preFilledEmail));
+          },
+        ),
+      ],
+    ),
+  ],
+);
