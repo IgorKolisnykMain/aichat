@@ -23,6 +23,5 @@ void main() {
     hideKeyboard();
     await r.auth.tapSignInSubmitButton();
     await r.auth.expectErrorHintIsNotShown();
-    // await r.auth.expectSignInWithEmailAndPasswordIsCalled(mockAuthRepository, testEmail, testPassword);
   });
 }
