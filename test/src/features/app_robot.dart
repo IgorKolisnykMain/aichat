@@ -17,11 +17,21 @@ class AppRobot {
   final Size designSize;
   final GoRouter? goRouter;
   final TestsType testsType;
-  AppRobot.integrationTest({required this.tester, required this.designSize, this.goRouter, this.testsType = TestsType.integrationTest}) {
+  AppRobot.integrationTest({
+    required this.tester,
+    required this.designSize,
+    this.goRouter,
+    this.testsType = TestsType.integrationTest,
+  }) {
     // Set GoRouter configuration for tests
     GoRouter.optionURLReflectsImperativeAPIs = true;
   }
-  AppRobot.widgetTest({required this.tester, required this.designSize, this.goRouter, this.testsType = TestsType.widgetTest}) {
+  AppRobot.widgetTest({
+    required this.tester,
+    required this.designSize,
+    this.goRouter,
+    this.testsType = TestsType.widgetTest,
+  }) {
     // Set GoRouter configuration for tests
     GoRouter.optionURLReflectsImperativeAPIs = true;
   }

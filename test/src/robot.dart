@@ -26,7 +26,6 @@ class Robot {
       ),
       auth = AuthRobot.integrationTest(tester: tester, designSize: designSize);
 
-
   Robot.widgetTest({required this.tester, this.designSize = DesignSize.mobile})
     : appRobot = AppRobot.widgetTest(
         tester: tester,
@@ -35,17 +34,14 @@ class Robot {
       ),
       auth = AuthRobot.widgetTest(tester: tester, designSize: designSize);
 
-
   Future<void> pumpApp({AuthRepository? authRepo}) async {
-    await appRobot.pumpAppScreen(
-      overrides: [if (authRepo != null) authRepoProvider.overrideWith((ref) => authRepo)],
-    );    
+    await appRobot.pumpAppScreen(overrides: [if (authRepo != null) authRepoProvider.overrideWith((ref) => authRepo)]);
     // await appRobot.pumpCustomAppScreen(
     //   overrides: [if (authRepo != null) authRepoProvider.overrideWith((ref) => authRepo)],
     //   screen: const WelcomeSignScreen(),
     // );
   }
-  
+
   Future<void> pumpWelcomeSignScreen({AuthRepository? authRepo}) async {
     await appRobot.pumpCustomAppScreen(
       overrides: [if (authRepo != null) authRepoProvider.overrideWith((ref) => authRepo)],

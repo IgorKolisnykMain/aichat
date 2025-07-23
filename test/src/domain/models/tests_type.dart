@@ -1,4 +1,1 @@
-enum TestsType {
-  widgetTest,
-  integrationTest,
-}
+enum TestsType { widgetTest, integrationTest }
