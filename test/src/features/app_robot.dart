@@ -54,6 +54,7 @@ class AppRobot {
       ),
     );
     await tester.pumpAndSettle();
+    await tester.pumpAndSettle();
   }
 
   Future<void> pumpCustomAppScreen({required List<Override> overrides, required Widget screen}) async {
@@ -97,6 +98,7 @@ class AppRobot {
         ),
       ),
     );
+    await tester.pumpAndSettle();
     await tester.pumpAndSettle();
   }
 }
