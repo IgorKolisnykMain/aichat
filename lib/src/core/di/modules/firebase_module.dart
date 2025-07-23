@@ -9,29 +9,29 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const kWebRecaptchaSiteKey = '6LfZpH8rAAAAAIKDt-CmSdwTS8SliRe2zHXCFoXC';
 
-final firebaseAppProvider = FutureProvider<FirebaseApp>((ref) async {
+final firebaseAppProvider = FutureProvider.autoDispose<FirebaseApp>((ref) async {
   final app = await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   try {
     await FirebaseAppCheck.instance.activate(
-      androidProvider: kDebugMode ? AndroidProvider.debug : AndroidProvider.playIntegrity,
-      appleProvider: AppleProvider.appAttest,
-      //todo setup recaptcha for web(fix bug with recaptcha for web)
-      webProvider: kDebugMode ? ReCaptchaV3Provider(kWebRecaptchaSiteKey) : ReCaptchaV3Provider(kWebRecaptchaSiteKey),
+      // Всегда используем debug провайдер для разработки
+      androidProvider: AndroidProvider.debug,
+      appleProvider: AppleProvider.debug,
+      webProvider: ReCaptchaV3Provider(kWebRecaptchaSiteKey),
     );
   } catch (e) {
-    debugPrint(e.toString());
+    debugPrint('App Check activation failed: $e');
   }
   return app;
 });
 
-final firebaseAuthProvider = FutureProvider<FirebaseAuth>((ref) async {
+final firebaseAuthProvider = FutureProvider.autoDispose<FirebaseAuth>((ref) async {
   return FirebaseAuth.instanceFor(app: await ref.read(firebaseAppProvider.future));
 });
 
-final firestoreProvider = FutureProvider<FirebaseFirestore>((ref) async {
+final firestoreProvider = FutureProvider.autoDispose<FirebaseFirestore>((ref) async {
   return FirebaseFirestore.instanceFor(app: await ref.read(firebaseAppProvider.future));
 });
 
-final firebaseStorageProvider = FutureProvider<FirebaseStorage>((ref) async {
+final firebaseStorageProvider = FutureProvider.autoDispose<FirebaseStorage>((ref) async {
   return FirebaseStorage.instanceFor(app: await ref.read(firebaseAppProvider.future));
 });

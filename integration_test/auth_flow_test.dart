@@ -13,6 +13,7 @@ void main() {
   testWidgets("Flow sign in via email", (tester) async {
     final r = Robot.integrationTest(tester: tester);
     await r.pumpApp();
+    await tester.pumpAndSettle(); // Дочекатися завершення всіх асинхронних операцій
     await r.auth.expectWelcomeSignScreen();
     await r.auth.expectGoogleAndEmailContinueBtns();
     await r.auth.tapContinueWithEmailSubmitButton();

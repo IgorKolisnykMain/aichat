@@ -19,15 +19,10 @@ class AppRobot {
   final GoRouter? goRouter;
   final TestsType testsType;
 
-  AppRobot._({
-    required this.tester,
-    required this.designSize,
-    this.goRouter,
-    this.testsType = TestsType.widgetTest,
-  }) {
+  AppRobot._({required this.tester, required this.designSize, this.goRouter, this.testsType = TestsType.widgetTest}) {
     GoRouter.optionURLReflectsImperativeAPIs = true;
   }
-  
+
   AppRobot.integrationTest({
     required this.tester,
     required this.designSize,
@@ -44,12 +39,7 @@ class AppRobot {
     GoRouter? goRouter,
     TestsType testsType = TestsType.widgetTest,
   }) async {
-    final appRobot = AppRobot._(
-      tester: tester,
-      designSize: designSize,
-      goRouter: goRouter,
-      testsType: testsType,
-    );
+    final appRobot = AppRobot._(tester: tester, designSize: designSize, goRouter: goRouter, testsType: testsType);
     await setSurfaceSize(tester, designSize);
     return appRobot;
   }

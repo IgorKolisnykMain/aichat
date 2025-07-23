@@ -2,7 +2,7 @@ import 'package:aichat/src/utils/connection/domain/services/connectivity_detecto
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final connectivityDetectorServiceProvider = Provider<ConnectivityDetectorService>((ref) {
+final connectivityDetectorServiceProvider = Provider.autoDispose<ConnectivityDetectorService>((ref) {
   return ConnectivityDetectorServiceImpl(connectivity: Connectivity());
 });
 

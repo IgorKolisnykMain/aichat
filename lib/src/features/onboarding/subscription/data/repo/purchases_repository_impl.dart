@@ -9,7 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:rxdart/rxdart.dart';
 
-final purchasesRepositoryProvider = FutureProvider<PurchasesRepository>((ref) async {
+final purchasesRepositoryProvider = FutureProvider.autoDispose<PurchasesRepository>((ref) async {
   final appConfig = await ref.read(appConfigRepositoryProvider.future);
   return PurchasesRepositoryImpl(appConfigRepository: appConfig);
 });

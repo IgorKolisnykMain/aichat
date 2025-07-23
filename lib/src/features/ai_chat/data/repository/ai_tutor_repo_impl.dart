@@ -12,7 +12,7 @@ import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final aiTutorOpenAiRepoProvider = FutureProvider<AiTutorRepo>((ref) async {
+final aiTutorOpenAiRepoProvider = FutureProvider.autoDispose<AiTutorRepo>((ref) async {
   final appConfig = await ref.read(appConfigRepositoryProvider.future);
   final repo = AiTutorOpenAiRepoImpl(
     fireStore: await ref.read(firestoreProvider.future),
