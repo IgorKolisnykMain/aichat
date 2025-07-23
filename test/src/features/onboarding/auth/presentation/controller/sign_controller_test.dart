@@ -1,6 +1,5 @@
 // ignore: library_annotations
 @Timeout(Duration(seconds: 10))
-
 import 'package:aichat/src/features/onboarding/auth/data/repo/auth_firebase_repo_impl.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/enums/sign_source.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/models/additional_app_user_info.dart';
@@ -44,7 +43,8 @@ void main() {
     });
 
     group('signVia google', () {
-      test('''
+      test(
+        '''
       Given signSource is google
       When new user sign up successed
       Then state is AsyncData(SignState(stage: SignStage.signUpSuccess))
@@ -64,7 +64,8 @@ void main() {
         },
       );
 
-      test('''
+      test(
+        '''
       Given signSource is google
       When existing user sign in successed
       Then state is AsyncData(SignState(stage: SignStage.signInSuccess))
@@ -84,7 +85,8 @@ void main() {
         },
       );
 
-      test('''
+      test(
+        '''
       Given signSource is google
       When signVia fails
       Then state is AsyncError
@@ -107,7 +109,8 @@ void main() {
     });
 
     group('signUpViaEmail', () {
-      test('''
+      test(
+        '''
       Given email and password
       When sign up succeeds
       Then state is AsyncData(SignState(stage: SignStage.signUpSuccess))
@@ -128,7 +131,8 @@ void main() {
         },
       );
 
-      test('''
+      test(
+        '''
       Given email and password
       When sign up fails
       Then state is AsyncError
@@ -153,7 +157,8 @@ void main() {
     });
 
     group('signInViaEmail', () {
-      test('''
+      test(
+        '''
       Given email and password
       When sign in succeeds
       Then state is AsyncData(SignState(stage: SignStage.signInSuccess))
@@ -174,7 +179,8 @@ void main() {
         },
       );
 
-      test('''
+      test(
+        '''
       Given email and password
       When sign in fails
       Then state is AsyncError

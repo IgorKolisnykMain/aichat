@@ -1,7 +1,5 @@
 import 'package:aichat/src/app.dart';
-import 'package:aichat/src/core/config/domain/repository/app_config_repository.dart';
-import 'package:aichat/src/core/di/configuration.dart';
-import 'package:aichat/src/core/di/locator.dart';
+import 'package:aichat/src/core/config/data/repository/app_config_repository_impl.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -14,16 +12,16 @@ void main() async {
 
   usePathUrlStrategy();
 
-  const environment = String.fromEnvironment("environment", defaultValue: "dev");
-  await configureDependencies(environment);
-
   _registerErrorHandlers();
 
-  // Bloc.observer = BlocMonitor();
+  final appConfigRepo = await AppConfigRepositoryImpl.init();
 
-  final appConfig = locator<AppConfigRepository>().config;
-
-  runApp(ProviderScope(child: AppAdaptiveUI(appConfig: appConfig)));
+  runApp(
+    ProviderScope(
+      overrides: [appConfigRepositoryProvider.overrideWith((ref) => appConfigRepo)],
+      child: AppAdaptiveUI(config: appConfigRepo.config),
+    ),
+  );
 }
 
 void _registerErrorHandlers() {

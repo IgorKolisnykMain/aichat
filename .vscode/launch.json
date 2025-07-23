@@ -48,6 +48,19 @@
       ],
       "deviceId": "chrome", // Ensures Chrome is targeted
       "flutterMode": "debug" // Explicitly set debug mode
+    },
+    {
+      "name": "Integration Test (dev)",
+      "request": "launch",
+      "type": "dart",
+      "program": "integration_test/auth_flow_test.dart",
+      "args": [
+        "--flavor",
+        "dev",
+        "--dart-define",
+        "environment=dev"
+      ],
+      "flutterMode": "debug"
     }
   ]
 }

@@ -1,18 +1,30 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:integration_test/integration_test.dart';
+import 'package:mocktail/mocktail.dart';
 
-import '../../../mocks.dart';
-import '../../../robot.dart';
+import '../test/src/mocks.dart';
+import '../test/src/robot.dart';
 
 void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+
   const testEmail = 'test@gmail.com';
   const testPassword = 'password123';
   late MockAuthFirebaseRepository mockAuthRepository;
 
   setUp(() {
     mockAuthRepository = MockAuthFirebaseRepository();
+    // Configure mock to return null to avoid navigation to home route
+    when(
+      () => mockAuthRepository.signInWithEmailAndPassword(
+        email: any(named: 'email'),
+        password: any(named: 'password'),
+      ),
+    ).thenAnswer((_) async => null);
   });
 
-  testWidgets("test", (tester) async {
+  testWidgets("Auth flow test", (tester) async {
     final r = Robot(tester: tester);
     await r.pumpWelcomeSignScreen(authRepo: mockAuthRepository);
     await r.auth.expectWelcomeSignScreen();
@@ -22,6 +34,7 @@ void main() {
     await r.auth.expectEmailSignInScreen();
     await r.auth.enterEmail(testEmail);
     await r.auth.enterPassword(testPassword);
+    await SystemChannels.textInput.invokeMethod('TextInput.hide');
     await r.auth.tapSignInSubmitButton();
     await r.auth.expectErrorHintIsNotShown();
     await r.auth.expectSignInWithEmailAndPasswordIsCalled(mockAuthRepository, testEmail, testPassword);

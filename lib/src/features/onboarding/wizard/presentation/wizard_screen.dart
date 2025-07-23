@@ -35,6 +35,7 @@ class _WizardScreenState extends State<WizardScreen> {
   void _navigateToWelcome() {
     context.goNamed(RoutesName.welcomeSign.name);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

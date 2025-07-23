@@ -1,0 +1,10 @@
+{
+  "dart.flutterTestAdditionalArgs": [
+    "--flavor=dev",
+    "--dart-define=environment=dev"
+  ],
+  "dart.flutterIntegrationTestAdditionalArgs": [
+    "--flavor=dev", 
+    "--dart-define=environment=dev"
+  ]
+}

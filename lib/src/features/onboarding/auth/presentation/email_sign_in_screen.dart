@@ -16,7 +16,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class EmailSignInScreen extends ConsumerStatefulWidget {
-    // * Keys for testing using find.byKey()
+  // * Keys for testing using find.byKey()
   static const emailKey = Key('email_text_form_field');
   static const passwordKey = Key('password_text_form_field');
 
@@ -68,89 +68,106 @@ class _EmailSignInScreenState extends ConsumerState<EmailSignInScreen> with Mess
   }
 
   Widget _buildScreen() {
-    return Column(
-      children: [
-        Expanded(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                const Spacer(),
-                AppTextFormField(
-                  key: EmailSignInScreen.emailKey,
-                  controller: _emailController,
-                  hintText: context.l10n.emailAddress,
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return context.l10n.pleaseEnterEmail;
-                    }
-                    if (!EmailValidator().validate(value)) {
-                      return context.l10n.pleaseEnterValidEmail;
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 16.rh),
-                AppTextFormField(
-                  key: EmailSignInScreen.passwordKey,
-                  controller: _passwordController,
-                  hintText: context.l10n.password,
-                  obscureText: true,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return context.l10n.pleaseEnterPassword;
-                    }
-                    return null;
-                  },
-                ),
-                SizedBox(height: 12.rh),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: GestureDetector(
-                    //todo remove comment code
-                    // onTap: () => context.goNamed(RoutesName.passwordRecovery.name, pathParameters: {"email": _emailController.text}),
-                    onTap: () => context.goNamed(
-                      RoutesName.passwordRecovery.name,
-                      queryParameters: EmailArg(email: _emailController.text).toJson(),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 4.rsp),
-                      child: Text(
-                        context.l10n.forgotPassword,
-                        style: context.textStyles.authLink.copyWith(color: context.colors.primaryMedium),
+    return SingleChildScrollView(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          minHeight:
+              MediaQuery.of(context).size.height -
+              kToolbarHeight -
+              MediaQuery.of(context).padding.top -
+              MediaQuery.of(context).padding.bottom -
+              32.rh,
+        ),
+        child: IntrinsicHeight(
+          child: Column(
+            children: [
+              Expanded(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      const Spacer(),
+                      AppTextFormField(
+                        key: EmailSignInScreen.emailKey,
+                        controller: _emailController,
+                        hintText: context.l10n.emailAddress,
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return context.l10n.pleaseEnterEmail;
+                          }
+                          if (!EmailValidator().validate(value)) {
+                            return context.l10n.pleaseEnterValidEmail;
+                          }
+                          return null;
+                        },
                       ),
-                    ),
+                      SizedBox(height: 16.rh),
+                      AppTextFormField(
+                        key: EmailSignInScreen.passwordKey,
+                        controller: _passwordController,
+                        hintText: context.l10n.password,
+                        obscureText: true,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return context.l10n.pleaseEnterPassword;
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 12.rh),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: GestureDetector(
+                          //todo remove comment code
+                          // onTap: () => context.goNamed(RoutesName.passwordRecovery.name, pathParameters: {"email": _emailController.text}),
+                          onTap: () => context.goNamed(
+                            RoutesName.passwordRecovery.name,
+                            queryParameters: EmailArg(email: _emailController.text).toJson(),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(vertical: 4.rsp),
+                            child: Text(
+                              context.l10n.forgotPassword,
+                              style: context.textStyles.authLink.copyWith(color: context.colors.primaryMedium),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const Spacer(),
+                      AppPrimaryButton.infinity(
+                        text: context.l10n.logIn,
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            ref
+                                .read(signControllerProvider.notifier)
+                                .signInViaEmail(
+                                  email: _emailController.text.trim(),
+                                  password: _passwordController.text,
+                                );
+                          }
+                        },
+                      ),
+                    ],
                   ),
                 ),
-                const Spacer(),
-                AppPrimaryButton.infinity(
-                  text: context.l10n.logIn,
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      ref
-                          .read(signControllerProvider.notifier)
-                          .signInViaEmail(email: _emailController.text.trim(), password: _passwordController.text);
-                    }
-                  },
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(0, 4.rsp, 0, 12.rsp),
+                child: GestureDetector(
+                  onTap: () => context.goNamed(RoutesName.emailSignUp.name),
+                  child: Text(
+                    context.l10n.dontHaveAccountSignUp,
+                    style: context.textStyles.authLink.copyWith(color: context.colors.primaryMedium),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-              ],
-            ),
+              ),
+              SizedBox(height: 20.rh),
+            ],
           ),
         ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(0, 4.rsp, 0, 12.rsp),
-          child: GestureDetector(
-            onTap: () => context.goNamed(RoutesName.emailSignUp.name),
-            child: Text(
-              context.l10n.dontHaveAccountSignUp,
-              style: context.textStyles.authLink.copyWith(color: context.colors.primaryMedium),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        ),
-        SizedBox(height: 20.rh),
-      ],
+      ),
     );
   }
 }

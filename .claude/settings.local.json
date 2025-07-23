@@ -17,7 +17,9 @@
       "mcp__context7__resolve-library-id",
       "Bash(ls:*)",
       "Bash(chmod:*)",
-      "Bash(/home/ihor/figma-mcp-wrapper.sh:*)"
+      "Bash(/home/ihor/figma-mcp-wrapper.sh:*)",
+      "Bash(timeout 30s flutter test:*)",
+      "Bash(flutter test:*)"
     ],
     "deny": []
   }

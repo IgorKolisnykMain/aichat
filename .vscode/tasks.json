@@ -1,0 +1,25 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Integration Test with UI",
+      "type": "shell",
+      "command": "flutter",
+      "args": [
+        "drive",
+        "--driver=test_driver/integration_test.dart",
+        "--target=integration_test/auth_flow_test.dart",
+        "--flavor",
+        "dev",
+        "--dart-define=environment=dev"
+      ],
+      "group": "test",
+      "presentation": {
+        "echo": true,
+        "reveal": "always",
+        "focus": false,
+        "panel": "new"
+      }
+    }
+  ]
+}

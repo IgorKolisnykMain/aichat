@@ -1,4 +1,3 @@
-
 import 'dart:core';
 
 /// The Type enum
@@ -28,8 +27,7 @@ class EmailValidator {
   }
 
   bool _isLetter(String c) {
-    return (c.codeUnitAt(0) >= 65 && c.codeUnitAt(0) <= 90) ||
-        (c.codeUnitAt(0) >= 97 && c.codeUnitAt(0) <= 122);
+    return (c.codeUnitAt(0) >= 65 && c.codeUnitAt(0) <= 90) || (c.codeUnitAt(0) >= 97 && c.codeUnitAt(0) <= 122);
   }
 
   bool _isLetterOrDigit(String c) {
@@ -37,9 +35,7 @@ class EmailValidator {
   }
 
   bool _isAtom(String c, bool allowInternational) {
-    return c.codeUnitAt(0) < 128
-        ? _isLetterOrDigit(c) || _atomCharacters.contains(c)
-        : allowInternational;
+    return c.codeUnitAt(0) < 128 ? _isLetterOrDigit(c) || _atomCharacters.contains(c) : allowInternational;
   }
 
   // First checks whether the first letter in string c is a letter, number or special
@@ -128,8 +124,7 @@ class EmailValidator {
 
     _index++;
 
-    while (
-        _index < text.length && _isDomain(text[_index], allowInternational)) {
+    while (_index < text.length && _isDomain(text[_index], allowInternational)) {
       _index++;
     }
 
@@ -143,8 +138,7 @@ class EmailValidator {
 
   // Skips checking of domain if domainType is numeric and returns false
   // Otherwise, return true
-  bool _skipDomain(
-      String text, bool allowTopLevelDomains, bool allowInternational) {
+  bool _skipDomain(String text, bool allowTopLevelDomains, bool allowInternational) {
     if (!_skipSubDomain(text, allowInternational)) {
       return false;
     }
@@ -218,9 +212,7 @@ class EmailValidator {
       final startIndex = _index;
       var value = 0;
 
-      while (_index < text.length &&
-          text[_index].codeUnitAt(0) >= 48 &&
-          text[_index].codeUnitAt(0) <= 57) {
+      while (_index < text.length && text[_index].codeUnitAt(0) >= 48 && text[_index].codeUnitAt(0) <= 57) {
         value = (value * 10) + (text[_index].codeUnitAt(0) - 48);
         _index++;
       }
@@ -241,9 +233,7 @@ class EmailValidator {
 
   bool _isHexDigit(String str) {
     final c = str.codeUnitAt(0);
-    return (c >= 65 && c <= 70) ||
-        (c >= 97 && c <= 102) ||
-        (c >= 48 && c <= 57);
+    return (c >= 65 && c <= 70) || (c >= 97 && c <= 102) || (c >= 48 && c <= 57);
   }
 
   // This needs to handle the following forms:
@@ -333,8 +323,7 @@ class EmailValidator {
   /// If [allowInternational] is `true`, then the validator
   /// will use the newer International Email standards for validating
   /// the email address.
-  bool validate(String email,
-      [bool allowTopLevelDomains = false, bool allowInternational = true]) {
+  bool validate(String email, [bool allowTopLevelDomains = false, bool allowInternational = true]) {
     _resetState();
 
     if (email.isEmpty || email.length >= 255) {

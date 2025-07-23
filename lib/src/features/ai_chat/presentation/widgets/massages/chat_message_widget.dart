@@ -45,7 +45,7 @@ class _HeaderMessageWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 16.rsp),
+      margin: EdgeInsets.symmetric(vertical: 16.rsp),
       padding: EdgeInsets.all(16.rsp),
       decoration: BoxDecoration(
         color: context.colors.backgroundAccentSubtle,

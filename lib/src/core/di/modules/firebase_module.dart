@@ -15,6 +15,7 @@ final firebaseAppProvider = FutureProvider<FirebaseApp>((ref) async {
     await FirebaseAppCheck.instance.activate(
       androidProvider: kDebugMode ? AndroidProvider.debug : AndroidProvider.playIntegrity,
       appleProvider: AppleProvider.appAttest,
+      //todo setup recaptcha for web(fix bug with recaptcha for web)
       webProvider: kDebugMode ? ReCaptchaV3Provider(kWebRecaptchaSiteKey) : ReCaptchaV3Provider(kWebRecaptchaSiteKey),
     );
   } catch (e) {

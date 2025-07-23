@@ -21,7 +21,7 @@ class ChatListWidget extends ConsumerWidget {
 
     return ListView.builder(
       controller: scrollController,
-      padding: EdgeInsets.symmetric(vertical: 16.rsp),
+      padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 16.rsp),
       itemCount: state.value!.messages.length,
       itemBuilder: (context, index) {
         final message = state.value!.messages[index];

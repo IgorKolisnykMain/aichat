@@ -9,10 +9,8 @@ class AdditionalAppUserInfo {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
-    return other is AdditionalAppUserInfo &&
-      other.user == user &&
-      other.isNewUser == isNewUser;
+
+    return other is AdditionalAppUserInfo && other.user == user && other.isNewUser == isNewUser;
   }
 
   @override

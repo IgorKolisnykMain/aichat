@@ -22,10 +22,8 @@ class AuthRobot {
     : appRobot = AppRobot(tester: tester, designSize: designSize);
 
   Future<void> pumpWelcomeSignScreen({AuthRepository? authRepo}) async {
-    await appRobot.pumpAppScreen(
-      overrides: [
-        if (authRepo != null) authRepoProvider.overrideWith((ref) => authRepo),
-      ],
+    await appRobot.pumpCustomAppScreen(
+      overrides: [if (authRepo != null) authRepoProvider.overrideWith((ref) => authRepo)],
       screen: const WelcomeSignScreen(),
     );
   }
@@ -33,7 +31,7 @@ class AuthRobot {
   void tes() {}
 
   Future<void> pumpEmailSignInScreen({required AuthRepository authRepo}) async {
-    await appRobot.pumpAppScreen(
+    await appRobot.pumpCustomAppScreen(
       overrides: [authRepoProvider.overrideWith((ref) => authRepo)],
       screen: const EmailSignInScreen(),
     );
