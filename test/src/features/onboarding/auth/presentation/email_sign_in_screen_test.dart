@@ -15,7 +15,7 @@ void main() {
   });
 
   testWidgets('renders EmailSignInScreen correctly', (tester) async {
-    final r = AuthRobot(tester: tester);
+    final r = AuthRobot.widgetTest(tester: tester);
     await r.pumpEmailSignInScreen(authRepo: mockAuthRepository);
     await r.expectEmailSignInScreen();
   }, variant: ValueVariant<Size>({DesignSize.mobile}));
@@ -28,7 +28,7 @@ void main() {
         And error hint is not shown
         ''',
     (tester) async {
-      final r = AuthRobot(tester: tester);
+      final r = AuthRobot.widgetTest(tester: tester);
       await r.pumpEmailSignInScreen(authRepo: mockAuthRepository);
       await r.enterEmail(testEmail);
       await r.enterPassword(testPassword);
@@ -45,7 +45,7 @@ void main() {
         And error hint is shown that the email is empty
         ''',
     (tester) async {
-      final r = AuthRobot(tester: tester);
+      final r = AuthRobot.widgetTest(tester: tester);
       await r.pumpEmailSignInScreen(authRepo: mockAuthRepository);
       await r.enterEmail('');
       await r.enterPassword(testPassword);
@@ -61,7 +61,7 @@ void main() {
         And error hint is shown that the email is not valid
         ''',
     (tester) async {
-      final r = AuthRobot(tester: tester);
+      final r = AuthRobot.widgetTest(tester: tester);
       await r.pumpEmailSignInScreen(authRepo: mockAuthRepository);
       await r.enterEmail("NotValidEmail");
       await r.enterPassword(testPassword);

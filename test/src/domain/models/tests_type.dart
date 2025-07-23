@@ -1,0 +1,4 @@
+enum TestsType {
+  widgetTest,
+  integrationTest,
+}

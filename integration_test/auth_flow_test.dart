@@ -25,8 +25,8 @@ void main() {
   });
 
   testWidgets("Auth flow test", (tester) async {
-    final r = Robot(tester: tester);
-    await r.pumpWelcomeSignScreen(authRepo: mockAuthRepository);
+    final r = Robot.integrationTest(tester: tester);
+    await r.pumpApp(authRepo: mockAuthRepository);
     await r.auth.expectWelcomeSignScreen();
     await r.auth.expectGoogleAndEmailContinueBtns();
     await r.auth.tapContinueWithEmailSubmitButton();

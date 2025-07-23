@@ -10,19 +10,28 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
+import '../domain/models/tests_type.dart';
+
 class AppRobot {
   final WidgetTester tester;
   final Size designSize;
   final GoRouter? goRouter;
-  AppRobot({required this.tester, required this.designSize, this.goRouter}) {
+  final TestsType testsType;
+  AppRobot.integrationTest({required this.tester, required this.designSize, this.goRouter, this.testsType = TestsType.integrationTest}) {
+    // Set GoRouter configuration for tests
+    GoRouter.optionURLReflectsImperativeAPIs = true;
+  }
+  AppRobot.widgetTest({required this.tester, required this.designSize, this.goRouter, this.testsType = TestsType.widgetTest}) {
     // Set GoRouter configuration for tests
     GoRouter.optionURLReflectsImperativeAPIs = true;
   }
 
-  Future<void> pumpAppScreen({required List<Override> overrides, required Widget screen}) async {
+  Future<void> pumpAppScreen({required List<Override> overrides}) async {
+    if (testsType == TestsType.widgetTest) {
+      await _setSurfaceSize(designSize);
+    }
     final appConfigRepo = await AppConfigRepositoryImpl.init();
     final appOverrides = [appConfigRepositoryProvider.overrideWith((ref) => appConfigRepo), ...overrides];
-    await setSurfaceSize(designSize);
     await tester.pumpWidget(
       ProviderScope(
         overrides: appOverrides,
@@ -33,7 +42,9 @@ class AppRobot {
   }
 
   Future<void> pumpCustomAppScreen({required List<Override> overrides, required Widget screen}) async {
-    await setSurfaceSize(designSize);
+    if (testsType == TestsType.widgetTest) {
+      await _setSurfaceSize(designSize);
+    }
     await tester.pumpWidget(
       ProviderScope(
         overrides: overrides,
@@ -77,7 +88,7 @@ class AppRobot {
     await tester.pumpAndSettle();
   }
 
-  Future<void> setSurfaceSize(Size size) async {
+  Future<void> _setSurfaceSize(Size size) async {
     await tester.binding.setSurfaceSize(size);
     tester.view.physicalSize = size;
     tester.view.devicePixelRatio = 1.0;

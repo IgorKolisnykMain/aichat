@@ -1,7 +1,6 @@
 import 'package:aichat/l10n/app_localizations.dart';
 import 'package:aichat/src/common_widgets/app_config_provider.dart';
 import 'package:aichat/src/constants/design_sizes.dart';
-import 'package:aichat/src/core/config/data/repository/app_config_repository_impl.dart';
 import 'package:aichat/src/core/config/models/app_config/app_config.dart';
 import 'package:aichat/src/router/app_router.dart';
 import 'package:aichat/src/utils/extensions/theme_extensions.dart';

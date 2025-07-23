@@ -13,7 +13,7 @@ void main() {
   });
 
   testWidgets("test", (tester) async {
-    final r = Robot(tester: tester);
+    final r = Robot.widgetTest(tester: tester);
     await r.pumpWelcomeSignScreen(authRepo: mockAuthRepository);
     await r.auth.expectWelcomeSignScreen();
     await r.auth.expectGoogleAndEmailContinueBtns();

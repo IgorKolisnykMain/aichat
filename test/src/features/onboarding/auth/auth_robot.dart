@@ -18,8 +18,11 @@ class AuthRobot {
   final Size designSize;
   final AppRobot appRobot;
 
-  AuthRobot({required this.tester, this.designSize = DesignSize.mobile})
-    : appRobot = AppRobot(tester: tester, designSize: designSize);
+  AuthRobot.integrationTest({required this.tester, this.designSize = DesignSize.mobile})
+    : appRobot = AppRobot.integrationTest(tester: tester, designSize: designSize);
+
+  AuthRobot.widgetTest({required this.tester, this.designSize = DesignSize.mobile})
+    : appRobot = AppRobot.widgetTest(tester: tester, designSize: designSize);
 
   Future<void> pumpWelcomeSignScreen({AuthRepository? authRepo}) async {
     await appRobot.pumpCustomAppScreen(
@@ -27,8 +30,6 @@ class AuthRobot {
       screen: const WelcomeSignScreen(),
     );
   }
-
-  void tes() {}
 
   Future<void> pumpEmailSignInScreen({required AuthRepository authRepo}) async {
     await appRobot.pumpCustomAppScreen(
