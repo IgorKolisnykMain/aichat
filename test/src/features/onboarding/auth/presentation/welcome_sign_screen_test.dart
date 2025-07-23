@@ -14,7 +14,7 @@ void main() {
   });
 
   testWidgets('email and google auth btns', (tester) async {
-    final r = AuthRobot.widgetTest(tester: tester);
+    final r = await AuthRobot.widgetTest(tester: tester);
     await r.pumpWelcomeSignScreen(authRepo: mockAuthRepository);
     await r.expectWelcomeSignScreen();
     await r.expectGoogleAndEmailContinueBtns();

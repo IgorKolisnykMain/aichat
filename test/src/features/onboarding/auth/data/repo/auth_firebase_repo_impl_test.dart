@@ -11,7 +11,7 @@ import '../../../../../mocks.dart';
 void main() {
   late final AppUser testUserWithoutEmail;
 
-  setUp(() {
+  setUpAll(() {
     testUserWithoutEmail = AppUser(uid: 'uid', email: null);
   });
 

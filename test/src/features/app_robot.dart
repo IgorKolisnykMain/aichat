@@ -11,12 +11,23 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
 import '../domain/models/tests_type.dart';
+import '../utils/configurate_widget_tester.dart';
 
 class AppRobot {
   final WidgetTester tester;
   final Size designSize;
   final GoRouter? goRouter;
   final TestsType testsType;
+
+  AppRobot._({
+    required this.tester,
+    required this.designSize,
+    this.goRouter,
+    this.testsType = TestsType.widgetTest,
+  }) {
+    GoRouter.optionURLReflectsImperativeAPIs = true;
+  }
+  
   AppRobot.integrationTest({
     required this.tester,
     required this.designSize,
@@ -26,20 +37,24 @@ class AppRobot {
     // Set GoRouter configuration for tests
     GoRouter.optionURLReflectsImperativeAPIs = true;
   }
-  AppRobot.widgetTest({
-    required this.tester,
-    required this.designSize,
-    this.goRouter,
-    this.testsType = TestsType.widgetTest,
-  }) {
-    // Set GoRouter configuration for tests
-    GoRouter.optionURLReflectsImperativeAPIs = true;
+
+  static Future<AppRobot> widgetTest({
+    required WidgetTester tester,
+    required Size designSize,
+    GoRouter? goRouter,
+    TestsType testsType = TestsType.widgetTest,
+  }) async {
+    final appRobot = AppRobot._(
+      tester: tester,
+      designSize: designSize,
+      goRouter: goRouter,
+      testsType: testsType,
+    );
+    await setSurfaceSize(tester, designSize);
+    return appRobot;
   }
 
   Future<void> pumpAppScreen({required List<Override> overrides}) async {
-    if (testsType == TestsType.widgetTest) {
-      await _setSurfaceSize(designSize);
-    }
     final appConfigRepo = await AppConfigRepositoryImpl.init();
     final appOverrides = [appConfigRepositoryProvider.overrideWith((ref) => appConfigRepo), ...overrides];
     await tester.pumpWidget(
@@ -52,9 +67,6 @@ class AppRobot {
   }
 
   Future<void> pumpCustomAppScreen({required List<Override> overrides, required Widget screen}) async {
-    if (testsType == TestsType.widgetTest) {
-      await _setSurfaceSize(designSize);
-    }
     await tester.pumpWidget(
       ProviderScope(
         overrides: overrides,
@@ -96,11 +108,5 @@ class AppRobot {
       ),
     );
     await tester.pumpAndSettle();
-  }
-
-  Future<void> _setSurfaceSize(Size size) async {
-    await tester.binding.setSurfaceSize(size);
-    tester.view.physicalSize = size;
-    tester.view.devicePixelRatio = 1.0;
   }
 }

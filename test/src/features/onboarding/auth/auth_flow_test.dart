@@ -12,8 +12,8 @@ void main() {
     mockAuthRepository = MockAuthFirebaseRepository();
   });
 
-  testWidgets("test", (tester) async {
-    final r = Robot.widgetTest(tester: tester);
+  testWidgets("Flow sign in via email", (tester) async {
+    final r = await Robot.widgetTest(tester: tester);
     await r.pumpWelcomeSignScreen(authRepo: mockAuthRepository);
     await r.auth.expectWelcomeSignScreen();
     await r.auth.expectGoogleAndEmailContinueBtns();
