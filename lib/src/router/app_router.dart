@@ -44,7 +44,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       return null;
     },
     errorPageBuilder: (context, state) => const NoTransitionPage(child: NotFoundScreen()),
-    routes: [
+    routes: getRoutes(rootNavigatorKey: rootNavigatorKey),
+  );
+});
+
+List<RouteBase> getRoutes({GlobalKey<NavigatorState>? rootNavigatorKey}) =>  [
       GoRoute(
         name: RoutesName.splash.name,
         path: RoutesName.splash.rootPath,
@@ -70,9 +74,8 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         parentNavigatorKey: rootNavigatorKey,
         pageBuilder: (context, state) => const NoTransitionPage(child: MainScreen()),
       ),
-    ],
-  );
-});
+    ];
+
 
 GoRoute getAuthFlow({GlobalKey<NavigatorState>? parentNavigatorKey}) => GoRoute(
   name: RoutesName.welcomeSign.name,
