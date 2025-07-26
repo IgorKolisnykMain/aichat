@@ -4,7 +4,6 @@ import 'package:aichat/src/constants/design_sizes.dart';
 import 'package:aichat/src/features/ai_chat/presentation/main_screen.dart';
 import 'package:aichat/src/features/onboarding/auth/data/repo/auth_firebase_repo_impl.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/repo/auth_repo.dart';
-import 'package:aichat/src/features/onboarding/auth/presentation/welcome_sign_screen.dart';
 import 'package:aichat/src/router/app_router.dart';
 import 'package:aichat/src/router/route_name.dart';
 import 'package:flutter/material.dart';
