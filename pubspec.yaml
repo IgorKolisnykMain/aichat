@@ -41,16 +41,24 @@ dependencies:
   flutter_screenutil: ^5.8.4
   flutter_svg: 2.0.16
 
-  # Other
-  purchases_flutter: 8.10.2
-  connectivity_plus: 6.1.3
+  # AI
   chat_gpt_sdk: 3.1.5
+
+  # Network
   http: ^1.2.2
+  connectivity_plus: 6.1.3
+
+  # Purchase
+  purchases_flutter: 8.10.2
+
+  # Security
+  envied: 1.1.1
+
+  # Other
   rxdart: 0.28.0
   equatable: 2.0.7
   freezed_annotation: 2.4.4
   package_info_plus: ^4.2.0
-  envied: 1.1.1
   collection: ^1.19.1
 
 dev_dependencies:
