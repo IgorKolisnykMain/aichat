@@ -1,6 +1,6 @@
 import 'package:aichat/src/features/ai_chat/domain/enums/ai_chat_item_type.dart';
 import 'package:aichat/src/features/ai_chat/domain/enums/message_type.dart';
-import 'package:aichat/src/features/ai_chat/domain/models/ai_message/ai_message.dart';
+import 'package:aichat/src/features/ai_chat/domain/models/ai_message.dart';
 import 'package:aichat/src/features/ai_chat/presentation/widgets/massages/avatar_message_widget.dart';
 import 'package:aichat/src/features/ai_chat/presentation/widgets/massages/message_loading_indicator.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';

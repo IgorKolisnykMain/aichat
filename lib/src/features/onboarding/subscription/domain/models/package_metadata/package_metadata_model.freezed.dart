@@ -37,10 +37,15 @@ mixin _$PackageMetadataModel {
 
 /// @nodoc
 abstract class $PackageMetadataModelCopyWith<$Res> {
-  factory $PackageMetadataModelCopyWith(PackageMetadataModel value, $Res Function(PackageMetadataModel) then) =
-      _$PackageMetadataModelCopyWithImpl<$Res, PackageMetadataModel>;
+  factory $PackageMetadataModelCopyWith(
+    PackageMetadataModel value,
+    $Res Function(PackageMetadataModel) then,
+  ) = _$PackageMetadataModelCopyWithImpl<$Res, PackageMetadataModel>;
   @useResult
-  $Res call({@JsonKey(name: 'id') String id, @JsonKey(name: 'discount') double discount});
+  $Res call({
+    @JsonKey(name: 'id') String id,
+    @JsonKey(name: 'discount') double discount,
+  });
 }
 
 /// @nodoc
@@ -82,7 +87,10 @@ abstract class _$$PackageMetadataModelImplCopyWith<$Res> implements $PackageMeta
   ) = __$$PackageMetadataModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@JsonKey(name: 'id') String id, @JsonKey(name: 'discount') double discount});
+  $Res call({
+    @JsonKey(name: 'id') String id,
+    @JsonKey(name: 'discount') double discount,
+  });
 }
 
 /// @nodoc
@@ -155,7 +163,10 @@ class _$PackageMetadataModelImpl implements _PackageMetadataModel {
   @override
   @pragma('vm:prefer-inline')
   _$$PackageMetadataModelImplCopyWith<_$PackageMetadataModelImpl> get copyWith =>
-      __$$PackageMetadataModelImplCopyWithImpl<_$PackageMetadataModelImpl>(this, _$identity);
+      __$$PackageMetadataModelImplCopyWithImpl<_$PackageMetadataModelImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {

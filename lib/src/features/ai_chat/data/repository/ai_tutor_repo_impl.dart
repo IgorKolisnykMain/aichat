@@ -262,39 +262,43 @@ class AiTutorOpenAiRepoImpl implements AiTutorRepo {
     try {
       final messages = await _openAI.threads.v2.messages.listMessage(threadId: threadId);
       final List<AiMessage> aiMessages = [];
-      
+
       // Добавляем header сообщение
       final headerMessage = AiMessage.header(message: settings.headerMessage);
       aiMessages.add(headerMessage);
-      
+
       // Конвертируем сообщения из OpenAI в AiMessage (в обратном порядке для хронологии)
       for (final message in messages.data.reversed) {
         if (message.role == 'user' && message.content.isNotEmpty) {
           final content = message.content.first;
           if (content.type == 'text' && content.text?.value != null) {
-            aiMessages.add(AiMessage.myQuestion(
-              message: content.text!.value,
-              date: _formatTimestamp(message.createdAt),
-            ));
+            aiMessages.add(
+              AiMessage.myQuestion(
+                message: content.text!.value,
+                date: _formatTimestamp(message.createdAt),
+              ),
+            );
           }
         } else if (message.role == 'assistant' && message.content.isNotEmpty) {
           final content = message.content.first;
           if (content.type == 'text' && content.text?.value != null) {
-            aiMessages.add(AiMessage.aiAnswer(
-              message: content.text!.value,
-              date: _formatTimestamp(message.createdAt),
-            ));
+            aiMessages.add(
+              AiMessage.aiAnswer(
+                message: content.text!.value,
+                date: _formatTimestamp(message.createdAt),
+              ),
+            );
           }
         }
       }
-      
+
       return ChatHistory(messages: aiMessages);
     } catch (e) {
       // Если не удалось загрузить из thread, возвращаем только header
       return ChatHistory.withHeaderMessage(settings.headerMessage);
     }
   }
-  
+
   String _formatTimestamp(int timestamp) {
     final date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
     return DateFormat('h:mm a').format(date);

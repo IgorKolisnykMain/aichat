@@ -66,8 +66,10 @@ class _$AppUserCopyWithImpl<$Res, $Val extends AppUser> implements $AppUserCopyW
 
 /// @nodoc
 abstract class _$$AppUserImplCopyWith<$Res> implements $AppUserCopyWith<$Res> {
-  factory _$$AppUserImplCopyWith(_$AppUserImpl value, $Res Function(_$AppUserImpl) then) =
-      __$$AppUserImplCopyWithImpl<$Res>;
+  factory _$$AppUserImplCopyWith(
+    _$AppUserImpl value,
+    $Res Function(_$AppUserImpl) then,
+  ) = __$$AppUserImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String uid, String? email});
@@ -76,7 +78,10 @@ abstract class _$$AppUserImplCopyWith<$Res> implements $AppUserCopyWith<$Res> {
 /// @nodoc
 class __$$AppUserImplCopyWithImpl<$Res> extends _$AppUserCopyWithImpl<$Res, _$AppUserImpl>
     implements _$$AppUserImplCopyWith<$Res> {
-  __$$AppUserImplCopyWithImpl(_$AppUserImpl _value, $Res Function(_$AppUserImpl) _then) : super(_value, _then);
+  __$$AppUserImplCopyWithImpl(
+    _$AppUserImpl _value,
+    $Res Function(_$AppUserImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of AppUser
   /// with the given fields replaced by the non-null parameter values.

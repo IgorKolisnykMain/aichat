@@ -29,8 +29,7 @@ mixin _$ChatHistory {
   /// Create a copy of ChatHistory
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $ChatHistoryCopyWith<ChatHistory> get copyWith =>
-      throw _privateConstructorUsedError;
+  $ChatHistoryCopyWith<ChatHistory> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -44,8 +43,7 @@ abstract class $ChatHistoryCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ChatHistoryCopyWithImpl<$Res, $Val extends ChatHistory>
-    implements $ChatHistoryCopyWith<$Res> {
+class _$ChatHistoryCopyWithImpl<$Res, $Val extends ChatHistory> implements $ChatHistoryCopyWith<$Res> {
   _$ChatHistoryCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -71,8 +69,7 @@ class _$ChatHistoryCopyWithImpl<$Res, $Val extends ChatHistory>
 }
 
 /// @nodoc
-abstract class _$$ChatHistoryImplCopyWith<$Res>
-    implements $ChatHistoryCopyWith<$Res> {
+abstract class _$$ChatHistoryImplCopyWith<$Res> implements $ChatHistoryCopyWith<$Res> {
   factory _$$ChatHistoryImplCopyWith(
     _$ChatHistoryImpl value,
     $Res Function(_$ChatHistoryImpl) then,
@@ -83,8 +80,7 @@ abstract class _$$ChatHistoryImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$ChatHistoryImplCopyWithImpl<$Res>
-    extends _$ChatHistoryCopyWithImpl<$Res, _$ChatHistoryImpl>
+class __$$ChatHistoryImplCopyWithImpl<$Res> extends _$ChatHistoryCopyWithImpl<$Res, _$ChatHistoryImpl>
     implements _$$ChatHistoryImplCopyWith<$Res> {
   __$$ChatHistoryImplCopyWithImpl(
     _$ChatHistoryImpl _value,
@@ -110,11 +106,9 @@ class __$$ChatHistoryImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$ChatHistoryImpl implements _ChatHistory {
-  const _$ChatHistoryImpl({required final List<AiMessage> messages})
-    : _messages = messages;
+  const _$ChatHistoryImpl({required final List<AiMessage> messages}) : _messages = messages;
 
-  factory _$ChatHistoryImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ChatHistoryImplFromJson(json);
+  factory _$ChatHistoryImpl.fromJson(Map<String, dynamic> json) => _$$ChatHistoryImplFromJson(json);
 
   final List<AiMessage> _messages;
   @override
@@ -139,8 +133,7 @@ class _$ChatHistoryImpl implements _ChatHistory {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_messages));
+  int get hashCode => Object.hash(runtimeType, const DeepCollectionEquality().hash(_messages));
 
   /// Create a copy of ChatHistory
   /// with the given fields replaced by the non-null parameter values.
@@ -157,11 +150,9 @@ class _$ChatHistoryImpl implements _ChatHistory {
 }
 
 abstract class _ChatHistory implements ChatHistory {
-  const factory _ChatHistory({required final List<AiMessage> messages}) =
-      _$ChatHistoryImpl;
+  const factory _ChatHistory({required final List<AiMessage> messages}) = _$ChatHistoryImpl;
 
-  factory _ChatHistory.fromJson(Map<String, dynamic> json) =
-      _$ChatHistoryImpl.fromJson;
+  factory _ChatHistory.fromJson(Map<String, dynamic> json) = _$ChatHistoryImpl.fromJson;
 
   @override
   List<AiMessage> get messages;
@@ -170,6 +161,5 @@ abstract class _ChatHistory implements ChatHistory {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ChatHistoryImplCopyWith<_$ChatHistoryImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$ChatHistoryImplCopyWith<_$ChatHistoryImpl> get copyWith => throw _privateConstructorUsedError;
 }

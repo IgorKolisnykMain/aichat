@@ -15,22 +15,22 @@ class ChatListWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(aiTutorControllerProvider);
 
-    if (state.value == null || state.value!.messages.isEmpty) {
+    if (state.value == null || state.value!.chatHistory.messages.isEmpty) {
       return const SizedBox();
     }
 
     return ListView.builder(
       controller: scrollController,
       padding: EdgeInsets.symmetric(horizontal: 16.rw, vertical: 16.rsp),
-      itemCount: state.value!.messages.length,
+      itemCount: state.value!.chatHistory.messages.length,
       itemBuilder: (context, index) {
-        final message = state.value!.messages[index];
+        final message = state.value!.chatHistory.messages[index];
         return ChatMessageWidget(
           message: message,
           isLoading:
               (state.value!.stage == AiTutorStage.sentAIAnswerProgress ||
                   state.value!.stage == AiTutorStage.streamingResponse && state.value!.isStreaming) &&
-              index == state.value!.messages.length - 1 &&
+              index == state.value!.chatHistory.messages.length - 1 &&
               message.type == AiChatItemType.aiAnswer,
         );
       },

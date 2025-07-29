@@ -28,8 +28,10 @@ mixin _$PasswordRecoveryState {
 
 /// @nodoc
 abstract class $PasswordRecoveryStateCopyWith<$Res> {
-  factory $PasswordRecoveryStateCopyWith(PasswordRecoveryState value, $Res Function(PasswordRecoveryState) then) =
-      _$PasswordRecoveryStateCopyWithImpl<$Res, PasswordRecoveryState>;
+  factory $PasswordRecoveryStateCopyWith(
+    PasswordRecoveryState value,
+    $Res Function(PasswordRecoveryState) then,
+  ) = _$PasswordRecoveryStateCopyWithImpl<$Res, PasswordRecoveryState>;
   @useResult
   $Res call({PasswordRecoveryStage stage, String email});
 }
@@ -108,7 +110,10 @@ class __$$PasswordRecoveryStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$PasswordRecoveryStateImpl implements _PasswordRecoveryState {
-  const _$PasswordRecoveryStateImpl({this.stage = PasswordRecoveryStage.init, this.email = ''});
+  const _$PasswordRecoveryStateImpl({
+    this.stage = PasswordRecoveryStage.init,
+    this.email = '',
+  });
 
   @override
   @JsonKey()
@@ -140,12 +145,17 @@ class _$PasswordRecoveryStateImpl implements _PasswordRecoveryState {
   @override
   @pragma('vm:prefer-inline')
   _$$PasswordRecoveryStateImplCopyWith<_$PasswordRecoveryStateImpl> get copyWith =>
-      __$$PasswordRecoveryStateImplCopyWithImpl<_$PasswordRecoveryStateImpl>(this, _$identity);
+      __$$PasswordRecoveryStateImplCopyWithImpl<_$PasswordRecoveryStateImpl>(
+        this,
+        _$identity,
+      );
 }
 
 abstract class _PasswordRecoveryState implements PasswordRecoveryState {
-  const factory _PasswordRecoveryState({final PasswordRecoveryStage stage, final String email}) =
-      _$PasswordRecoveryStateImpl;
+  const factory _PasswordRecoveryState({
+    final PasswordRecoveryStage stage,
+    final String email,
+  }) = _$PasswordRecoveryStateImpl;
 
   @override
   PasswordRecoveryStage get stage;

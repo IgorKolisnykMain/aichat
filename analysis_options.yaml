@@ -14,6 +14,8 @@ linter:
     sort_unnamed_constructors_first: false
     use_super_parameters: true
     sort_pub_dependencies: false
+    require_trailing_commas: true
 
 formatter:
   page_width: 120
+  trailing_commas: preserve

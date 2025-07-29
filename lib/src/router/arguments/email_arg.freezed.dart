@@ -67,8 +67,10 @@ class _$EmailArgCopyWithImpl<$Res, $Val extends EmailArg> implements $EmailArgCo
 
 /// @nodoc
 abstract class _$$EmailArgImplCopyWith<$Res> implements $EmailArgCopyWith<$Res> {
-  factory _$$EmailArgImplCopyWith(_$EmailArgImpl value, $Res Function(_$EmailArgImpl) then) =
-      __$$EmailArgImplCopyWithImpl<$Res>;
+  factory _$$EmailArgImplCopyWith(
+    _$EmailArgImpl value,
+    $Res Function(_$EmailArgImpl) then,
+  ) = __$$EmailArgImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String email});
@@ -77,7 +79,10 @@ abstract class _$$EmailArgImplCopyWith<$Res> implements $EmailArgCopyWith<$Res> 
 /// @nodoc
 class __$$EmailArgImplCopyWithImpl<$Res> extends _$EmailArgCopyWithImpl<$Res, _$EmailArgImpl>
     implements _$$EmailArgImplCopyWith<$Res> {
-  __$$EmailArgImplCopyWithImpl(_$EmailArgImpl _value, $Res Function(_$EmailArgImpl) _then) : super(_value, _then);
+  __$$EmailArgImplCopyWithImpl(
+    _$EmailArgImpl _value,
+    $Res Function(_$EmailArgImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of EmailArg
   /// with the given fields replaced by the non-null parameter values.

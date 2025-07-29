@@ -32,8 +32,10 @@ mixin _$PaywallState {
 
 /// @nodoc
 abstract class $PaywallStateCopyWith<$Res> {
-  factory $PaywallStateCopyWith(PaywallState value, $Res Function(PaywallState) then) =
-      _$PaywallStateCopyWithImpl<$Res, PaywallState>;
+  factory $PaywallStateCopyWith(
+    PaywallState value,
+    $Res Function(PaywallState) then,
+  ) = _$PaywallStateCopyWithImpl<$Res, PaywallState>;
   @useResult
   $Res call({
     PaywallStage stage,
@@ -123,7 +125,9 @@ class _$PaywallStateCopyWithImpl<$Res, $Val extends PaywallState> implements $Pa
       return null;
     }
 
-    return $OfferingMetadataModelCopyWith<$Res>(_value.offeringMetadata!, (value) {
+    return $OfferingMetadataModelCopyWith<$Res>(_value.offeringMetadata!, (
+      value,
+    ) {
       return _then(_value.copyWith(offeringMetadata: value) as $Val);
     });
   }
@@ -131,8 +135,10 @@ class _$PaywallStateCopyWithImpl<$Res, $Val extends PaywallState> implements $Pa
 
 /// @nodoc
 abstract class _$$PaywallStateImplCopyWith<$Res> implements $PaywallStateCopyWith<$Res> {
-  factory _$$PaywallStateImplCopyWith(_$PaywallStateImpl value, $Res Function(_$PaywallStateImpl) then) =
-      __$$PaywallStateImplCopyWithImpl<$Res>;
+  factory _$$PaywallStateImplCopyWith(
+    _$PaywallStateImpl value,
+    $Res Function(_$PaywallStateImpl) then,
+  ) = __$$PaywallStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({
@@ -153,8 +159,10 @@ abstract class _$$PaywallStateImplCopyWith<$Res> implements $PaywallStateCopyWit
 /// @nodoc
 class __$$PaywallStateImplCopyWithImpl<$Res> extends _$PaywallStateCopyWithImpl<$Res, _$PaywallStateImpl>
     implements _$$PaywallStateImplCopyWith<$Res> {
-  __$$PaywallStateImplCopyWithImpl(_$PaywallStateImpl _value, $Res Function(_$PaywallStateImpl) _then)
-    : super(_value, _then);
+  __$$PaywallStateImplCopyWithImpl(
+    _$PaywallStateImpl _value,
+    $Res Function(_$PaywallStateImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of PaywallState
   /// with the given fields replaced by the non-null parameter values.

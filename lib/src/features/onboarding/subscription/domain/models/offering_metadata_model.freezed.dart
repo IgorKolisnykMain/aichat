@@ -15,7 +15,9 @@ final _privateConstructorUsedError = UnsupportedError(
   'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
 );
 
-OfferingMetadataModel _$OfferingMetadataModelFromJson(Map<String, dynamic> json) {
+OfferingMetadataModel _$OfferingMetadataModelFromJson(
+  Map<String, dynamic> json,
+) {
   return _OfferingMetadataModel.fromJson(json);
 }
 
@@ -35,8 +37,10 @@ mixin _$OfferingMetadataModel {
 
 /// @nodoc
 abstract class $OfferingMetadataModelCopyWith<$Res> {
-  factory $OfferingMetadataModelCopyWith(OfferingMetadataModel value, $Res Function(OfferingMetadataModel) then) =
-      _$OfferingMetadataModelCopyWithImpl<$Res, OfferingMetadataModel>;
+  factory $OfferingMetadataModelCopyWith(
+    OfferingMetadataModel value,
+    $Res Function(OfferingMetadataModel) then,
+  ) = _$OfferingMetadataModelCopyWithImpl<$Res, OfferingMetadataModel>;
   @useResult
   $Res call({@JsonKey(name: 'packages') List<PackageMetadataModel> packages});
 }
@@ -107,8 +111,9 @@ class __$$OfferingMetadataModelImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$OfferingMetadataModelImpl implements _OfferingMetadataModel {
-  const _$OfferingMetadataModelImpl({@JsonKey(name: 'packages') required final List<PackageMetadataModel> packages})
-    : _packages = packages;
+  const _$OfferingMetadataModelImpl({
+    @JsonKey(name: 'packages') required final List<PackageMetadataModel> packages,
+  }) : _packages = packages;
 
   factory _$OfferingMetadataModelImpl.fromJson(Map<String, dynamic> json) => _$$OfferingMetadataModelImplFromJson(json);
 
@@ -144,7 +149,10 @@ class _$OfferingMetadataModelImpl implements _OfferingMetadataModel {
   @override
   @pragma('vm:prefer-inline')
   _$$OfferingMetadataModelImplCopyWith<_$OfferingMetadataModelImpl> get copyWith =>
-      __$$OfferingMetadataModelImplCopyWithImpl<_$OfferingMetadataModelImpl>(this, _$identity);
+      __$$OfferingMetadataModelImplCopyWithImpl<_$OfferingMetadataModelImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {

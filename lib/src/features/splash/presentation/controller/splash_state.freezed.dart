@@ -28,8 +28,10 @@ mixin _$SplashState {
 
 /// @nodoc
 abstract class $SplashStateCopyWith<$Res> {
-  factory $SplashStateCopyWith(SplashState value, $Res Function(SplashState) then) =
-      _$SplashStateCopyWithImpl<$Res, SplashState>;
+  factory $SplashStateCopyWith(
+    SplashState value,
+    $Res Function(SplashState) then,
+  ) = _$SplashStateCopyWithImpl<$Res, SplashState>;
   @useResult
   $Res call({SplashStage stage, String? notificationPayload});
 }
@@ -66,8 +68,10 @@ class _$SplashStateCopyWithImpl<$Res, $Val extends SplashState> implements $Spla
 
 /// @nodoc
 abstract class _$$SplashStateImplCopyWith<$Res> implements $SplashStateCopyWith<$Res> {
-  factory _$$SplashStateImplCopyWith(_$SplashStateImpl value, $Res Function(_$SplashStateImpl) then) =
-      __$$SplashStateImplCopyWithImpl<$Res>;
+  factory _$$SplashStateImplCopyWith(
+    _$SplashStateImpl value,
+    $Res Function(_$SplashStateImpl) then,
+  ) = __$$SplashStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({SplashStage stage, String? notificationPayload});
@@ -76,8 +80,10 @@ abstract class _$$SplashStateImplCopyWith<$Res> implements $SplashStateCopyWith<
 /// @nodoc
 class __$$SplashStateImplCopyWithImpl<$Res> extends _$SplashStateCopyWithImpl<$Res, _$SplashStateImpl>
     implements _$$SplashStateImplCopyWith<$Res> {
-  __$$SplashStateImplCopyWithImpl(_$SplashStateImpl _value, $Res Function(_$SplashStateImpl) _then)
-    : super(_value, _then);
+  __$$SplashStateImplCopyWithImpl(
+    _$SplashStateImpl _value,
+    $Res Function(_$SplashStateImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of SplashState
   /// with the given fields replaced by the non-null parameter values.
@@ -137,7 +143,10 @@ class _$SplashStateImpl implements _SplashState {
 }
 
 abstract class _SplashState implements SplashState {
-  const factory _SplashState({required final SplashStage stage, final String? notificationPayload}) = _$SplashStateImpl;
+  const factory _SplashState({
+    required final SplashStage stage,
+    final String? notificationPayload,
+  }) = _$SplashStateImpl;
 
   @override
   SplashStage get stage;

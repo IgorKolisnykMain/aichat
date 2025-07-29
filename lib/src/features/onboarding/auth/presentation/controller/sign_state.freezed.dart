@@ -60,8 +60,10 @@ class _$SignStateCopyWithImpl<$Res, $Val extends SignState> implements $SignStat
 
 /// @nodoc
 abstract class _$$SignStateImplCopyWith<$Res> implements $SignStateCopyWith<$Res> {
-  factory _$$SignStateImplCopyWith(_$SignStateImpl value, $Res Function(_$SignStateImpl) then) =
-      __$$SignStateImplCopyWithImpl<$Res>;
+  factory _$$SignStateImplCopyWith(
+    _$SignStateImpl value,
+    $Res Function(_$SignStateImpl) then,
+  ) = __$$SignStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({SignStage stage});
@@ -70,7 +72,10 @@ abstract class _$$SignStateImplCopyWith<$Res> implements $SignStateCopyWith<$Res
 /// @nodoc
 class __$$SignStateImplCopyWithImpl<$Res> extends _$SignStateCopyWithImpl<$Res, _$SignStateImpl>
     implements _$$SignStateImplCopyWith<$Res> {
-  __$$SignStateImplCopyWithImpl(_$SignStateImpl _value, $Res Function(_$SignStateImpl) _then) : super(_value, _then);
+  __$$SignStateImplCopyWithImpl(
+    _$SignStateImpl _value,
+    $Res Function(_$SignStateImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of SignState
   /// with the given fields replaced by the non-null parameter values.

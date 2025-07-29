@@ -48,34 +48,33 @@ final goRouterProvider = Provider<GoRouter>((ref) {
   );
 });
 
-List<RouteBase> getRoutes({GlobalKey<NavigatorState>? rootNavigatorKey}) =>  [
-      GoRoute(
-        name: RoutesName.splash.name,
-        path: RoutesName.splash.rootPath,
-        parentNavigatorKey: rootNavigatorKey,
-        pageBuilder: (context, state) => const NoTransitionPage(child: SplashScreen()),
-      ),
-      GoRoute(
-        name: RoutesName.wizard.name,
-        path: RoutesName.wizard.rootPath,
-        parentNavigatorKey: rootNavigatorKey,
-        pageBuilder: (context, state) => NoTransitionPage(key: state.pageKey, child: const WizardScreen()),
-      ),
-      getAuthFlow(parentNavigatorKey: rootNavigatorKey),
-      GoRoute(
-        name: RoutesName.subscription.name,
-        path: RoutesName.subscription.rootPath,
-        parentNavigatorKey: rootNavigatorKey,
-        pageBuilder: (context, state) => const NoTransitionPage(child: SubscriptionScreen()),
-      ),
-      GoRoute(
-        name: RoutesName.home.name,
-        path: RoutesName.home.rootPath,
-        parentNavigatorKey: rootNavigatorKey,
-        pageBuilder: (context, state) => const NoTransitionPage(child: MainScreen()),
-      ),
-    ];
-
+List<RouteBase> getRoutes({GlobalKey<NavigatorState>? rootNavigatorKey}) => [
+  GoRoute(
+    name: RoutesName.splash.name,
+    path: RoutesName.splash.rootPath,
+    parentNavigatorKey: rootNavigatorKey,
+    pageBuilder: (context, state) => const NoTransitionPage(child: SplashScreen()),
+  ),
+  GoRoute(
+    name: RoutesName.wizard.name,
+    path: RoutesName.wizard.rootPath,
+    parentNavigatorKey: rootNavigatorKey,
+    pageBuilder: (context, state) => NoTransitionPage(key: state.pageKey, child: const WizardScreen()),
+  ),
+  getAuthFlow(parentNavigatorKey: rootNavigatorKey),
+  GoRoute(
+    name: RoutesName.subscription.name,
+    path: RoutesName.subscription.rootPath,
+    parentNavigatorKey: rootNavigatorKey,
+    pageBuilder: (context, state) => const NoTransitionPage(child: SubscriptionScreen()),
+  ),
+  GoRoute(
+    name: RoutesName.home.name,
+    path: RoutesName.home.rootPath,
+    parentNavigatorKey: rootNavigatorKey,
+    pageBuilder: (context, state) => const NoTransitionPage(child: MainScreen()),
+  ),
+];
 
 GoRoute getAuthFlow({GlobalKey<NavigatorState>? parentNavigatorKey}) => GoRoute(
   name: RoutesName.welcomeSign.name,

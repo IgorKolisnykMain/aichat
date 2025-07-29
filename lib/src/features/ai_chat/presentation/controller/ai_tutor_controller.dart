@@ -68,7 +68,7 @@ class AiTutorController extends AsyncNotifier<AiTutorState> {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       ChatHistory chatHistory;
-      
+
       // Если есть текущий thread, загружаем из OpenAI
       if (state.value?.currentThreadId != null) {
         chatHistory = await aiRepo.getThreadHistory(state.value!.currentThreadId!);
@@ -78,9 +78,9 @@ class AiTutorController extends AsyncNotifier<AiTutorState> {
         final headerMessage = AiMessage.header(message: aiRepo.settings.headerMessage);
         chatHistory = chatHistory.addHeaderMessage(headerMessage);
       }
-      
+
       return AiTutorState(
-        chatHistory: chatHistory, 
+        chatHistory: chatHistory,
         stage: AiTutorStage.init,
         currentThreadId: state.value?.currentThreadId,
         userThreads: state.value?.userThreads ?? [],
@@ -196,7 +196,7 @@ class AiTutorController extends AsyncNotifier<AiTutorState> {
       await aiRepo.setupAssistant();
       final threads = await aiRepo.getUserThreads();
       final currentThreadId = threads.isNotEmpty ? threads.last : null;
-      
+
       // Загружаем историю из последнего thread если он есть
       ChatHistory chatHistory;
       if (currentThreadId != null) {
@@ -204,7 +204,7 @@ class AiTutorController extends AsyncNotifier<AiTutorState> {
       } else {
         chatHistory = ChatHistory.withHeaderMessage(aiRepo.settings.headerMessage);
       }
-      
+
       state = AsyncValue.data(
         state.value!.copyWith(
           stage: AiTutorStage.init,
@@ -358,10 +358,12 @@ class AiTutorController extends AsyncNotifier<AiTutorState> {
     if (state.value!.isStreaming) {
       ChatHistory chatHistory = state.value!.chatHistory;
       if (chatHistory.messages.isNotEmpty) {
-        chatHistory = chatHistory.updateLastMessage(AiMessage.aiAnswer(
-          message: chunk,
-          date: chatHistory.messages[chatHistory.messages.length - 1].date,
-        ));
+        chatHistory = chatHistory.updateLastMessage(
+          AiMessage.aiAnswer(
+            message: chunk,
+            date: chatHistory.messages[chatHistory.messages.length - 1].date,
+          ),
+        );
         state = AsyncValue.data(state.value!.copyWith(chatHistory: chatHistory, streamingResponse: chunk));
       }
     }

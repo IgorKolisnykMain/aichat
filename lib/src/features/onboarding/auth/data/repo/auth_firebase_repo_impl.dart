@@ -14,14 +14,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-final authRepoProvider = FutureProvider.autoDispose<AuthRepository>((ref) async {
+final authRepoProvider = FutureProvider<AuthRepository>((ref) async {
   return AuthFirebaseRepositoryImpl(
     firebaseAuth: await ref.read(firebaseAuthProvider.future),
     googleSignIn: GoogleSignIn(),
   );
 });
 
-final authStateChangesProvider = StreamProvider.autoDispose<AppUser?>((ref) {
+final authStateChangesProvider = StreamProvider<AppUser?>((ref) {
   final authRepository = ref.watch(authRepoProvider);
   return authRepository.when(
     data: (data) => data.authStateChanges(),

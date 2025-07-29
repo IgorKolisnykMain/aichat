@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$AiTutorState {
   AiTutorStage get stage => throw _privateConstructorUsedError;
-  List<AiMessage> get messages => throw _privateConstructorUsedError;
+  ChatHistory get chatHistory => throw _privateConstructorUsedError;
   AiMessage? get aiAnsweringOnQuestion => throw _privateConstructorUsedError;
   String? get currentThreadId => throw _privateConstructorUsedError;
   List<String> get userThreads => throw _privateConstructorUsedError;
@@ -33,12 +33,14 @@ mixin _$AiTutorState {
 
 /// @nodoc
 abstract class $AiTutorStateCopyWith<$Res> {
-  factory $AiTutorStateCopyWith(AiTutorState value, $Res Function(AiTutorState) then) =
-      _$AiTutorStateCopyWithImpl<$Res, AiTutorState>;
+  factory $AiTutorStateCopyWith(
+    AiTutorState value,
+    $Res Function(AiTutorState) then,
+  ) = _$AiTutorStateCopyWithImpl<$Res, AiTutorState>;
   @useResult
   $Res call({
     AiTutorStage stage,
-    List<AiMessage> messages,
+    ChatHistory chatHistory,
     AiMessage? aiAnsweringOnQuestion,
     String? currentThreadId,
     List<String> userThreads,
@@ -46,6 +48,7 @@ abstract class $AiTutorStateCopyWith<$Res> {
     bool isStreaming,
   });
 
+  $ChatHistoryCopyWith<$Res> get chatHistory;
   $AiMessageCopyWith<$Res>? get aiAnsweringOnQuestion;
 }
 
@@ -64,7 +67,7 @@ class _$AiTutorStateCopyWithImpl<$Res, $Val extends AiTutorState> implements $Ai
   @override
   $Res call({
     Object? stage = null,
-    Object? messages = null,
+    Object? chatHistory = null,
     Object? aiAnsweringOnQuestion = freezed,
     Object? currentThreadId = freezed,
     Object? userThreads = null,
@@ -77,10 +80,10 @@ class _$AiTutorStateCopyWithImpl<$Res, $Val extends AiTutorState> implements $Ai
                 ? _value.stage
                 : stage // ignore: cast_nullable_to_non_nullable
                       as AiTutorStage,
-            messages: null == messages
-                ? _value.messages
-                : messages // ignore: cast_nullable_to_non_nullable
-                      as List<AiMessage>,
+            chatHistory: null == chatHistory
+                ? _value.chatHistory
+                : chatHistory // ignore: cast_nullable_to_non_nullable
+                      as ChatHistory,
             aiAnsweringOnQuestion: freezed == aiAnsweringOnQuestion
                 ? _value.aiAnsweringOnQuestion
                 : aiAnsweringOnQuestion // ignore: cast_nullable_to_non_nullable
@@ -110,6 +113,16 @@ class _$AiTutorStateCopyWithImpl<$Res, $Val extends AiTutorState> implements $Ai
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
+  $ChatHistoryCopyWith<$Res> get chatHistory {
+    return $ChatHistoryCopyWith<$Res>(_value.chatHistory, (value) {
+      return _then(_value.copyWith(chatHistory: value) as $Val);
+    });
+  }
+
+  /// Create a copy of AiTutorState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
   $AiMessageCopyWith<$Res>? get aiAnsweringOnQuestion {
     if (_value.aiAnsweringOnQuestion == null) {
       return null;
@@ -123,13 +136,15 @@ class _$AiTutorStateCopyWithImpl<$Res, $Val extends AiTutorState> implements $Ai
 
 /// @nodoc
 abstract class _$$AiTutorStateImplCopyWith<$Res> implements $AiTutorStateCopyWith<$Res> {
-  factory _$$AiTutorStateImplCopyWith(_$AiTutorStateImpl value, $Res Function(_$AiTutorStateImpl) then) =
-      __$$AiTutorStateImplCopyWithImpl<$Res>;
+  factory _$$AiTutorStateImplCopyWith(
+    _$AiTutorStateImpl value,
+    $Res Function(_$AiTutorStateImpl) then,
+  ) = __$$AiTutorStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({
     AiTutorStage stage,
-    List<AiMessage> messages,
+    ChatHistory chatHistory,
     AiMessage? aiAnsweringOnQuestion,
     String? currentThreadId,
     List<String> userThreads,
@@ -138,14 +153,18 @@ abstract class _$$AiTutorStateImplCopyWith<$Res> implements $AiTutorStateCopyWit
   });
 
   @override
+  $ChatHistoryCopyWith<$Res> get chatHistory;
+  @override
   $AiMessageCopyWith<$Res>? get aiAnsweringOnQuestion;
 }
 
 /// @nodoc
 class __$$AiTutorStateImplCopyWithImpl<$Res> extends _$AiTutorStateCopyWithImpl<$Res, _$AiTutorStateImpl>
     implements _$$AiTutorStateImplCopyWith<$Res> {
-  __$$AiTutorStateImplCopyWithImpl(_$AiTutorStateImpl _value, $Res Function(_$AiTutorStateImpl) _then)
-    : super(_value, _then);
+  __$$AiTutorStateImplCopyWithImpl(
+    _$AiTutorStateImpl _value,
+    $Res Function(_$AiTutorStateImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of AiTutorState
   /// with the given fields replaced by the non-null parameter values.
@@ -153,7 +172,7 @@ class __$$AiTutorStateImplCopyWithImpl<$Res> extends _$AiTutorStateCopyWithImpl<
   @override
   $Res call({
     Object? stage = null,
-    Object? messages = null,
+    Object? chatHistory = null,
     Object? aiAnsweringOnQuestion = freezed,
     Object? currentThreadId = freezed,
     Object? userThreads = null,
@@ -166,10 +185,10 @@ class __$$AiTutorStateImplCopyWithImpl<$Res> extends _$AiTutorStateCopyWithImpl<
             ? _value.stage
             : stage // ignore: cast_nullable_to_non_nullable
                   as AiTutorStage,
-        messages: null == messages
-            ? _value._messages
-            : messages // ignore: cast_nullable_to_non_nullable
-                  as List<AiMessage>,
+        chatHistory: null == chatHistory
+            ? _value.chatHistory
+            : chatHistory // ignore: cast_nullable_to_non_nullable
+                  as ChatHistory,
         aiAnsweringOnQuestion: freezed == aiAnsweringOnQuestion
             ? _value.aiAnsweringOnQuestion
             : aiAnsweringOnQuestion // ignore: cast_nullable_to_non_nullable
@@ -200,25 +219,18 @@ class __$$AiTutorStateImplCopyWithImpl<$Res> extends _$AiTutorStateCopyWithImpl<
 class _$AiTutorStateImpl implements _AiTutorState {
   const _$AiTutorStateImpl({
     required this.stage,
-    required final List<AiMessage> messages,
+    required this.chatHistory,
     this.aiAnsweringOnQuestion,
     this.currentThreadId,
     final List<String> userThreads = const [],
     this.streamingResponse,
     this.isStreaming = false,
-  }) : _messages = messages,
-       _userThreads = userThreads;
+  }) : _userThreads = userThreads;
 
   @override
   final AiTutorStage stage;
-  final List<AiMessage> _messages;
   @override
-  List<AiMessage> get messages {
-    if (_messages is EqualUnmodifiableListView) return _messages;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_messages);
-  }
-
+  final ChatHistory chatHistory;
   @override
   final AiMessage? aiAnsweringOnQuestion;
   @override
@@ -240,7 +252,7 @@ class _$AiTutorStateImpl implements _AiTutorState {
 
   @override
   String toString() {
-    return 'AiTutorState(stage: $stage, messages: $messages, aiAnsweringOnQuestion: $aiAnsweringOnQuestion, currentThreadId: $currentThreadId, userThreads: $userThreads, streamingResponse: $streamingResponse, isStreaming: $isStreaming)';
+    return 'AiTutorState(stage: $stage, chatHistory: $chatHistory, aiAnsweringOnQuestion: $aiAnsweringOnQuestion, currentThreadId: $currentThreadId, userThreads: $userThreads, streamingResponse: $streamingResponse, isStreaming: $isStreaming)';
   }
 
   @override
@@ -249,11 +261,14 @@ class _$AiTutorStateImpl implements _AiTutorState {
         (other.runtimeType == runtimeType &&
             other is _$AiTutorStateImpl &&
             (identical(other.stage, stage) || other.stage == stage) &&
-            const DeepCollectionEquality().equals(other._messages, _messages) &&
+            (identical(other.chatHistory, chatHistory) || other.chatHistory == chatHistory) &&
             (identical(other.aiAnsweringOnQuestion, aiAnsweringOnQuestion) ||
                 other.aiAnsweringOnQuestion == aiAnsweringOnQuestion) &&
             (identical(other.currentThreadId, currentThreadId) || other.currentThreadId == currentThreadId) &&
-            const DeepCollectionEquality().equals(other._userThreads, _userThreads) &&
+            const DeepCollectionEquality().equals(
+              other._userThreads,
+              _userThreads,
+            ) &&
             (identical(other.streamingResponse, streamingResponse) || other.streamingResponse == streamingResponse) &&
             (identical(other.isStreaming, isStreaming) || other.isStreaming == isStreaming));
   }
@@ -262,7 +277,7 @@ class _$AiTutorStateImpl implements _AiTutorState {
   int get hashCode => Object.hash(
     runtimeType,
     stage,
-    const DeepCollectionEquality().hash(_messages),
+    chatHistory,
     aiAnsweringOnQuestion,
     currentThreadId,
     const DeepCollectionEquality().hash(_userThreads),
@@ -282,7 +297,7 @@ class _$AiTutorStateImpl implements _AiTutorState {
 abstract class _AiTutorState implements AiTutorState {
   const factory _AiTutorState({
     required final AiTutorStage stage,
-    required final List<AiMessage> messages,
+    required final ChatHistory chatHistory,
     final AiMessage? aiAnsweringOnQuestion,
     final String? currentThreadId,
     final List<String> userThreads,
@@ -293,7 +308,7 @@ abstract class _AiTutorState implements AiTutorState {
   @override
   AiTutorStage get stage;
   @override
-  List<AiMessage> get messages;
+  ChatHistory get chatHistory;
   @override
   AiMessage? get aiAnsweringOnQuestion;
   @override

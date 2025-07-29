@@ -32,14 +32,12 @@ mixin _$AiMessage {
   /// Create a copy of AiMessage
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $AiMessageCopyWith<AiMessage> get copyWith =>
-      throw _privateConstructorUsedError;
+  $AiMessageCopyWith<AiMessage> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $AiMessageCopyWith<$Res> {
-  factory $AiMessageCopyWith(AiMessage value, $Res Function(AiMessage) then) =
-      _$AiMessageCopyWithImpl<$Res, AiMessage>;
+  factory $AiMessageCopyWith(AiMessage value, $Res Function(AiMessage) then) = _$AiMessageCopyWithImpl<$Res, AiMessage>;
   @useResult
   $Res call({
     String message,
@@ -50,8 +48,7 @@ abstract class $AiMessageCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$AiMessageCopyWithImpl<$Res, $Val extends AiMessage>
-    implements $AiMessageCopyWith<$Res> {
+class _$AiMessageCopyWithImpl<$Res, $Val extends AiMessage> implements $AiMessageCopyWith<$Res> {
   _$AiMessageCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -94,8 +91,7 @@ class _$AiMessageCopyWithImpl<$Res, $Val extends AiMessage>
 }
 
 /// @nodoc
-abstract class _$$AiMessageImplCopyWith<$Res>
-    implements $AiMessageCopyWith<$Res> {
+abstract class _$$AiMessageImplCopyWith<$Res> implements $AiMessageCopyWith<$Res> {
   factory _$$AiMessageImplCopyWith(
     _$AiMessageImpl value,
     $Res Function(_$AiMessageImpl) then,
@@ -111,8 +107,7 @@ abstract class _$$AiMessageImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$AiMessageImplCopyWithImpl<$Res>
-    extends _$AiMessageCopyWithImpl<$Res, _$AiMessageImpl>
+class __$$AiMessageImplCopyWithImpl<$Res> extends _$AiMessageCopyWithImpl<$Res, _$AiMessageImpl>
     implements _$$AiMessageImplCopyWith<$Res> {
   __$$AiMessageImplCopyWithImpl(
     _$AiMessageImpl _value,
@@ -162,8 +157,7 @@ class _$AiMessageImpl extends _AiMessage {
     this.customPrompt,
   }) : super._();
 
-  factory _$AiMessageImpl.fromJson(Map<String, dynamic> json) =>
-      _$$AiMessageImplFromJson(json);
+  factory _$AiMessageImpl.fromJson(Map<String, dynamic> json) => _$$AiMessageImplFromJson(json);
 
   @override
   final String message;
@@ -187,14 +181,12 @@ class _$AiMessageImpl extends _AiMessage {
             (identical(other.message, message) || other.message == message) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.date, date) || other.date == date) &&
-            (identical(other.customPrompt, customPrompt) ||
-                other.customPrompt == customPrompt));
+            (identical(other.customPrompt, customPrompt) || other.customPrompt == customPrompt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, message, type, date, customPrompt);
+  int get hashCode => Object.hash(runtimeType, message, type, date, customPrompt);
 
   /// Create a copy of AiMessage
   /// with the given fields replaced by the non-null parameter values.
@@ -219,8 +211,7 @@ abstract class _AiMessage extends AiMessage {
   }) = _$AiMessageImpl;
   const _AiMessage._() : super._();
 
-  factory _AiMessage.fromJson(Map<String, dynamic> json) =
-      _$AiMessageImpl.fromJson;
+  factory _AiMessage.fromJson(Map<String, dynamic> json) = _$AiMessageImpl.fromJson;
 
   @override
   String get message;
@@ -235,6 +226,5 @@ abstract class _AiMessage extends AiMessage {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AiMessageImplCopyWith<_$AiMessageImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$AiMessageImplCopyWith<_$AiMessageImpl> get copyWith => throw _privateConstructorUsedError;
 }
