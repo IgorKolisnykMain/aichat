@@ -2,8 +2,9 @@ import 'dart:async';
 
 import 'package:aichat/src/core/config/data/repository/app_config_repository_impl.dart';
 import 'package:aichat/src/core/di/modules/firebase_module.dart';
-import 'package:aichat/src/features/ai_chat/domain/models/ai_chat_settings/ai_chat_settings.dart';
-import 'package:aichat/src/features/ai_chat/domain/models/ai_message/ai_message.dart';
+import 'package:aichat/src/features/ai_chat/domain/models/ai_chat_settings.dart';
+import 'package:aichat/src/features/ai_chat/domain/models/ai_message.dart';
+import 'package:aichat/src/features/ai_chat/domain/models/chat_history.dart';
 import 'package:aichat/src/features/ai_chat/domain/repository/ai_tutor_repo.dart';
 import 'package:aichat/src/features/onboarding/auth/data/repo/auth_firebase_repo_impl.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/models/app_user.dart';
@@ -11,8 +12,9 @@ import 'package:aichat/src/utils/firestore/user/firestore_user_utils.dart';
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
-final aiTutorOpenAiRepoProvider = FutureProvider.autoDispose<AiTutorRepo>((ref) async {
+final aiTutorOpenAiRepoProvider = FutureProvider<AiTutorRepo>((ref) async {
   final appConfig = await ref.read(appConfigRepositoryProvider.future);
   final repo = AiTutorOpenAiRepoImpl(
     fireStore: await ref.read(firestoreProvider.future),
@@ -24,7 +26,6 @@ final aiTutorOpenAiRepoProvider = FutureProvider.autoDispose<AiTutorRepo>((ref) 
 });
 
 class AiTutorOpenAiRepoImpl implements AiTutorRepo {
-  static const _chatHistory = 'chat_history';
   static const _usedAiTokens = '_used_ai_tokens';
   static const _userThreads = 'user_threads';
   static const _assistantIdKey = 'assistant_id';
@@ -66,19 +67,13 @@ class AiTutorOpenAiRepoImpl implements AiTutorRepo {
   void changeAiToken() {
     if (settings.tokens.length > settings.usedTokens.length) {
       final lastTokens = settings.tokens.where((token) => settings.usedTokens.contains(token) == false);
-      final updatedUsedTokens = Set.of(settings.usedTokens);
-      updatedUsedTokens.add(_openAI.token);
       _openAI.setToken(lastTokens.first);
-      if (_openAI.token != lastTokens.first) {
-        _openAI.setToken(lastTokens.first);
-      }
-      settings = settings.copyWith(usedTokens: updatedUsedTokens.toList());
-      _updateUsedTokens(updatedUsedTokens.toList());
+      settings = settings.addUsedToken(_openAI.token);
+      _updateUsedTokens(settings.usedTokens);
     } else {
       _openAI.setToken(settings.tokens.first);
-      final usedTokens = [settings.tokens.first];
-      settings = settings.copyWith(usedTokens: usedTokens);
-      _updateUsedTokens(usedTokens);
+      settings = settings.setUsedTokens([settings.tokens.first]);
+      _updateUsedTokens(settings.usedTokens);
     }
   }
 
@@ -97,13 +92,12 @@ class AiTutorOpenAiRepoImpl implements AiTutorRepo {
   }
 
   @override
-  Future<List<AiMessage>> getChatHistory() async {
+  Future<ChatHistory> getChatHistory() async {
     try {
-      final data = (await _userDocRef.get()).data();
-      final List<dynamic> result = data?[_chatHistory] as List<dynamic>? ?? [];
-      return result.map((e) => AiMessage.fromJson(e as Map<String, dynamic>)).toList();
+      final data = (await _userDocRef.get()).data() ?? {};
+      return ChatHistory.fromJsonChatHistory(data);
     } catch (e) {
-      return [];
+      return const ChatHistory(messages: []);
     }
   }
 
@@ -124,9 +118,9 @@ class AiTutorOpenAiRepoImpl implements AiTutorRepo {
 
   @override
   Future<void> addMessage(AiMessage message) async {
-    final chatHistory = Set.of(await getChatHistory());
-    chatHistory.add(message);
-    _userDocRef.set({_chatHistory: chatHistory.toList().map((message) => message.toJson())}, SetOptions(merge: true));
+    final chatHistory = await getChatHistory();
+    chatHistory.addMessage(message);
+    _userDocRef.set(chatHistory.toJsonChatHistory(), SetOptions(merge: true));
   }
 
   // Assistants API v2 implementation
@@ -261,5 +255,48 @@ class AiTutorOpenAiRepoImpl implements AiTutorRepo {
     } catch (e) {
       return [];
     }
+  }
+
+  @override
+  Future<ChatHistory> getThreadHistory(String threadId) async {
+    try {
+      final messages = await _openAI.threads.v2.messages.listMessage(threadId: threadId);
+      final List<AiMessage> aiMessages = [];
+      
+      // Добавляем header сообщение
+      final headerMessage = AiMessage.header(message: settings.headerMessage);
+      aiMessages.add(headerMessage);
+      
+      // Конвертируем сообщения из OpenAI в AiMessage (в обратном порядке для хронологии)
+      for (final message in messages.data.reversed) {
+        if (message.role == 'user' && message.content.isNotEmpty) {
+          final content = message.content.first;
+          if (content.type == 'text' && content.text?.value != null) {
+            aiMessages.add(AiMessage.myQuestion(
+              message: content.text!.value,
+              date: _formatTimestamp(message.createdAt),
+            ));
+          }
+        } else if (message.role == 'assistant' && message.content.isNotEmpty) {
+          final content = message.content.first;
+          if (content.type == 'text' && content.text?.value != null) {
+            aiMessages.add(AiMessage.aiAnswer(
+              message: content.text!.value,
+              date: _formatTimestamp(message.createdAt),
+            ));
+          }
+        }
+      }
+      
+      return ChatHistory(messages: aiMessages);
+    } catch (e) {
+      // Если не удалось загрузить из thread, возвращаем только header
+      return ChatHistory.withHeaderMessage(settings.headerMessage);
+    }
+  }
+  
+  String _formatTimestamp(int timestamp) {
+    final date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+    return DateFormat('h:mm a').format(date);
   }
 }

@@ -2,7 +2,8 @@ import 'dart:async';
 
 import 'package:aichat/src/features/ai_chat/data/repository/ai_tutor_repo_impl.dart';
 import 'package:aichat/src/features/ai_chat/domain/enums/ai_chat_item_type.dart';
-import 'package:aichat/src/features/ai_chat/domain/models/ai_message/ai_message.dart';
+import 'package:aichat/src/features/ai_chat/domain/models/ai_message.dart';
+import 'package:aichat/src/features/ai_chat/domain/models/chat_history.dart';
 import 'package:aichat/src/features/ai_chat/domain/repository/ai_tutor_repo.dart';
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_event.dart';
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_state.dart';
@@ -36,7 +37,11 @@ class AiTutorController extends AsyncNotifier<AiTutorState> {
     handlerEvent(const InitializeAssistantEvent());
     handlerEvent(LoadHistoryEvent());
 
-    return const AiTutorState(stage: AiTutorStage.initial, messages: [], streamingResponse: '');
+    return const AiTutorState(
+      stage: AiTutorStage.initial,
+      chatHistory: ChatHistory(messages: []),
+      streamingResponse: '',
+    );
   }
 
   void dispose() {
@@ -48,7 +53,7 @@ class AiTutorController extends AsyncNotifier<AiTutorState> {
     SendQuestionEvent(query: final query) => _getAnswer(query),
     TryAgainSendQuestionEvent() =>
       state.value!.aiAnsweringOnQuestion != null
-          ? _tryAgainSendQuestion(state.value!.aiAnsweringOnQuestion!, List.of(state.value!.messages))
+          ? _tryAgainSendQuestion(state.value!.aiAnsweringOnQuestion!, state.value!.chatHistory)
           : Future.value(),
     // Assistants API v2 handlers
     InitializeAssistantEvent() => _initializeAssistant(),
@@ -59,57 +64,62 @@ class AiTutorController extends AsyncNotifier<AiTutorState> {
     StreamResponseUpdateEvent(chunk: final chunk) => _updateStreamingResponse(chunk),
   };
 
-  AiMessage _getHeaderAiMessage() => AiMessage(
-    message: aiRepo.settings.headerMessage,
-    type: AiChatItemType.header,
-    date: DateFormat('h:mm a').format(DateTime.now()),
-  );
-
   Future<void> _loadHistory() async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final List<AiMessage> messages = [_getHeaderAiMessage()];
-      messages.addAll(await aiRepo.getChatHistory());
-      return AiTutorState(messages: messages, stage: AiTutorStage.init);
+      ChatHistory chatHistory;
+      
+      // Если есть текущий thread, загружаем из OpenAI
+      if (state.value?.currentThreadId != null) {
+        chatHistory = await aiRepo.getThreadHistory(state.value!.currentThreadId!);
+      } else {
+        // Если нет активного thread, загружаем из Firestore (для обратной совместимости)
+        chatHistory = await aiRepo.getChatHistory();
+        final headerMessage = AiMessage.header(message: aiRepo.settings.headerMessage);
+        chatHistory = chatHistory.addHeaderMessage(headerMessage);
+      }
+      
+      return AiTutorState(
+        chatHistory: chatHistory, 
+        stage: AiTutorStage.init,
+        currentThreadId: state.value?.currentThreadId,
+        userThreads: state.value?.userThreads ?? [],
+      );
     });
   }
 
   Future<void> _getAnswer(String question) async {
-    final List<AiMessage> messages = List.of(state.value!.messages);
+    ChatHistory chatHistory = state.value!.chatHistory;
 
-    final questionMessage = AiMessage(
+    final questionMessage = AiMessage.myQuestion(
       message: question,
-      type: AiChatItemType.myQuestion,
       date: DateFormat('h:mm a').format(DateTime.now()),
     );
-    final answerMessageHold = AiMessage(
+    final answerMessageHold = AiMessage.aiAnswer(
       message: "",
-      type: AiChatItemType.aiAnswer,
       date: DateFormat('h:mm a').format(DateTime.now()),
     );
 
     try {
       await aiRepo.addMessage(questionMessage);
-      messages.add(questionMessage);
+      chatHistory = chatHistory.addMessage(questionMessage);
 
-      final List<AiMessage> messagesWithProgressHold = List.of(messages);
-      messagesWithProgressHold.add(answerMessageHold);
+      final ChatHistory messagesWithProgressHold = chatHistory.addMessage(answerMessageHold);
       state = AsyncValue.data(
         state.value!.copyWith(
-          messages: messagesWithProgressHold,
+          chatHistory: messagesWithProgressHold,
           aiAnsweringOnQuestion: questionMessage,
           stage: AiTutorStage.sentAIAnswerProgress,
         ),
       );
 
-      final answerMessage = AiMessage(
+      final answerMessage = AiMessage.aiAnswer(
         message: await aiRepo.sentQuestion(question),
-        type: AiChatItemType.aiAnswer,
         date: DateFormat('h:mm a').format(DateTime.now()),
       );
-      messages.add(answerMessage);
+      chatHistory = chatHistory.addMessage(answerMessage);
       await aiRepo.addMessage(answerMessage);
-      state = AsyncValue.data(state.value!.copyWith(messages: messages, stage: AiTutorStage.sentAIAnswerSuccess));
+      state = AsyncValue.data(state.value!.copyWith(chatHistory: chatHistory, stage: AiTutorStage.sentAIAnswerSuccess));
     } catch (e) {
       if (e is OpenAIServerError) {
         state = AsyncValue.error(e, StackTrace.current);
@@ -117,11 +127,11 @@ class AiTutorController extends AsyncNotifier<AiTutorState> {
         return;
       }
       if (e is OpenAIRateLimitError) {
-        await _changeTokenAndTryAgainGetAnswer(questionMessage, messages, 1);
+        await _changeTokenAndTryAgainGetAnswer(questionMessage, chatHistory, 1);
         return;
       }
       if (e is OpenAIAuthError) {
-        await _changeTokenAndTryAgainGetAnswer(questionMessage, messages, 1);
+        await _changeTokenAndTryAgainGetAnswer(questionMessage, chatHistory, 1);
         return;
       }
       if (e is RequestError) {
@@ -134,40 +144,41 @@ class AiTutorController extends AsyncNotifier<AiTutorState> {
     }
   }
 
-  Future<void> _tryAgainSendQuestion(AiMessage question, List<AiMessage> messages) async {
-    final answerMessageHold = AiMessage(
+  Future<void> _tryAgainSendQuestion(AiMessage question, ChatHistory chatHistory) async {
+    final answerMessageHold = AiMessage.aiAnswer(
       message: "",
-      type: AiChatItemType.aiAnswer,
       date: DateFormat('h:mm a').format(DateTime.now()),
     );
-    final List<AiMessage> messagesWithProgressHold = List.of(state.value!.messages);
-    messagesWithProgressHold.add(answerMessageHold);
+    final ChatHistory messagesWithProgressHold = chatHistory.addMessage(answerMessageHold);
     state = AsyncValue.data(
-      state.value!.copyWith(messages: messagesWithProgressHold, stage: AiTutorStage.sentAIAnswerProgress),
+      state.value!.copyWith(chatHistory: messagesWithProgressHold, stage: AiTutorStage.sentAIAnswerProgress),
     );
-    await _changeTokenAndTryAgainGetAnswer(question, messages, 1);
+    await _changeTokenAndTryAgainGetAnswer(question, chatHistory, 1);
   }
 
   Future<void> _changeTokenAndTryAgainGetAnswer(
     AiMessage question,
-    List<AiMessage> messages,
+    ChatHistory chatHistory,
     int countRepeat, [
     Object? error,
   ]) async {
     if (await connectivity.isConnected()) {
       try {
         aiRepo.changeAiToken();
-        final answerMessage = AiMessage(
+        final answerMessage = AiMessage.aiAnswer(
           message: await aiRepo.sentQuestion(question.message),
-          type: AiChatItemType.aiAnswer,
           date: DateFormat('h:mm a').format(DateTime.now()),
         );
-        messages.add(answerMessage);
         await aiRepo.addMessage(answerMessage);
-        state = AsyncValue.data(state.value!.copyWith(messages: messages, stage: AiTutorStage.sentAIAnswerSuccess));
+        state = AsyncValue.data(
+          state.value!.copyWith(
+            chatHistory: chatHistory.addMessage(answerMessage),
+            stage: AiTutorStage.sentAIAnswerSuccess,
+          ),
+        );
       } catch (e) {
         if (countRepeat < 3) {
-          await _changeTokenAndTryAgainGetAnswer(question, messages, countRepeat + 1, e);
+          await _changeTokenAndTryAgainGetAnswer(question, chatHistory, countRepeat + 1, e);
         } else {
           state = AsyncValue.error(e, StackTrace.current);
           FirebaseCrashlytics.instance.recordFlutterError(FlutterErrorDetails(exception: e));
@@ -184,11 +195,22 @@ class AiTutorController extends AsyncNotifier<AiTutorState> {
     try {
       await aiRepo.setupAssistant();
       final threads = await aiRepo.getUserThreads();
+      final currentThreadId = threads.isNotEmpty ? threads.last : null;
+      
+      // Загружаем историю из последнего thread если он есть
+      ChatHistory chatHistory;
+      if (currentThreadId != null) {
+        chatHistory = await aiRepo.getThreadHistory(currentThreadId);
+      } else {
+        chatHistory = ChatHistory.withHeaderMessage(aiRepo.settings.headerMessage);
+      }
+      
       state = AsyncValue.data(
         state.value!.copyWith(
           stage: AiTutorStage.init,
           userThreads: threads,
-          currentThreadId: threads.isNotEmpty ? threads.last : null,
+          currentThreadId: currentThreadId,
+          chatHistory: chatHistory,
         ),
       );
     } catch (e) {
@@ -202,13 +224,13 @@ class AiTutorController extends AsyncNotifier<AiTutorState> {
     try {
       final threadId = await aiRepo.createThread();
       final threads = await aiRepo.getUserThreads();
-      final List<AiMessage> messages = [_getHeaderAiMessage()];
+      final ChatHistory chatHistory = ChatHistory.withHeaderMessage(aiRepo.settings.headerMessage);
       state = AsyncValue.data(
         state.value!.copyWith(
           stage: AiTutorStage.init,
           currentThreadId: threadId,
           userThreads: threads,
-          messages: messages,
+          chatHistory: chatHistory,
         ),
       );
     } catch (e) {
@@ -220,10 +242,10 @@ class AiTutorController extends AsyncNotifier<AiTutorState> {
   Future<void> _selectThread(String threadId) async {
     state = const AsyncValue.loading();
     try {
-      // TODO: Load message history from thread via API
-      final List<AiMessage> messages = [_getHeaderAiMessage()];
+      // Загружаем историю сообщений из выбранного thread
+      final ChatHistory chatHistory = await aiRepo.getThreadHistory(threadId);
       state = AsyncValue.data(
-        state.value!.copyWith(stage: AiTutorStage.init, currentThreadId: threadId, messages: messages),
+        state.value!.copyWith(stage: AiTutorStage.init, currentThreadId: threadId, chatHistory: chatHistory),
       );
     } catch (e) {
       state = AsyncValue.error(e, StackTrace.current);
@@ -235,15 +257,15 @@ class AiTutorController extends AsyncNotifier<AiTutorState> {
       await aiRepo.deleteThread(threadId);
       final threads = await aiRepo.getUserThreads();
       String? newCurrentThreadId = state.value!.currentThreadId;
-      List<AiMessage> messages = state.value!.messages;
+      ChatHistory chatHistory = state.value!.chatHistory;
 
       if (state.value!.currentThreadId == threadId) {
         newCurrentThreadId = null;
-        messages = [_getHeaderAiMessage()];
+        chatHistory = ChatHistory.withHeaderMessage(aiRepo.settings.headerMessage);
       }
 
       state = AsyncValue.data(
-        state.value!.copyWith(currentThreadId: newCurrentThreadId, userThreads: threads, messages: messages),
+        state.value!.copyWith(currentThreadId: newCurrentThreadId, userThreads: threads, chatHistory: chatHistory),
       );
     } catch (e, s) {
       state = AsyncValue.error(e, s);
@@ -256,28 +278,26 @@ class AiTutorController extends AsyncNotifier<AiTutorState> {
       if (state.value!.currentThreadId == null) return;
     }
 
-    List<AiMessage> messages = List.of(state.value!.messages);
+    ChatHistory chatHistory = state.value!.chatHistory;
 
-    final questionMessage = AiMessage(
+    final questionMessage = AiMessage.myQuestion(
       message: question,
-      type: AiChatItemType.myQuestion,
       date: DateFormat('h:mm a').format(DateTime.now()),
     );
 
-    messages.add(questionMessage);
+    chatHistory = chatHistory.addMessage(questionMessage);
     await aiRepo.addMessage(questionMessage);
 
     // Add empty message for streaming
-    final streamingMessage = AiMessage(
+    final streamingMessage = AiMessage.aiAnswer(
       message: '',
-      type: AiChatItemType.aiAnswer,
       date: DateFormat('h:mm a').format(DateTime.now()),
     );
-    messages.add(streamingMessage);
+    chatHistory = chatHistory.addMessage(streamingMessage);
 
     state = AsyncValue.data(
       state.value!.copyWith(
-        messages: messages,
+        chatHistory: chatHistory,
         stage: AiTutorStage.streamingResponse,
         isStreaming: true,
         streamingResponse: '',
@@ -309,21 +329,19 @@ class AiTutorController extends AsyncNotifier<AiTutorState> {
       await completer.future;
 
       // Сохраняем финальное сообщение
-      final finalMessage = AiMessage(
+      final finalMessage = AiMessage.aiAnswer(
         message: _currentStreamingMessage,
-        type: AiChatItemType.aiAnswer,
         date: DateFormat('h:mm a').format(DateTime.now()),
       );
 
       await aiRepo.addMessage(finalMessage);
 
       // Обновляем последнее сообщение в списке
-      messages = List.of(state.value!.messages);
-      messages[messages.length - 1] = finalMessage;
+      chatHistory = chatHistory.updateLastMessage(finalMessage);
 
       state = AsyncValue.data(
         state.value!.copyWith(
-          messages: messages,
+          chatHistory: chatHistory,
           stage: AiTutorStage.sentAIAnswerSuccess,
           isStreaming: false,
           streamingResponse: null,
@@ -338,14 +356,13 @@ class AiTutorController extends AsyncNotifier<AiTutorState> {
 
   void _updateStreamingResponse(String chunk) {
     if (state.value!.isStreaming) {
-      final List<AiMessage> messages = List.of(state.value!.messages);
-      if (messages.isNotEmpty) {
-        messages[messages.length - 1] = AiMessage(
+      ChatHistory chatHistory = state.value!.chatHistory;
+      if (chatHistory.messages.isNotEmpty) {
+        chatHistory = chatHistory.updateLastMessage(AiMessage.aiAnswer(
           message: chunk,
-          type: AiChatItemType.aiAnswer,
-          date: messages[messages.length - 1].date,
-        );
-        state = AsyncValue.data(state.value!.copyWith(messages: messages, streamingResponse: chunk));
+          date: chatHistory.messages[chatHistory.messages.length - 1].date,
+        ));
+        state = AsyncValue.data(state.value!.copyWith(chatHistory: chatHistory, streamingResponse: chunk));
       }
     }
   }
