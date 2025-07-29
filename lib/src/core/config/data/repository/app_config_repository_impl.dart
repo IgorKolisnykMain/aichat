@@ -1,7 +1,7 @@
 import 'package:aichat/src/core/config/domain/repository/app_config_repository.dart';
 import 'package:aichat/src/core/config/models/app_config/app_config.dart';
 import 'package:aichat/src/core/env/env.dart';
-import 'package:aichat/src/features/ai_chat/domain/models/ai_chat_settings/ai_chat_settings.dart';
+import 'package:aichat/src/features/ai_chat/domain/models/ai_chat_settings.dart';
 import 'package:aichat/src/utils/app/domain/enums/user_platform.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

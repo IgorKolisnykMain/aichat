@@ -32,19 +32,28 @@ mixin _$AiChatSettings {
   /// Create a copy of AiChatSettings
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $AiChatSettingsCopyWith<AiChatSettings> get copyWith => throw _privateConstructorUsedError;
+  $AiChatSettingsCopyWith<AiChatSettings> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $AiChatSettingsCopyWith<$Res> {
-  factory $AiChatSettingsCopyWith(AiChatSettings value, $Res Function(AiChatSettings) then) =
-      _$AiChatSettingsCopyWithImpl<$Res, AiChatSettings>;
+  factory $AiChatSettingsCopyWith(
+    AiChatSettings value,
+    $Res Function(AiChatSettings) then,
+  ) = _$AiChatSettingsCopyWithImpl<$Res, AiChatSettings>;
   @useResult
-  $Res call({String headerMessage, String promptChat, List<String> tokens, List<String> usedTokens});
+  $Res call({
+    String headerMessage,
+    String promptChat,
+    List<String> tokens,
+    List<String> usedTokens,
+  });
 }
 
 /// @nodoc
-class _$AiChatSettingsCopyWithImpl<$Res, $Val extends AiChatSettings> implements $AiChatSettingsCopyWith<$Res> {
+class _$AiChatSettingsCopyWithImpl<$Res, $Val extends AiChatSettings>
+    implements $AiChatSettingsCopyWith<$Res> {
   _$AiChatSettingsCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -87,19 +96,30 @@ class _$AiChatSettingsCopyWithImpl<$Res, $Val extends AiChatSettings> implements
 }
 
 /// @nodoc
-abstract class _$$AiChatSettingsImplCopyWith<$Res> implements $AiChatSettingsCopyWith<$Res> {
-  factory _$$AiChatSettingsImplCopyWith(_$AiChatSettingsImpl value, $Res Function(_$AiChatSettingsImpl) then) =
-      __$$AiChatSettingsImplCopyWithImpl<$Res>;
+abstract class _$$AiChatSettingsImplCopyWith<$Res>
+    implements $AiChatSettingsCopyWith<$Res> {
+  factory _$$AiChatSettingsImplCopyWith(
+    _$AiChatSettingsImpl value,
+    $Res Function(_$AiChatSettingsImpl) then,
+  ) = __$$AiChatSettingsImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String headerMessage, String promptChat, List<String> tokens, List<String> usedTokens});
+  $Res call({
+    String headerMessage,
+    String promptChat,
+    List<String> tokens,
+    List<String> usedTokens,
+  });
 }
 
 /// @nodoc
-class __$$AiChatSettingsImplCopyWithImpl<$Res> extends _$AiChatSettingsCopyWithImpl<$Res, _$AiChatSettingsImpl>
+class __$$AiChatSettingsImplCopyWithImpl<$Res>
+    extends _$AiChatSettingsCopyWithImpl<$Res, _$AiChatSettingsImpl>
     implements _$$AiChatSettingsImplCopyWith<$Res> {
-  __$$AiChatSettingsImplCopyWithImpl(_$AiChatSettingsImpl _value, $Res Function(_$AiChatSettingsImpl) _then)
-    : super(_value, _then);
+  __$$AiChatSettingsImplCopyWithImpl(
+    _$AiChatSettingsImpl _value,
+    $Res Function(_$AiChatSettingsImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of AiChatSettings
   /// with the given fields replaced by the non-null parameter values.
@@ -145,7 +165,8 @@ class _$AiChatSettingsImpl implements _AiChatSettings {
   }) : _tokens = tokens,
        _usedTokens = usedTokens;
 
-  factory _$AiChatSettingsImpl.fromJson(Map<String, dynamic> json) => _$$AiChatSettingsImplFromJson(json);
+  factory _$AiChatSettingsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AiChatSettingsImplFromJson(json);
 
   @override
   final String headerMessage;
@@ -178,10 +199,15 @@ class _$AiChatSettingsImpl implements _AiChatSettings {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AiChatSettingsImpl &&
-            (identical(other.headerMessage, headerMessage) || other.headerMessage == headerMessage) &&
-            (identical(other.promptChat, promptChat) || other.promptChat == promptChat) &&
+            (identical(other.headerMessage, headerMessage) ||
+                other.headerMessage == headerMessage) &&
+            (identical(other.promptChat, promptChat) ||
+                other.promptChat == promptChat) &&
             const DeepCollectionEquality().equals(other._tokens, _tokens) &&
-            const DeepCollectionEquality().equals(other._usedTokens, _usedTokens));
+            const DeepCollectionEquality().equals(
+              other._usedTokens,
+              _usedTokens,
+            ));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -200,7 +226,10 @@ class _$AiChatSettingsImpl implements _AiChatSettings {
   @override
   @pragma('vm:prefer-inline')
   _$$AiChatSettingsImplCopyWith<_$AiChatSettingsImpl> get copyWith =>
-      __$$AiChatSettingsImplCopyWithImpl<_$AiChatSettingsImpl>(this, _$identity);
+      __$$AiChatSettingsImplCopyWithImpl<_$AiChatSettingsImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   Map<String, dynamic> toJson() {
@@ -216,7 +245,8 @@ abstract class _AiChatSettings implements AiChatSettings {
     final List<String> usedTokens,
   }) = _$AiChatSettingsImpl;
 
-  factory _AiChatSettings.fromJson(Map<String, dynamic> json) = _$AiChatSettingsImpl.fromJson;
+  factory _AiChatSettings.fromJson(Map<String, dynamic> json) =
+      _$AiChatSettingsImpl.fromJson;
 
   @override
   String get headerMessage;
@@ -231,5 +261,6 @@ abstract class _AiChatSettings implements AiChatSettings {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AiChatSettingsImplCopyWith<_$AiChatSettingsImpl> get copyWith => throw _privateConstructorUsedError;
+  _$$AiChatSettingsImplCopyWith<_$AiChatSettingsImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

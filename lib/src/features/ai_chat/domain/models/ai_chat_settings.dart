@@ -14,3 +14,13 @@ abstract class AiChatSettings with _$AiChatSettings {
 
   factory AiChatSettings.fromJson(Map<String, dynamic> json) => _$AiChatSettingsFromJson(json);
 }
+
+extension MutableAiChatSettings on AiChatSettings {
+  AiChatSettings setUsedTokens(List<String> usedTokens) => copyWith(usedTokens: usedTokens);
+
+  AiChatSettings addUsedToken(String usedToken) {
+    final updatedUsedTokens = Set.of(usedTokens);
+    updatedUsedTokens.add(usedToken);
+    return copyWith(usedTokens: updatedUsedTokens.toList());
+  }
+}

@@ -32,18 +32,26 @@ mixin _$AiMessage {
   /// Create a copy of AiMessage
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $AiMessageCopyWith<AiMessage> get copyWith => throw _privateConstructorUsedError;
+  $AiMessageCopyWith<AiMessage> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $AiMessageCopyWith<$Res> {
-  factory $AiMessageCopyWith(AiMessage value, $Res Function(AiMessage) then) = _$AiMessageCopyWithImpl<$Res, AiMessage>;
+  factory $AiMessageCopyWith(AiMessage value, $Res Function(AiMessage) then) =
+      _$AiMessageCopyWithImpl<$Res, AiMessage>;
   @useResult
-  $Res call({String message, AiChatItemType type, String date, String? customPrompt});
+  $Res call({
+    String message,
+    AiChatItemType type,
+    String date,
+    String? customPrompt,
+  });
 }
 
 /// @nodoc
-class _$AiMessageCopyWithImpl<$Res, $Val extends AiMessage> implements $AiMessageCopyWith<$Res> {
+class _$AiMessageCopyWithImpl<$Res, $Val extends AiMessage>
+    implements $AiMessageCopyWith<$Res> {
   _$AiMessageCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -55,7 +63,12 @@ class _$AiMessageCopyWithImpl<$Res, $Val extends AiMessage> implements $AiMessag
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? message = null, Object? type = null, Object? date = null, Object? customPrompt = freezed}) {
+  $Res call({
+    Object? message = null,
+    Object? type = null,
+    Object? date = null,
+    Object? customPrompt = freezed,
+  }) {
     return _then(
       _value.copyWith(
             message: null == message
@@ -81,24 +94,41 @@ class _$AiMessageCopyWithImpl<$Res, $Val extends AiMessage> implements $AiMessag
 }
 
 /// @nodoc
-abstract class _$$AiMessageImplCopyWith<$Res> implements $AiMessageCopyWith<$Res> {
-  factory _$$AiMessageImplCopyWith(_$AiMessageImpl value, $Res Function(_$AiMessageImpl) then) =
-      __$$AiMessageImplCopyWithImpl<$Res>;
+abstract class _$$AiMessageImplCopyWith<$Res>
+    implements $AiMessageCopyWith<$Res> {
+  factory _$$AiMessageImplCopyWith(
+    _$AiMessageImpl value,
+    $Res Function(_$AiMessageImpl) then,
+  ) = __$$AiMessageImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String message, AiChatItemType type, String date, String? customPrompt});
+  $Res call({
+    String message,
+    AiChatItemType type,
+    String date,
+    String? customPrompt,
+  });
 }
 
 /// @nodoc
-class __$$AiMessageImplCopyWithImpl<$Res> extends _$AiMessageCopyWithImpl<$Res, _$AiMessageImpl>
+class __$$AiMessageImplCopyWithImpl<$Res>
+    extends _$AiMessageCopyWithImpl<$Res, _$AiMessageImpl>
     implements _$$AiMessageImplCopyWith<$Res> {
-  __$$AiMessageImplCopyWithImpl(_$AiMessageImpl _value, $Res Function(_$AiMessageImpl) _then) : super(_value, _then);
+  __$$AiMessageImplCopyWithImpl(
+    _$AiMessageImpl _value,
+    $Res Function(_$AiMessageImpl) _then,
+  ) : super(_value, _then);
 
   /// Create a copy of AiMessage
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? message = null, Object? type = null, Object? date = null, Object? customPrompt = freezed}) {
+  $Res call({
+    Object? message = null,
+    Object? type = null,
+    Object? date = null,
+    Object? customPrompt = freezed,
+  }) {
     return _then(
       _$AiMessageImpl(
         message: null == message
@@ -124,10 +154,16 @@ class __$$AiMessageImplCopyWithImpl<$Res> extends _$AiMessageCopyWithImpl<$Res, 
 
 /// @nodoc
 @JsonSerializable()
-class _$AiMessageImpl implements _AiMessage {
-  const _$AiMessageImpl({required this.message, required this.type, required this.date, this.customPrompt});
+class _$AiMessageImpl extends _AiMessage {
+  const _$AiMessageImpl({
+    required this.message,
+    required this.type,
+    required this.date,
+    this.customPrompt,
+  }) : super._();
 
-  factory _$AiMessageImpl.fromJson(Map<String, dynamic> json) => _$$AiMessageImplFromJson(json);
+  factory _$AiMessageImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AiMessageImplFromJson(json);
 
   @override
   final String message;
@@ -140,7 +176,7 @@ class _$AiMessageImpl implements _AiMessage {
 
   @override
   String toString() {
-    return 'AiMessage(message: $message, type: $type, date: $date, customPrompt: $customPrompt)';
+    return 'AiMessage._base(message: $message, type: $type, date: $date, customPrompt: $customPrompt)';
   }
 
   @override
@@ -151,12 +187,14 @@ class _$AiMessageImpl implements _AiMessage {
             (identical(other.message, message) || other.message == message) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.date, date) || other.date == date) &&
-            (identical(other.customPrompt, customPrompt) || other.customPrompt == customPrompt));
+            (identical(other.customPrompt, customPrompt) ||
+                other.customPrompt == customPrompt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, message, type, date, customPrompt);
+  int get hashCode =>
+      Object.hash(runtimeType, message, type, date, customPrompt);
 
   /// Create a copy of AiMessage
   /// with the given fields replaced by the non-null parameter values.
@@ -172,15 +210,17 @@ class _$AiMessageImpl implements _AiMessage {
   }
 }
 
-abstract class _AiMessage implements AiMessage {
+abstract class _AiMessage extends AiMessage {
   const factory _AiMessage({
     required final String message,
     required final AiChatItemType type,
     required final String date,
     final String? customPrompt,
   }) = _$AiMessageImpl;
+  const _AiMessage._() : super._();
 
-  factory _AiMessage.fromJson(Map<String, dynamic> json) = _$AiMessageImpl.fromJson;
+  factory _AiMessage.fromJson(Map<String, dynamic> json) =
+      _$AiMessageImpl.fromJson;
 
   @override
   String get message;
@@ -195,5 +235,6 @@ abstract class _AiMessage implements AiMessage {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AiMessageImplCopyWith<_$AiMessageImpl> get copyWith => throw _privateConstructorUsedError;
+  _$$AiMessageImplCopyWith<_$AiMessageImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
