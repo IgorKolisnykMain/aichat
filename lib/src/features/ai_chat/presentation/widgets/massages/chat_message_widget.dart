@@ -9,9 +9,8 @@ import 'package:flutter/material.dart';
 
 class ChatMessageWidget extends StatelessWidget {
   final AiMessage message;
-  final bool isLoading;
 
-  const ChatMessageWidget({super.key, required this.message, this.isLoading = false});
+  const ChatMessageWidget({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +20,7 @@ class ChatMessageWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
         backgroundColor: context.colors.primaryLight,
-        isLoading: isLoading,
+        isLoading: false,
         message: message,
         messageType: MessageType.user,
         userName: context.l10n.user,
@@ -30,7 +29,16 @@ class ChatMessageWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         backgroundColor: context.colors.backgroundAccent,
-        isLoading: isLoading,
+        isLoading: false,
+        message: message,
+        messageType: MessageType.ai,
+        userName: context.l10n.aiPsychologist,
+      ),
+      AiChatItemType.loadingMock => _BodyMessageWidget(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        backgroundColor: context.colors.backgroundAccent,
+        isLoading: true,
         message: message,
         messageType: MessageType.ai,
         userName: context.l10n.aiPsychologist,

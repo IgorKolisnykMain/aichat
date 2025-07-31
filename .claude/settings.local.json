@@ -19,7 +19,10 @@
       "Bash(chmod:*)",
       "Bash(/home/ihor/figma-mcp-wrapper.sh:*)",
       "Bash(timeout 30s flutter test:*)",
-      "Bash(flutter test:*)"
+      "Bash(flutter test:*)",
+      "Bash(windsurf:*)",
+      "Bash(dart:*)",
+      "Bash(git commit:*)"
     ],
     "deny": []
   }

@@ -1,6 +1,4 @@
-import 'package:aichat/src/features/ai_chat/domain/enums/ai_chat_item_type.dart';
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_controller.dart';
-import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_state.dart';
 import 'package:aichat/src/features/ai_chat/presentation/widgets/massages/chat_message_widget.dart';
 import 'package:aichat/src/utils/extensions/responsive_extension.dart';
 import 'package:flutter/material.dart';
@@ -27,11 +25,6 @@ class ChatListWidget extends ConsumerWidget {
         final message = state.value!.chatHistory.messages[index];
         return ChatMessageWidget(
           message: message,
-          isLoading:
-              (state.value!.stage == AiTutorStage.sentAIAnswerProgress ||
-                  state.value!.stage == AiTutorStage.streamingResponse && state.value!.isStreaming) &&
-              index == state.value!.chatHistory.messages.length - 1 &&
-              message.type == AiChatItemType.aiAnswer,
         );
       },
     );

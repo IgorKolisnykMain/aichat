@@ -24,7 +24,7 @@ void main() {
     mockAuthRepository = MockAuthFirebaseRepository();
     testUser = AppUser(uid: 'test-uid', email: testEmail);
 
-    // Создаем контейнер с переопределенным провайдером
+    // Create container with overridden provider
     container = ProviderContainer(overrides: [authRepoProvider.overrideWith((ref) => mockAuthRepository)]);
   });
 

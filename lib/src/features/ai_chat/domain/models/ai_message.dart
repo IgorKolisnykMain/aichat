@@ -21,17 +21,29 @@ sealed class AiMessage with _$AiMessage {
 
   factory AiMessage.myQuestion({
     required String message,
-    required String date,
+    String? date,
     String? customPrompt,
   }) => AiMessage._base(
     message: message,
     type: AiChatItemType.myQuestion,
-    date: date,
+    date: date ?? DateFormat('h:mm a').format(DateTime.now()),
     customPrompt: customPrompt,
   );
 
-  factory AiMessage.aiAnswer({required String message, required String date}) =>
-      AiMessage._base(message: message, type: AiChatItemType.aiAnswer, date: date);
+  factory AiMessage.aiAnswer({
+    required String message,
+    String? date,
+  }) => AiMessage._base(
+    message: message,
+    type: AiChatItemType.aiAnswer,
+    date: date ?? DateFormat('h:mm a').format(DateTime.now()),
+  );
+
+  factory AiMessage.loadingMock() => AiMessage._base(
+    message: '',
+    type: AiChatItemType.loadingMock,
+    date: DateFormat('h:mm a').format(DateTime.now()),
+  );
 
   factory AiMessage.fromJson(Map<String, dynamic> json) => _$AiMessageFromJson(json);
 }

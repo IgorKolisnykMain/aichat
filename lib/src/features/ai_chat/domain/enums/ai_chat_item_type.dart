@@ -1,1 +1,1 @@
-enum AiChatItemType { header, myQuestion, aiAnswer }
+enum AiChatItemType { header, myQuestion, aiAnswer, loadingMock }

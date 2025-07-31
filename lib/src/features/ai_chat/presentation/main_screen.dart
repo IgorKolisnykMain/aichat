@@ -63,8 +63,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   void _sendMessage(String text) {
     if (text.trim().isEmpty) return;
 
-    // Use new event for working with Assistants API
-    ref.read(aiTutorControllerProvider.notifier).handlerEvent(SendQuestionToAssistantEvent(query: text.trim()));
+    // Send question - controller will automatically detect API to use
+    ref.read(aiTutorControllerProvider.notifier).handlerEvent(SendQuestionEvent(query: text.trim()));
     textController.clear();
     _scrollToBottom();
   }

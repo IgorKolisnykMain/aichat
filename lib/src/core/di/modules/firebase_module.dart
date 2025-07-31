@@ -13,7 +13,7 @@ final firebaseAppProvider = FutureProvider.autoDispose<FirebaseApp>((ref) async 
   final app = await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   try {
     await FirebaseAppCheck.instance.activate(
-      // Всегда используем debug провайдер для разработки
+      // Always use debug provider for development
       androidProvider: AndroidProvider.debug,
       appleProvider: AppleProvider.debug,
       webProvider: ReCaptchaV3Provider(kWebRecaptchaSiteKey),

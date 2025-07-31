@@ -7,11 +7,6 @@ sealed class AiTutorEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class LoadHistoryEvent extends AiTutorEvent {
-  @override
-  List<Object?> get props => [];
-}
-
 class SendQuestionEvent extends AiTutorEvent {
   final String query;
 
@@ -19,21 +14,6 @@ class SendQuestionEvent extends AiTutorEvent {
 
   @override
   List<Object?> get props => [query];
-}
-
-class TryAgainSendQuestionEvent extends AiTutorEvent {
-  const TryAgainSendQuestionEvent();
-
-  @override
-  List<Object?> get props => [];
-}
-
-// Assistants API v2 events
-class InitializeAssistantEvent extends AiTutorEvent {
-  const InitializeAssistantEvent();
-
-  @override
-  List<Object?> get props => [];
 }
 
 class CreateNewThreadEvent extends AiTutorEvent {
@@ -59,22 +39,4 @@ class DeleteThreadEvent extends AiTutorEvent {
 
   @override
   List<Object?> get props => [threadId];
-}
-
-class SendQuestionToAssistantEvent extends AiTutorEvent {
-  final String query;
-
-  const SendQuestionToAssistantEvent({required this.query});
-
-  @override
-  List<Object?> get props => [query];
-}
-
-class StreamResponseUpdateEvent extends AiTutorEvent {
-  final String chunk;
-
-  const StreamResponseUpdateEvent({required this.chunk});
-
-  @override
-  List<Object?> get props => [chunk];
 }

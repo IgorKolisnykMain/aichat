@@ -1,3 +1,4 @@
+import 'package:aichat/src/features/ai_chat/domain/enums/ai_chat_item_type.dart';
 import 'package:aichat/src/features/ai_chat/domain/models/ai_message.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -42,6 +43,18 @@ extension MutableChatHistory on ChatHistory {
   ChatHistory updateLastMessage(AiMessage message) {
     final List<AiMessage> messages = List.of(this.messages);
     messages[messages.length - 1] = message;
+    return copyWith(messages: messages);
+  }
+
+  ChatHistory addLoadingMockMessage() {
+    final List<AiMessage> messages = List.of(this.messages);
+    messages.add(AiMessage.loadingMock());
+    return copyWith(messages: messages);
+  }
+
+  ChatHistory removeLoadingMockMessage() {
+    final List<AiMessage> messages = List.of(this.messages);
+    messages.removeWhere((message) => message.type == AiChatItemType.loadingMock);
     return copyWith(messages: messages);
   }
 }
