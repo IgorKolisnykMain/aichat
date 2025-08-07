@@ -17,16 +17,10 @@ class AuthStateNotifier extends ChangeNotifier {
       _subscription?.cancel();
     });
     ref.listen(authRepoProvider, (previous, next) {
-      next.when(
-        data: (authRepo) {
-          _subscription?.cancel();
-          _subscription = authRepo.authStateChanges().listen((_) {
-            notifyListeners();
-          });
-        },
-        error: (_, _) {},
-        loading: () {},
-      );
+      _subscription?.cancel();
+      _subscription = next.authStateChanges().listen((_) {
+        notifyListeners();
+      });
     });
   }
 

@@ -2,20 +2,18 @@ import 'package:aichat/src/features/onboarding/auth/data/repo/auth_firebase_repo
 import 'package:aichat/src/features/onboarding/auth/domain/repo/auth_repo.dart';
 import 'package:aichat/src/features/onboarding/auth/presentation/password_recovery/controller/password_recovery_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 
 final passwordRecoveryControllerProvider =
-    AsyncNotifierProvider.autoDispose<PasswordRecoveryController, PasswordRecoveryState>(() {
-      return PasswordRecoveryController();
+    StateNotifierProvider.autoDispose<PasswordRecoveryController, AsyncValue<PasswordRecoveryState>>((ref) {
+      final authFirebaseRep = ref.read(authRepoProvider);
+      return PasswordRecoveryController(authFirebaseRep);
     });
 
-class PasswordRecoveryController extends AsyncNotifier<PasswordRecoveryState> {
-  late final AuthRepository authFirebaseRep;
+class PasswordRecoveryController extends StateNotifier<AsyncValue<PasswordRecoveryState>> {
+  final AuthRepository authFirebaseRep;
 
-  @override
-  Future<PasswordRecoveryState> build() async {
-    authFirebaseRep = await ref.read(authRepoProvider.future);
-    return const PasswordRecoveryState();
-  }
+  PasswordRecoveryController(this.authFirebaseRep) : super(const AsyncValue.data(PasswordRecoveryState()));
 
   Future<void> recoverPassword(String email) async {
     state = const AsyncValue.loading();

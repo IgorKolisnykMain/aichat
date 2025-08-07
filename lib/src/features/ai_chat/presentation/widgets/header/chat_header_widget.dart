@@ -8,9 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class ChatHeaderWidget extends ConsumerWidget {
   const ChatHeaderWidget({super.key});
 
-  Future<void> _logout(WidgetRef ref) async {
-    (await ref.read(authRepoProvider.future)).logout();
-  }
+  void _logout(WidgetRef ref) => ref.read(authRepoProvider).logout();
 
   void _showThreadsMenu(BuildContext context, WidgetRef ref) {
     showModalBottomSheet(

@@ -28,7 +28,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
     refreshListenable: AuthStateNotifier(ref),
     redirect: (context, state) {
       final authRepoAsync = ref.read(authRepoProvider);
-      final isLoggedIn = authRepoAsync.maybeWhen(data: (data) => data.currentUser != null, orElse: () => false);
+      final isLoggedIn = authRepoAsync.currentUser != null;
 
       final path = state.uri.path;
       if (isLoggedIn &&

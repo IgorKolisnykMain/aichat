@@ -1,5 +1,8 @@
+import 'package:aichat/firebase_options.dart';
 import 'package:aichat/src/app.dart';
 import 'package:aichat/src/core/config/data/repository/app_config_repository_impl.dart';
+import 'package:aichat/src/core/di/modules/firebase_module.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +18,14 @@ void main() async {
   _registerErrorHandlers();
 
   final appConfigRepo = await AppConfigRepositoryImpl.init();
-
+  final firebaseApp = await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  
   runApp(
     ProviderScope(
-      overrides: [appConfigRepositoryProvider.overrideWith((ref) => appConfigRepo)],
+      overrides: [
+        appConfigRepositoryProvider.overrideWith((ref) => appConfigRepo),
+        firebaseAppProvider.overrideWith((ref) => firebaseApp),
+      ],
       child: AppAdaptiveUI(config: appConfigRepo.config),
     ),
   );

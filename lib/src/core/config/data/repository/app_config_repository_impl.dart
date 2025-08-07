@@ -7,8 +7,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-final appConfigRepositoryProvider = FutureProvider.autoDispose<AppConfigRepository>((ref) async {
-  return await AppConfigRepositoryImpl.init();
+final appConfigRepositoryProvider = Provider<AppConfigRepository>((ref) {
+  // * Override this in the main method
+  throw UnimplementedError();
 });
 
 class AppConfigRepositoryImpl implements AppConfigRepository {
@@ -20,7 +21,7 @@ class AppConfigRepositoryImpl implements AppConfigRepository {
   AppConfig get config => _appConfig;
 
   @override
-  Future<AiChatSettings> getAiSettings() async {
+  AiChatSettings getAiSettings() {
     return AiChatSettings(
       headerMessage: "AI Assistant",
       promptChat: "You are a helpful AI assistant. Answer questions concisely and accurately.",

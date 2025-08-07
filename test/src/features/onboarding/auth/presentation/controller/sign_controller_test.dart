@@ -33,13 +33,13 @@ void main() {
   });
 
   group('SignController', () {
-    test('initial state should be SignStage.init', () async {
+    test('initial state should be SignStage.init', () {
       // Arrange & Act
-      final controller = container.read(signControllerProvider.future);
-      final state = await controller;
+      final controller = container.read(signControllerProvider.notifier);
+      final state = controller.state;
 
       // Assert
-      expect(state.stage, SignStage.init);
+      expect(state.value?.stage, SignStage.init);
     });
 
     group('signVia google', () {
@@ -55,7 +55,6 @@ void main() {
           when(() => mockAuthRepository.signVia(SignSource.google)).thenAnswer((_) async => appUserInfo);
 
           // Act
-          await container.read(signControllerProvider.future);
           final controller = container.read(signControllerProvider.notifier);
           await controller.signVia(SignSource.google);
 
@@ -76,7 +75,7 @@ void main() {
           when(() => mockAuthRepository.signVia(SignSource.google)).thenAnswer((_) async => appUserInfo);
 
           // Act
-          await container.read(signControllerProvider.future);
+          container.read(signControllerProvider);
           final controller = container.read(signControllerProvider.notifier);
           await controller.signVia(SignSource.google);
 
@@ -97,7 +96,7 @@ void main() {
           when(() => mockAuthRepository.signVia(SignSource.google)).thenThrow(exception);
 
           // Act
-          await container.read(signControllerProvider.future);
+          container.read(signControllerProvider);
           final controller = container.read(signControllerProvider.notifier);
           await controller.signVia(SignSource.google);
 
@@ -122,7 +121,7 @@ void main() {
           ).thenAnswer((_) async => testUser);
 
           // Act
-          await container.read(signControllerProvider.future);
+          container.read(signControllerProvider);
           final controller = container.read(signControllerProvider.notifier);
           await controller.signUpViaEmail(email: testEmail, password: testPassword);
 
@@ -145,7 +144,7 @@ void main() {
           ).thenThrow(exception);
 
           // Act
-          await container.read(signControllerProvider.future);
+          container.read(signControllerProvider);
           final controller = container.read(signControllerProvider.notifier);
           await controller.signUpViaEmail(email: testEmail, password: testPassword);
 
@@ -170,7 +169,7 @@ void main() {
           ).thenAnswer((_) async => testUser);
 
           // Act
-          await container.read(signControllerProvider.future);
+          container.read(signControllerProvider);
           final controller = container.read(signControllerProvider.notifier);
           await controller.signInViaEmail(email: testEmail, password: testPassword);
 
@@ -193,7 +192,7 @@ void main() {
           ).thenThrow(exception);
 
           // Act
-          await container.read(signControllerProvider.future);
+          container.read(signControllerProvider);
           final controller = container.read(signControllerProvider.notifier);
           await controller.signInViaEmail(email: testEmail, password: testPassword);
 

@@ -14,20 +14,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-final authRepoProvider = FutureProvider<AuthRepository>((ref) async {
+final authRepoProvider = Provider<AuthRepository>((ref) {
   return AuthFirebaseRepositoryImpl(
-    firebaseAuth: await ref.read(firebaseAuthProvider.future),
+    firebaseAuth: ref.read(firebaseAuthProvider),
     googleSignIn: GoogleSignIn(),
   );
 });
 
 final authStateChangesProvider = StreamProvider<AppUser?>((ref) {
   final authRepository = ref.watch(authRepoProvider);
-  return authRepository.when(
-    data: (data) => data.authStateChanges(),
-    error: (error, stack) => Stream.value(null),
-    loading: () => Stream.value(null),
-  );
+  return authRepository.authStateChanges();
 });
 
 class AuthFirebaseRepositoryImpl implements AuthRepository {

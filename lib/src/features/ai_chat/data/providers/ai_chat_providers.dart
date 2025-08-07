@@ -18,10 +18,10 @@ import 'package:aichat/src/utils/connection/data/services/connectivity_detector_
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final aiRepositoryProvider = FutureProvider<AiRepository>((ref) async {
-  final appConfig = await ref.read(appConfigRepositoryProvider.future);
-  final settings = await appConfig.getAiSettings();
-  final assistantStorage = await ref.read(assistantStorageProvider.future);
+final aiRepositoryProvider = Provider<AiRepository>((ref) {
+  final appConfig = ref.read(appConfigRepositoryProvider);
+  final settings = appConfig.getAiSettings();
+  final assistantStorage = ref.read(assistantStorageProvider);
 
   final repository = ChatGptAiRepository(
     settings: settings,
@@ -32,9 +32,9 @@ final aiRepositoryProvider = FutureProvider<AiRepository>((ref) async {
   return repository;
 });
 
-final aiTokenStorageProvider = FutureProvider<AITokenStorage>((ref) async {
-  final fireStore = await ref.read(firestoreProvider.future);
-  final userStream = (await ref.read(authRepoProvider.future)).authStateChanges();
+final aiTokenStorageProvider = Provider<AITokenStorage>((ref) {
+  final fireStore = ref.read(firestoreProvider);
+  final userStream = ref.read(authRepoProvider).authStateChanges();
 
   final storage = FirestoreAiTokenStorage(
     fireStore: fireStore,
@@ -45,17 +45,17 @@ final aiTokenStorageProvider = FutureProvider<AITokenStorage>((ref) async {
   return storage;
 });
 
-final assistantStorageProvider = FutureProvider<AssistantStorage>((ref) async {
-  final fireStore = await ref.read(firestoreProvider.future);
+final assistantStorageProvider = Provider<AssistantStorage>((ref) {
+  final fireStore = ref.read(firestoreProvider);
 
   return FirestoreAssistantStorage(
     fireStore: fireStore,
   );
 });
 
-final threadIdStorageProvider = FutureProvider<ThreadIdStorage>((ref) async {
-  final fireStore = await ref.read(firestoreProvider.future);
-  final userStream = (await ref.read(authRepoProvider.future)).authStateChanges();
+final threadIdStorageProvider = Provider<ThreadIdStorage>((ref) {
+  final fireStore = ref.read(firestoreProvider);
+  final userStream = ref.read(authRepoProvider).authStateChanges();
 
   final storage = FirestoreThreadIdStorage(
     fireStore: fireStore,
@@ -66,9 +66,9 @@ final threadIdStorageProvider = FutureProvider<ThreadIdStorage>((ref) async {
   return storage;
 });
 
-final firestoreChatStorageProvider = FutureProvider<ChatStorage>((ref) async {
-  final fireStore = await ref.read(firestoreProvider.future);
-  final userStream = (await ref.read(authRepoProvider.future)).authStateChanges();
+final firestoreChatStorageProvider = Provider<ChatStorage>((ref) {
+  final fireStore = ref.read(firestoreProvider);
+  final userStream = ref.read(authRepoProvider).authStateChanges();
 
   final storage = FirestoreChatStorage(
     fireStore: fireStore,
@@ -79,9 +79,9 @@ final firestoreChatStorageProvider = FutureProvider<ChatStorage>((ref) async {
   return storage;
 });
 
-final chatGptChatStorageProvider = FutureProvider<ChatStorage>((ref) async {
-  final appConfig = await ref.read(appConfigRepositoryProvider.future);
-  final settings = await appConfig.getAiSettings();
+final chatGptChatStorageProvider = Provider<ChatStorage>((ref) {
+  final appConfig = ref.read(appConfigRepositoryProvider);
+  final settings = appConfig.getAiSettings();
 
   final storage = ChatGptChatStorage(
     openAI: OpenAI.instance.build(token: settings.tokens.first),
@@ -93,10 +93,10 @@ final chatGptChatStorageProvider = FutureProvider<ChatStorage>((ref) async {
 });
 
 final aiChatServiceProvider = FutureProvider<AiChatService>((ref) async {
-  final aiRepository = await ref.read(aiRepositoryProvider.future);
-  final chatStorage = await ref.read(chatGptChatStorageProvider.future);
-  final tokenStorage = await ref.read(aiTokenStorageProvider.future);
-  final threadIdStorage = await ref.read(threadIdStorageProvider.future);
+  final aiRepository = ref.read(aiRepositoryProvider);
+  final chatStorage = ref.read(chatGptChatStorageProvider);
+  final tokenStorage = ref.read(aiTokenStorageProvider);
+  final threadIdStorage = ref.read(threadIdStorageProvider);
   final connectivity = ref.read(connectivityDetectorServiceProvider);
 
   final service = AiChatServiceImpl(

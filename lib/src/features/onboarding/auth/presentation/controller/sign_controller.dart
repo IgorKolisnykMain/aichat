@@ -3,19 +3,17 @@ import 'package:aichat/src/features/onboarding/auth/domain/enums/sign_source.dar
 import 'package:aichat/src/features/onboarding/auth/domain/repo/auth_repo.dart';
 import 'package:aichat/src/features/onboarding/auth/presentation/controller/sign_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 
-final signControllerProvider = AsyncNotifierProvider.autoDispose<SignController, SignState>(() {
-  return SignController();
+final signControllerProvider = StateNotifierProvider.autoDispose<SignController, AsyncValue<SignState>>((ref) {
+  final authFirebaseRep = ref.read(authRepoProvider);
+  return SignController(authFirebaseRep);
 });
 
-class SignController extends AsyncNotifier<SignState> {
-  late final AuthRepository authFirebaseRep;
+class SignController extends StateNotifier<AsyncValue<SignState>> {
+  final AuthRepository authFirebaseRep;
 
-  @override
-  Future<SignState> build() async {
-    authFirebaseRep = await ref.read(authRepoProvider.future);
-    return const SignState(stage: SignStage.init);
-  }
+  SignController(this.authFirebaseRep) : super(const AsyncValue.data(SignState(stage: SignStage.init)));
 
   Future<void> signVia(SignSource signSource) async {
     state = const AsyncValue.loading();

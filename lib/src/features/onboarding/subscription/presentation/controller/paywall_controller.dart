@@ -10,31 +10,32 @@ import 'package:aichat/src/utils/pay/paywall_package_utils.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/legacy.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
-final paywallControllerProvider = AsyncNotifierProvider.autoDispose<PaywallController, PaywallState>(
-  () => PaywallController(),
+final paywallControllerProvider = StateNotifierProvider.autoDispose<PaywallController, AsyncValue<PaywallState>>(
+  (ref) => PaywallController(
+    purchasesRepository: ref.read(purchasesRepositoryProvider),
+    connectivityService: ref.read(connectivityDetectorServiceProvider),
+  ),
 );
 
-class PaywallController extends AsyncNotifier<PaywallState> {
-  late final PurchasesRepository purchasesRepository;
-  late final ConnectivityDetectorService connectivityService;
+class PaywallController extends StateNotifier<AsyncValue<PaywallState>> {
+  final PurchasesRepository purchasesRepository;
+  final ConnectivityDetectorService connectivityService;
   PaywallEvent? previousEvent;
 
-  @override
-  Future<PaywallState> build() async {
-    purchasesRepository = await ref.read(purchasesRepositoryProvider.future);
-    connectivityService = ref.read(connectivityDetectorServiceProvider);
-
-    return const PaywallState(
-      stage: PaywallStage.initial,
-      currentOffering: null,
-      packagesWithFreeTrialEligible: [],
-      offeringMetadata: null,
-      selectedPackageId: null,
-      cheapestPackageId: null,
-    );
-  }
+  PaywallController({
+    required this.purchasesRepository,
+    required this.connectivityService,
+  }) : super(const AsyncValue.data(PaywallState(
+        stage: PaywallStage.initial,
+        currentOffering: null,
+        packagesWithFreeTrialEligible: [],
+        offeringMetadata: null,
+        selectedPackageId: null,
+        cheapestPackageId: null,
+      )));
 
   Future<void> handleEvent(PaywallEvent event) async {
     if (await connectivityService.isConnected() == false) {

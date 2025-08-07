@@ -2,6 +2,7 @@ import 'package:aichat/src/common_widgets/message_presenter.dart';
 import 'package:aichat/src/features/splash/presentation/controller/splash_controller.dart';
 import 'package:aichat/src/features/splash/presentation/controller/splash_state.dart';
 import 'package:aichat/src/router/route_name.dart';
+import 'package:aichat/src/utils/error/error_handler.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
 import 'package:aichat/src/utils/extensions/responsive_extension.dart';
 import 'package:flutter/material.dart';
@@ -19,21 +20,21 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with MessagePresent
   @override
   Widget build(BuildContext context) {
     ref.listen(splashControllerProvider, (previous, next) {
-      next.when(
-        data: (data) {
-          switch (data.stage) {
-            case SplashStage.showWelcomeScreen:
-              context.goNamed(RoutesName.wizard.name);
-            case SplashStage.showMainScreen:
-              context.goNamed(RoutesName.home.name);
-            default:
-              break;
-          }
-        },
+      next.whenData((data) {
+        switch (data.stage) {
+          case SplashStage.showWelcomeScreen:
+            context.goNamed(RoutesName.wizard.name);
+          case SplashStage.showMainScreen:
+            context.goNamed(RoutesName.home.name);
+          default:
+            break;
+        }
+      });
+      
+      next.whenOrNull(
         error: (error, stackTrace) {
-          showSnackBar(error.toString(), context);
+          showSnackBar(ErrorHandler.processError(context, error), context);
         },
-        loading: () {},
       );
     });
 

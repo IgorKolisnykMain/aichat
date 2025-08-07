@@ -1,4 +1,3 @@
-import 'package:aichat/firebase_options.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,10 +8,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 const kWebRecaptchaSiteKey = '6LfZpH8rAAAAAIKDt-CmSdwTS8SliRe2zHXCFoXC';
 
-final firebaseAppProvider = FutureProvider.autoDispose<FirebaseApp>((ref) async {
-  final app = await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+final firebaseAppProvider = Provider<FirebaseApp>((ref) {
+    // * Override this in the main method
+  throw UnimplementedError();
+});
+
+final firebaseAppCheckProvider = FutureProvider<void>((ref) async {
   try {
-    await FirebaseAppCheck.instance.activate(
+    await FirebaseAppCheck.instanceFor(app: ref.read(firebaseAppProvider)).activate(
       // Always use debug provider for development
       androidProvider: AndroidProvider.debug,
       appleProvider: AppleProvider.debug,
@@ -21,17 +24,16 @@ final firebaseAppProvider = FutureProvider.autoDispose<FirebaseApp>((ref) async 
   } catch (e) {
     debugPrint('App Check activation failed: $e');
   }
-  return app;
 });
 
-final firebaseAuthProvider = FutureProvider.autoDispose<FirebaseAuth>((ref) async {
-  return FirebaseAuth.instanceFor(app: await ref.read(firebaseAppProvider.future));
+final firebaseAuthProvider = Provider<FirebaseAuth>((ref) {
+  return FirebaseAuth.instanceFor(app: ref.read(firebaseAppProvider));
 });
 
-final firestoreProvider = FutureProvider.autoDispose<FirebaseFirestore>((ref) async {
-  return FirebaseFirestore.instanceFor(app: await ref.read(firebaseAppProvider.future));
+final firestoreProvider = Provider<FirebaseFirestore>((ref) {
+  return FirebaseFirestore.instanceFor(app: ref.read(firebaseAppProvider));
 });
 
-final firebaseStorageProvider = FutureProvider.autoDispose<FirebaseStorage>((ref) async {
-  return FirebaseStorage.instanceFor(app: await ref.read(firebaseAppProvider.future));
+final firebaseStorageProvider = Provider<FirebaseStorage>((ref) {
+  return FirebaseStorage.instanceFor(app: ref.read(firebaseAppProvider));
 });

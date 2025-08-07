@@ -8,10 +8,10 @@ import 'package:aichat/src/utils/firestore/user/firestore_user_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final userFirestoreRepoProvider = FutureProvider.autoDispose<UserRepository>((ref) async {
-  final authRepo = await ref.read(authRepoProvider.future);
+final userFirestoreRepoProvider = Provider<UserRepository>((ref) {
+  final authRepo = ref.read(authRepoProvider);
   final userRepo = UserFirestoreRepoImpl(
-    fireStore: await ref.read(firestoreProvider.future),
+    fireStore: ref.read(firestoreProvider),
     userStream: authRepo.authStateChanges(),
   );
   ref.onDispose(userRepo.dispose);
