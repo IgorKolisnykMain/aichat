@@ -21,11 +21,6 @@ final authRepoProvider = Provider<AuthRepository>((ref) {
   );
 });
 
-final authStateChangesProvider = StreamProvider<AppUser?>((ref) {
-  final authRepository = ref.watch(authRepoProvider);
-  return authRepository.authStateChanges();
-});
-
 class AuthFirebaseRepositoryImpl implements AuthRepository {
   final FirebaseAuth firebaseAuth;
   final GoogleSignIn googleSignIn;

@@ -92,7 +92,7 @@ final chatGptChatStorageProvider = Provider<ChatStorage>((ref) {
   return storage;
 });
 
-final aiChatServiceProvider = FutureProvider<AiChatService>((ref) async {
+final aiChatServiceProvider = Provider<AiChatService>((ref) {
   final aiRepository = ref.read(aiRepositoryProvider);
   final chatStorage = ref.read(chatGptChatStorageProvider);
   final tokenStorage = ref.read(aiTokenStorageProvider);
@@ -107,6 +107,5 @@ final aiChatServiceProvider = FutureProvider<AiChatService>((ref) async {
     connectivity: connectivity,
   );
 
-  await service.initialize();
   return service;
 });
