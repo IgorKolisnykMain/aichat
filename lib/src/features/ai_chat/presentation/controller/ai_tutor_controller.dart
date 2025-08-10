@@ -18,10 +18,7 @@ class AiTutorController extends AsyncNotifier<AiTutorState> {
   @override
   Future<AiTutorState> build() async {
     ref.onDispose(dispose);
-    _aiChatService = await ref.read(aiChatServiceProvider.future);
-
-    // Initialize service
-    await _aiChatService.initialize();
+    _aiChatService = ref.read(aiChatServiceProvider);
 
     // Load initial history
     return await _loadHistory();
