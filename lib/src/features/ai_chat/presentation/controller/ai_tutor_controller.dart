@@ -81,7 +81,7 @@ class AiTutorController extends AsyncNotifier<AiTutorState> {
   Future<void> _sendQuestionWithStreaming(String question, String threadId) async {
     _streamSubscription?.cancel();
 
-    final stream = _aiChatService.streamQuestion(question, threadId: threadId);
+    final stream = _aiChatService.watchQuestion(question, threadId: threadId);
 
     _streamSubscription = stream.listen(
       (chatHistory) {

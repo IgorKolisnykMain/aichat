@@ -5,8 +5,8 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 abstract interface class PurchasesRepository {
   Future<void> init();
 
-  Stream<bool> get hasPremiumAccess;
-  Stream<String?> get premiumSkuStream;
+  Stream<bool> get watchPremiumAccess;
+  Stream<String?> get watchPremiumSku;
 
   bool get hasPremium;
   String? get premiumSku;

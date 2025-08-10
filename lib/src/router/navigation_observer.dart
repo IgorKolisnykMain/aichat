@@ -5,7 +5,7 @@ import 'package:rxdart/rxdart.dart';
 class MyNavigatorObserver extends NavigatorObserver {
   final PublishSubject<String?> _routeNameSubject = PublishSubject<String?>();
 
-  Stream<String?> get routeNameStream => _routeNameSubject.stream;
+  Stream<String?> get watchRouteName => _routeNameSubject.stream;
 
   @override
   void didPush(Route<dynamic> route, Route<dynamic>? previousRoute) {

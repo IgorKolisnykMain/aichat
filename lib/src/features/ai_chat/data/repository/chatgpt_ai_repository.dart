@@ -125,10 +125,10 @@ class ChatGptAiRepository implements AiRepository {
   }
 
   @override
-  Stream<String> streamResponse(String question, {String? threadId}) async* {
+  Stream<String> watchResponse(String question, {String? threadId}) async* {
     if (threadId != null) {
       // Use Assistant API for streaming
-      yield* _streamFromAssistant(threadId, question);
+      yield* _watchFromAssistant(threadId, question);
     } else {
       // For Chat Completion API return full response immediately
       final response = await _sendToChatCompletion(question);
@@ -136,7 +136,7 @@ class ChatGptAiRepository implements AiRepository {
     }
   }
 
-  Stream<String> _streamFromAssistant(String threadId, String message) async* {
+  Stream<String> _watchFromAssistant(String threadId, String message) async* {
     try {
       // Add user message
       await _openAI.threads.v2.messages.createMessage(

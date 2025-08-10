@@ -67,7 +67,7 @@ class AiChatServiceImpl implements AiChatService {
 
   Future<void> _handleAiError(Object error, AiMessage questionMessage, String? threadId, int retryCount) async {
     FirebaseCrashlytics.instance.recordFlutterError(FlutterErrorDetails(exception: error));
-    
+
     // For rate limit and auth errors, try retry if connected
     if (error is OpenAIRateLimitError || error is OpenAIAuthError) {
       if (await _connectivity.isConnected()) {
@@ -104,7 +104,7 @@ class AiChatServiceImpl implements AiChatService {
   }
 
   @override
-  Stream<ChatHistory> streamQuestion(String question, {String? threadId}) async* {
+  Stream<ChatHistory> watchQuestion(String question, {String? threadId}) async* {
     final questionMessage = AiMessage.myQuestion(message: question);
     await _chatStorage.addMessage(questionMessage);
 
@@ -117,7 +117,7 @@ class AiChatServiceImpl implements AiChatService {
     yield currentHistory;
 
     String completeResponse = '';
-    final stream = _aiRepository.streamResponse(question, threadId: threadId);
+    final stream = _aiRepository.watchResponse(question, threadId: threadId);
 
     await for (final chunk in stream) {
       completeResponse = chunk;

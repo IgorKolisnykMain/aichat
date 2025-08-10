@@ -31,10 +31,10 @@ class PurchasesRepositoryImpl implements PurchasesRepository {
   }
 
   @override
-  Stream<bool> get hasPremiumAccess => _hasPremiumSubject.stream.distinct();
+  Stream<bool> get watchPremiumAccess => _hasPremiumSubject.stream.distinct();
 
   @override
-  Stream<String?> get premiumSkuStream => _premiumSku.stream;
+  Stream<String?> get watchPremiumSku => _premiumSku.stream;
 
   @override
   bool get hasPremium => _hasPremiumSubject.value;

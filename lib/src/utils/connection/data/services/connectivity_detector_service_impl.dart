@@ -13,7 +13,7 @@ class ConnectivityDetectorServiceImpl implements ConnectivityDetectorService {
 
   /// Stream of [bool] values representing the current connectivity state. The first value is skipped to notify only about subsequent changes.
   @override
-  Stream<bool> get connectivityStream => connectivity.onConnectivityChanged.map(_connectivityResultToBool).skip(1);
+  Stream<bool> get watchConnectivity => connectivity.onConnectivityChanged.map(_connectivityResultToBool).skip(1);
 
   @override
   Future<bool> isConnected() async {

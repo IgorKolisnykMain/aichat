@@ -1,5 +1,5 @@
 abstract interface class ConnectivityDetectorService {
-  Stream<bool> get connectivityStream;
+  Stream<bool> get watchConnectivity;
 
   Future<bool> isConnected();
 }
