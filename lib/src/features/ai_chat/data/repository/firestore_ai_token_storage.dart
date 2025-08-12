@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aichat/src/exceptions/error_logger.dart';
 import 'package:aichat/src/features/ai_chat/domain/repository/ai_token_storage.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/models/app_user.dart';
 import 'package:aichat/src/utils/firestore/user/firestore_user_utils.dart';
@@ -12,9 +13,12 @@ class FirestoreAiTokenStorage implements AITokenStorage {
   late StreamSubscription<AppUser?> _userStream;
   String? _userId;
 
+  final ErrorLogger errorLogger;
+
   FirestoreAiTokenStorage({
     required this.fireStore,
     required Stream<AppUser?> userStream,
+    required this.errorLogger,
   }) {
     _userStream = userStream.listen((user) {
       _userId = user?.uid;
@@ -34,6 +38,7 @@ class FirestoreAiTokenStorage implements AITokenStorage {
       final List<dynamic> result = data?[_usedAiTokens] as List<dynamic>? ?? [];
       return result.map((e) => e as String).toList();
     } catch (e) {
+      errorLogger.logError(e, StackTrace.current);
       return [];
     }
   }

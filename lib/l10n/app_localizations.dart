@@ -151,6 +151,12 @@ abstract class AppLocalizations {
   /// **'Server error. Please try again later.'**
   String get serverError;
 
+  /// No description provided for @unsupportedPlatform.
+  ///
+  /// In en, this message translates to:
+  /// **'Unsupported platform. Please try again later.'**
+  String get unsupportedPlatform;
+
   /// No description provided for @splashTitle.
   ///
   /// In en, this message translates to:
@@ -390,6 +396,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Something went wrong. Please try again.'**
   String get genericError;
+
+  /// No description provided for @emailAlreadyInUse.
+  ///
+  /// In en, this message translates to:
+  /// **'Email already in use'**
+  String get emailAlreadyInUse;
+
+  /// No description provided for @weakPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password is too weak'**
+  String get weakPassword;
+
+  /// No description provided for @wrongPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong password'**
+  String get wrongPassword;
+
+  /// No description provided for @userNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'User not found'**
+  String get userNotFound;
+
+  /// No description provided for @imageSizeTooLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'Image size is too large'**
+  String get imageSizeTooLarge;
 
   /// No description provided for @hearMeOutAiPsychologist.
   ///

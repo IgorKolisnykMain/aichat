@@ -1,3 +1,4 @@
+import 'package:aichat/src/exceptions/error_logger.dart';
 import 'package:aichat/src/features/ai_chat/domain/models/ai_message.dart';
 import 'package:aichat/src/features/ai_chat/domain/models/chat_history.dart';
 import 'package:aichat/src/features/ai_chat/domain/repository/chat_storage.dart';
@@ -7,10 +8,12 @@ import 'package:intl/intl.dart';
 class ChatGptChatStorage implements ChatStorage {
   final OpenAI openAI;
   final String headerMessage;
+  final ErrorLogger errorLogger;
 
   ChatGptChatStorage({
     required this.openAI,
     required this.headerMessage,
+    required this.errorLogger,
   });
 
   void dispose() {
@@ -34,25 +37,15 @@ class ChatGptChatStorage implements ChatStorage {
 
   @override
   Future<String> createThread() async {
-    try {
-      final request = ThreadRequest(
-        messages: [], // Empty message list for new thread
-      );
-      final thread = await openAI.threads.v2.createThread(request: request);
-      return thread.id;
-    } catch (e) {
-      throw Exception('Failed to create thread: $e');
-    }
+    final request = ThreadRequest(
+      messages: [], // Empty message list for new thread
+    );
+    final thread = await openAI.threads.v2.createThread(request: request);
+    return thread.id;
   }
 
   @override
-  Future<void> deleteThread(String threadId) async {
-    try {
-      await openAI.threads.v2.deleteThread(threadId: threadId);
-    } catch (e) {
-      throw Exception('Failed to delete thread: $e');
-    }
-  }
+  Future<void> deleteThread(String threadId) => openAI.threads.v2.deleteThread(threadId: threadId);
 
   @override
   Future<ChatHistory> getThreadHistory(String threadId) async {
@@ -91,6 +84,7 @@ class ChatGptChatStorage implements ChatStorage {
 
       return ChatHistory(messages: aiMessages);
     } catch (e) {
+      errorLogger.logError(e, StackTrace.current);
       // If failed to load from thread, return only header
       return ChatHistory.withHeaderMessage(headerMessage);
     }

@@ -39,6 +39,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get serverError => 'Server error. Please try again later.';
 
   @override
+  String get unsupportedPlatform => 'Unsupported platform. Please try again later.';
+
+  @override
   String get splashTitle => 'HearMeOut';
 
   @override
@@ -159,6 +162,21 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get genericError => 'Something went wrong. Please try again.';
+
+  @override
+  String get emailAlreadyInUse => 'Email already in use';
+
+  @override
+  String get weakPassword => 'Password is too weak';
+
+  @override
+  String get wrongPassword => 'Wrong password';
+
+  @override
+  String get userNotFound => 'User not found';
+
+  @override
+  String get imageSizeTooLarge => 'Image size is too large';
 
   @override
   String get hearMeOutAiPsychologist => 'HearMeOut AI Psychologist';

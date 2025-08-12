@@ -1,31 +1,33 @@
 import 'dart:async';
 
 import 'package:aichat/src/core/di/modules/firebase_module.dart';
+import 'package:aichat/src/exceptions/error_logger.dart';
+import 'package:aichat/src/exceptions/models/common_error.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/enums/sign_source.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/models/additional_app_user_info.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/models/app_user.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/repo/auth_repo.dart';
-import 'package:aichat/src/utils/error/domain/enums/local_error.dart';
-import 'package:aichat/src/utils/error/domain/models/local_exception.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 final authRepoProvider = Provider<AuthRepository>((ref) {
+  final errorLogger = ref.read(errorLoggerProvider);
   return AuthFirebaseRepositoryImpl(
     firebaseAuth: ref.read(firebaseAuthProvider),
     googleSignIn: GoogleSignIn(),
+    errorLogger: errorLogger,
   );
 });
 
 class AuthFirebaseRepositoryImpl implements AuthRepository {
   final FirebaseAuth firebaseAuth;
   final GoogleSignIn googleSignIn;
+  final ErrorLogger errorLogger;
 
-  AuthFirebaseRepositoryImpl({required this.firebaseAuth, required this.googleSignIn});
+  AuthFirebaseRepositoryImpl({required this.firebaseAuth, required this.googleSignIn, required this.errorLogger});
 
   @override
   Stream<AppUser?> authStateChanges() {
@@ -55,10 +57,8 @@ class AuthFirebaseRepositoryImpl implements AuthRepository {
         debugPrint('The account already exists for that email.');
       }
       if (e.message != null) {
-        throw NetworkException(e.message!);
+        throw NetworkError(e.message!);
       }
-    } catch (e) {
-      throw LocalException(LocalError.defaultError);
     }
     return null;
   }
@@ -79,10 +79,8 @@ class AuthFirebaseRepositoryImpl implements AuthRepository {
         debugPrint('The account already exists for that email.');
       }
       if (e.message != null) {
-        throw NetworkException(e.message!);
+        throw NetworkError(e.message!);
       }
-    } catch (e) {
-      throw LocalException(LocalError.defaultError);
     }
     return null;
   }
@@ -133,11 +131,8 @@ class AuthFirebaseRepositoryImpl implements AuthRepository {
       }
       debugPrint(e.toString());
       if (e.message != null) {
-        throw NetworkException(e.message!);
+        throw NetworkError(e.message!);
       }
-    } catch (e, trace) {
-      FirebaseCrashlytics.instance.recordError(e, trace);
-      throw LocalException(LocalError.defaultError);
     }
     return null;
   }
@@ -147,9 +142,7 @@ class AuthFirebaseRepositoryImpl implements AuthRepository {
       final user = await firebaseAuth.signInAnonymously();
       return user;
     } on FirebaseAuthException catch (e) {
-      throw NetworkException(e.message!);
-    } catch (e) {
-      throw LocalException(LocalError.defaultError);
+      throw NetworkError(e.message!);
     }
   }
 
@@ -158,9 +151,7 @@ class AuthFirebaseRepositoryImpl implements AuthRepository {
     try {
       await firebaseAuth.sendPasswordResetEmail(email: email);
     } on FirebaseAuthException catch (e) {
-      throw NetworkException(e.message!);
-    } catch (e) {
-      throw LocalException(LocalError.defaultError);
+      throw NetworkError(e.message!);
     }
   }
 
@@ -174,6 +165,7 @@ class AuthFirebaseRepositoryImpl implements AuthRepository {
     try {
       await firebaseAuth.currentUser?.delete();
     } on FirebaseAuthException catch (_) {
+      errorLogger.logError("Failed to delete account", StackTrace.current);
       await logout();
     }
   }

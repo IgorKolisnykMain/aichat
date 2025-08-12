@@ -1,3 +1,4 @@
+import 'package:aichat/src/exceptions/models/default_exeption.dart';
 import 'package:aichat/src/features/onboarding/subscription/data/repo/purchases_repository_impl.dart';
 import 'package:aichat/src/features/onboarding/subscription/domain/models/offering_metadata_model.dart';
 import 'package:aichat/src/features/onboarding/subscription/domain/repo/purchases_repository.dart';
@@ -5,37 +6,34 @@ import 'package:aichat/src/features/onboarding/subscription/presentation/control
 import 'package:aichat/src/features/onboarding/subscription/presentation/controller/paywall_state.dart';
 import 'package:aichat/src/utils/connection/data/services/connectivity_detector_service_impl.dart';
 import 'package:aichat/src/utils/connection/domain/services/connectivity_detector_service.dart';
-import 'package:aichat/src/utils/error/domain/models/no_internet_exception.dart';
 import 'package:aichat/src/utils/pay/paywall_package_utils.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/legacy.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
-final paywallControllerProvider = StateNotifierProvider.autoDispose<PaywallController, AsyncValue<PaywallState>>(
-  (ref) => PaywallController(
-    purchasesRepository: ref.read(purchasesRepositoryProvider),
-    connectivityService: ref.read(connectivityDetectorServiceProvider),
-  ),
+final paywallControllerProvider = AsyncNotifierProvider.autoDispose<PaywallController, PaywallState>(
+  PaywallController.new,
 );
 
-class PaywallController extends StateNotifier<AsyncValue<PaywallState>> {
-  final PurchasesRepository purchasesRepository;
-  final ConnectivityDetectorService connectivityService;
+class PaywallController extends AsyncNotifier<PaywallState> {
+  late PurchasesRepository purchasesRepository;
+  late ConnectivityDetectorService connectivityService;
   PaywallEvent? previousEvent;
 
-  PaywallController({
-    required this.purchasesRepository,
-    required this.connectivityService,
-  }) : super(const AsyncValue.data(PaywallState(
-        stage: PaywallStage.initial,
-        currentOffering: null,
-        packagesWithFreeTrialEligible: [],
-        offeringMetadata: null,
-        selectedPackageId: null,
-        cheapestPackageId: null,
-      )));
+  @override
+  Future<PaywallState> build() async {
+    purchasesRepository = ref.read(purchasesRepositoryProvider);
+    connectivityService = ref.read(connectivityDetectorServiceProvider);
+    return const PaywallState(
+      stage: PaywallStage.initial,
+      currentOffering: null,
+      packagesWithFreeTrialEligible: [],
+      offeringMetadata: null,
+      selectedPackageId: null,
+      cheapestPackageId: null,
+    );
+  }
 
   Future<void> handleEvent(PaywallEvent event) async {
     if (await connectivityService.isConnected() == false) {

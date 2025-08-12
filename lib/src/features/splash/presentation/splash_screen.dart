@@ -1,8 +1,8 @@
 import 'package:aichat/src/common_widgets/message_presenter.dart';
+import 'package:aichat/src/exceptions/error_handler.dart';
 import 'package:aichat/src/features/splash/presentation/controller/splash_controller.dart';
 import 'package:aichat/src/features/splash/presentation/controller/splash_state.dart';
 import 'package:aichat/src/router/route_name.dart';
-import 'package:aichat/src/utils/error/error_handler.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
 import 'package:aichat/src/utils/extensions/responsive_extension.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +30,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> with MessagePresent
             break;
         }
       });
-      
+
       next.whenOrNull(
         error: (error, stackTrace) {
           showSnackBar(ErrorHandler.processError(context, error), context);

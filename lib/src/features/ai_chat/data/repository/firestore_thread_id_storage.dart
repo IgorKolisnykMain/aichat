@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aichat/src/exceptions/error_logger.dart';
 import 'package:aichat/src/features/ai_chat/domain/repository/thread_id_storage.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/models/app_user.dart';
 import 'package:aichat/src/utils/firestore/user/firestore_user_utils.dart';
@@ -12,9 +13,12 @@ class FirestoreThreadIdStorage implements ThreadIdStorage {
   late StreamSubscription<AppUser?> _userStream;
   String? _userId;
 
+  final ErrorLogger errorLogger;
+
   FirestoreThreadIdStorage({
     required this.fireStore,
     required Stream<AppUser?> userStream,
+    required this.errorLogger,
   }) {
     _userStream = userStream.listen((user) {
       _userId = user?.uid;
@@ -35,6 +39,7 @@ class FirestoreThreadIdStorage implements ThreadIdStorage {
       final List<dynamic> result = data?[_userThreadIds] as List<dynamic>? ?? [];
       return result.map((e) => e as String).toList();
     } catch (e) {
+      errorLogger.logError(e, StackTrace.current);
       return [];
     }
   }
@@ -48,20 +53,19 @@ class FirestoreThreadIdStorage implements ThreadIdStorage {
         await _userDocRef.set({_userThreadIds: currentThreadIds}, SetOptions(merge: true));
       }
     } catch (e) {
+      errorLogger.logError(e, StackTrace.current);
       // If error occurs, try to create new list with just this thread ID
-      await _userDocRef.set({_userThreadIds: [threadId]}, SetOptions(merge: true));
+      await _userDocRef.set({
+        _userThreadIds: [threadId],
+      }, SetOptions(merge: true));
     }
   }
 
   @override
   Future<void> removeThreadId(String threadId) async {
-    try {
-      final currentThreadIds = await getUserThreadIds();
-      currentThreadIds.remove(threadId);
-      await _userDocRef.set({_userThreadIds: currentThreadIds}, SetOptions(merge: true));
-    } catch (e) {
-      // If error occurs, ignore - thread might not exist
-    }
+    final currentThreadIds = await getUserThreadIds();
+    currentThreadIds.remove(threadId);
+    await _userDocRef.set({_userThreadIds: currentThreadIds}, SetOptions(merge: true));
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aichat/src/exceptions/error_logger.dart';
 import 'package:aichat/src/features/ai_chat/domain/models/ai_message.dart';
 import 'package:aichat/src/features/ai_chat/domain/models/chat_history.dart';
 import 'package:aichat/src/features/ai_chat/domain/repository/chat_storage.dart';
@@ -12,9 +13,12 @@ class FirestoreChatStorage implements ChatStorage {
   late StreamSubscription<AppUser?> _userStream;
   String? _userId;
 
+  final ErrorLogger errorLogger;
+
   FirestoreChatStorage({
     required this.fireStore,
     required Stream<AppUser?> userStream,
+    required this.errorLogger,
   }) {
     _userStream = userStream.listen((user) {
       _userId = user?.uid;
@@ -33,6 +37,7 @@ class FirestoreChatStorage implements ChatStorage {
       final data = (await _userDocRef.get()).data() ?? {};
       return ChatHistory.fromJsonChatHistory(data);
     } catch (e) {
+      errorLogger.logError(e, StackTrace.current);
       return const ChatHistory(messages: []);
     }
   }

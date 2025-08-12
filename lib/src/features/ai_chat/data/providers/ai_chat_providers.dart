@@ -1,5 +1,6 @@
 import 'package:aichat/src/core/config/data/repository/app_config_repository_impl.dart';
 import 'package:aichat/src/core/di/modules/firebase_module.dart';
+import 'package:aichat/src/exceptions/error_logger.dart';
 import 'package:aichat/src/features/ai_chat/data/repository/chatgpt_ai_repository.dart';
 import 'package:aichat/src/features/ai_chat/data/repository/chatgpt_chat_storage.dart';
 import 'package:aichat/src/features/ai_chat/data/repository/firestore_ai_token_storage.dart';
@@ -27,72 +28,83 @@ final aiRepositoryProvider = Provider<AiRepository>((ref) {
     settings: settings,
     assistantStorage: assistantStorage,
   );
-  
+
   ref.onDispose(repository.dispose);
   return repository;
 });
 
 final aiTokenStorageProvider = Provider<AITokenStorage>((ref) {
+  final errorLogger = ref.read(errorLoggerProvider);
   final fireStore = ref.read(firestoreProvider);
   final userStream = ref.read(authRepoProvider).authStateChanges();
 
   final storage = FirestoreAiTokenStorage(
     fireStore: fireStore,
     userStream: userStream,
+    errorLogger: errorLogger,
   );
-  
+
   ref.onDispose(storage.dispose);
   return storage;
 });
 
 final assistantStorageProvider = Provider<AssistantStorage>((ref) {
+  final errorLogger = ref.read(errorLoggerProvider);
   final fireStore = ref.read(firestoreProvider);
 
   return FirestoreAssistantStorage(
     fireStore: fireStore,
+    errorLogger: errorLogger,
   );
 });
 
 final threadIdStorageProvider = Provider<ThreadIdStorage>((ref) {
+  final errorLogger = ref.read(errorLoggerProvider);
   final fireStore = ref.read(firestoreProvider);
   final userStream = ref.read(authRepoProvider).authStateChanges();
 
   final storage = FirestoreThreadIdStorage(
     fireStore: fireStore,
     userStream: userStream,
+    errorLogger: errorLogger,
   );
-  
+
   ref.onDispose(storage.dispose);
   return storage;
 });
 
 final firestoreChatStorageProvider = Provider<ChatStorage>((ref) {
+  final errorLogger = ref.read(errorLoggerProvider);
   final fireStore = ref.read(firestoreProvider);
   final userStream = ref.read(authRepoProvider).authStateChanges();
 
   final storage = FirestoreChatStorage(
     fireStore: fireStore,
     userStream: userStream,
+    errorLogger: errorLogger,
   );
-  
+
   ref.onDispose(storage.dispose);
   return storage;
 });
 
 final chatGptChatStorageProvider = Provider<ChatStorage>((ref) {
+  final errorLogger = ref.read(errorLoggerProvider);
   final appConfig = ref.read(appConfigRepositoryProvider);
   final settings = appConfig.getAiSettings();
 
   final storage = ChatGptChatStorage(
     openAI: OpenAI.instance.build(token: settings.tokens.first),
     headerMessage: settings.headerMessage,
+    errorLogger: errorLogger,
   );
-  
+
   ref.onDispose(storage.dispose);
   return storage;
 });
 
 final aiChatServiceProvider = Provider<AiChatService>((ref) {
+  final errorLogger = ref.read(errorLoggerProvider);
   final aiRepository = ref.read(aiRepositoryProvider);
   final chatStorage = ref.read(chatGptChatStorageProvider);
   final tokenStorage = ref.read(aiTokenStorageProvider);
@@ -105,6 +117,7 @@ final aiChatServiceProvider = Provider<AiChatService>((ref) {
     tokenStorage: tokenStorage,
     threadIdStorage: threadIdStorage,
     connectivity: connectivity,
+    errorLogger: errorLogger,
   );
 
   return service;

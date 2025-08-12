@@ -1,3 +1,4 @@
+import 'package:aichat/src/exceptions/error_logger.dart';
 import 'package:aichat/src/features/ai_chat/domain/repository/assistant_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -7,10 +8,11 @@ class FirestoreAssistantStorage implements AssistantStorage {
 
   final FirebaseFirestore fireStore;
 
-  FirestoreAssistantStorage({required this.fireStore});
+  final ErrorLogger errorLogger;
 
-  DocumentReference<Map<String, dynamic>> get _appConfigRef => 
-    fireStore.collection('config').doc(_appConfigDocument);
+  FirestoreAssistantStorage({required this.fireStore, required this.errorLogger});
+
+  DocumentReference<Map<String, dynamic>> get _appConfigRef => fireStore.collection('config').doc(_appConfigDocument);
 
   @override
   Future<String?> getAssistantId() async {
@@ -18,6 +20,7 @@ class FirestoreAssistantStorage implements AssistantStorage {
       final data = (await _appConfigRef.get()).data();
       return data?[_assistantIdKey] as String?;
     } catch (e) {
+      errorLogger.logError(e, StackTrace.current);
       return null;
     }
   }

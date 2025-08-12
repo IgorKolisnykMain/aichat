@@ -1,3 +1,4 @@
+import 'package:aichat/src/exceptions/models/common_error.dart';
 import 'package:aichat/src/features/ai_chat/domain/models/ai_chat_settings.dart';
 import 'package:aichat/src/features/ai_chat/domain/repository/ai_repository.dart';
 import 'package:aichat/src/features/ai_chat/domain/repository/assistant_storage.dart';
@@ -67,61 +68,53 @@ class ChatGptAiRepository implements AiRepository {
   }
 
   Future<String> _sendToAssistant(String threadId, String question) async {
-    try {
-      // Add user message
-      await _openAI.threads.v2.messages.createMessage(
-        threadId: threadId,
-        request: CreateMessage(role: 'user', content: question),
-      );
+    // Add user message
+    await _openAI.threads.v2.messages.createMessage(
+      threadId: threadId,
+      request: CreateMessage(role: 'user', content: question),
+    );
 
-      // Run the assistant
-      final runRequest = CreateRun(assistantId: _assistantId!);
-      final run = await _openAI.threads.v2.runs.createRun(threadId: threadId, request: runRequest);
+    // Run the assistant
+    final runRequest = CreateRun(assistantId: _assistantId!);
+    final run = await _openAI.threads.v2.runs.createRun(threadId: threadId, request: runRequest);
 
-      // Wait for run completion and get response
-      String runStatus = 'in_progress';
-      while (runStatus == 'in_progress' || runStatus == 'queued') {
-        await Future.delayed(const Duration(seconds: 1));
-        final runDetails = await _openAI.threads.v2.runs.retrieveRun(threadId: threadId, runId: run.id);
-        runStatus = runDetails.status;
-      }
+    // Wait for run completion and get response
+    String runStatus = 'in_progress';
+    while (runStatus == 'in_progress' || runStatus == 'queued') {
+      await Future.delayed(const Duration(seconds: 1));
+      final runDetails = await _openAI.threads.v2.runs.retrieveRun(threadId: threadId, runId: run.id);
+      runStatus = runDetails.status;
+    }
 
-      if (runStatus == 'completed') {
-        // Get latest messages
-        final messages = await _openAI.threads.v2.messages.listMessage(threadId: threadId);
-        if (messages.data.isNotEmpty) {
-          final lastMessage = messages.data.first;
-          if (lastMessage.role == 'assistant') {
-            final content = lastMessage.content.first;
-            if (content.type == 'text') {
-              return content.text?.value ?? '';
-            }
+    if (runStatus == 'completed') {
+      // Get latest messages
+      final messages = await _openAI.threads.v2.messages.listMessage(threadId: threadId);
+      if (messages.data.isNotEmpty) {
+        final lastMessage = messages.data.first;
+        if (lastMessage.role == 'assistant') {
+          final content = lastMessage.content.first;
+          if (content.type == 'text') {
+            return content.text?.value ?? '';
           }
         }
       }
-
-      throw Exception('Assistant run failed with status: $runStatus');
-    } catch (e) {
-      throw Exception('Failed to get assistant response: $e');
     }
+
+    throw LocalCustomError('Assistant run failed with status: $runStatus');
   }
 
   Future<String> createAssistant() async {
-    try {
-      final assistant = Assistant(
-        model: Gpt4oMini2024Model(),
-        name: 'AI Tutor',
-        instructions: settings.promptChat,
-        tools: [
-          {"type": "code_interpreter"},
-        ],
-      );
+    final assistant = Assistant(
+      model: Gpt4oMini2024Model(),
+      name: 'AI Tutor',
+      instructions: settings.promptChat,
+      tools: [
+        {"type": "code_interpreter"},
+      ],
+    );
 
-      final response = await _openAI.assistant.v2.create(assistant: assistant);
-      return response.id;
-    } catch (e) {
-      throw Exception('Failed to create assistant: $e');
-    }
+    final response = await _openAI.assistant.v2.create(assistant: assistant);
+    return response.id;
   }
 
   @override

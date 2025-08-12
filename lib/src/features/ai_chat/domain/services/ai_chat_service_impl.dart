@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:aichat/src/exceptions/error_logger.dart';
+import 'package:aichat/src/exceptions/models/default_exeption.dart';
 import 'package:aichat/src/features/ai_chat/domain/enums/ai_chat_error.dart';
 import 'package:aichat/src/features/ai_chat/domain/exceptions/ai_chat_exception.dart';
 import 'package:aichat/src/features/ai_chat/domain/models/ai_message.dart';
@@ -10,7 +12,6 @@ import 'package:aichat/src/features/ai_chat/domain/repository/chat_storage.dart'
 import 'package:aichat/src/features/ai_chat/domain/repository/thread_id_storage.dart';
 import 'package:aichat/src/features/ai_chat/domain/services/ai_chat_service.dart';
 import 'package:aichat/src/utils/connection/domain/services/connectivity_detector_service.dart';
-import 'package:aichat/src/utils/error/domain/enums/local_error.dart';
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/widgets.dart';
@@ -21,6 +22,7 @@ class AiChatServiceImpl implements AiChatService {
   final AITokenStorage _tokenStorage;
   final ThreadIdStorage _threadIdStorage;
   final ConnectivityDetectorService _connectivity;
+  final ErrorLogger _errorLogger;
 
   AiChatServiceImpl({
     required AiRepository aiRepository,
@@ -28,11 +30,13 @@ class AiChatServiceImpl implements AiChatService {
     required AITokenStorage tokenStorage,
     required ThreadIdStorage threadIdStorage,
     required ConnectivityDetectorService connectivity,
+    required ErrorLogger errorLogger,
   }) : _aiRepository = aiRepository,
        _chatStorage = chatStorage,
        _tokenStorage = tokenStorage,
        _threadIdStorage = threadIdStorage,
-       _connectivity = connectivity;
+       _connectivity = connectivity,
+       _errorLogger = errorLogger;
 
   @override
   Future<void> initialize() async {
@@ -60,6 +64,7 @@ class AiChatServiceImpl implements AiChatService {
 
       return threadId != null ? await getThreadHistory(threadId) : await getChatHistory();
     } catch (e) {
+      _errorLogger.logError(e, StackTrace.current);
       await _handleAiError(e, questionMessage, threadId, 1);
       rethrow;
     }
@@ -97,7 +102,7 @@ class AiChatServiceImpl implements AiChatService {
         await _sendQuestionWithRetry(question, originalQuestion, threadId, retryCount + 1);
       } else {
         // After maximum retries, log and re-throw for _handleAiError to handle
-        FirebaseCrashlytics.instance.recordFlutterError(FlutterErrorDetails(exception: e));
+        _errorLogger.logError(e, StackTrace.current);
         throw _convertToAiChatException(e);
       }
     }
@@ -164,7 +169,7 @@ class AiChatServiceImpl implements AiChatService {
       return AiChatException(error: AiChatError.serverError, originalException: error);
     } else if (error is RequestError) {
       return AiChatException(error: AiChatError.requestError, originalException: error);
-    } else if (error == LocalError.noInternetConnection) {
+    } else if (error == NoInternetException()) {
       return const AiChatException(error: AiChatError.noInternetConnection);
     } else {
       return AiChatException(error: AiChatError.unknown, originalException: error);

@@ -2,27 +2,26 @@ import 'package:aichat/src/features/onboarding/auth/data/repo/auth_firebase_repo
 import 'package:aichat/src/features/onboarding/auth/domain/repo/auth_repo.dart';
 import 'package:aichat/src/features/onboarding/auth/presentation/password_recovery/controller/password_recovery_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/legacy.dart';
 
 final passwordRecoveryControllerProvider =
-    StateNotifierProvider.autoDispose<PasswordRecoveryController, AsyncValue<PasswordRecoveryState>>((ref) {
-      final authFirebaseRep = ref.read(authRepoProvider);
-      return PasswordRecoveryController(authFirebaseRep);
-    });
+    AsyncNotifierProvider.autoDispose<PasswordRecoveryController, PasswordRecoveryState>(
+      PasswordRecoveryController.new,
+    );
 
-class PasswordRecoveryController extends StateNotifier<AsyncValue<PasswordRecoveryState>> {
-  final AuthRepository authFirebaseRep;
+class PasswordRecoveryController extends AsyncNotifier<PasswordRecoveryState> {
+  late AuthRepository authFirebaseRep;
 
-  PasswordRecoveryController(this.authFirebaseRep) : super(const AsyncValue.data(PasswordRecoveryState()));
+  @override
+  Future<PasswordRecoveryState> build() async {
+    authFirebaseRep = ref.read(authRepoProvider);
+    return const PasswordRecoveryState();
+  }
 
   Future<void> recoverPassword(String email) async {
     state = const AsyncValue.loading();
-
-    try {
+    state = await AsyncValue.guard(() async {
       await authFirebaseRep.resetPassword(email: email);
-      state = AsyncValue.data(PasswordRecoveryState(stage: PasswordRecoveryStage.success, email: email));
-    } catch (e, s) {
-      state = AsyncValue.error(e, s);
-    }
+      return PasswordRecoveryState(stage: PasswordRecoveryStage.success, email: email);
+    });
   }
 }

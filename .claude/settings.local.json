@@ -22,7 +22,8 @@
       "Bash(flutter test:*)",
       "Bash(windsurf:*)",
       "Bash(dart:*)",
-      "Bash(git commit:*)"
+      "Bash(git commit:*)",
+      "Bash(flutter doctor:*)"
     ],
     "deny": []
   }
