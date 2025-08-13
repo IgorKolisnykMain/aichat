@@ -2,11 +2,11 @@ import 'package:aichat/src/common_widgets/app_bars/auth_app_bar.dart';
 import 'package:aichat/src/common_widgets/buttons/app_primary_button.dart';
 import 'package:aichat/src/common_widgets/inputs/app_text_form_field.dart';
 import 'package:aichat/src/common_widgets/loading/loading_indicator.dart';
-import 'package:aichat/src/common_widgets/message_presenter.dart';
 import 'package:aichat/src/common_widgets/responsive_UI/responsive_center.dart';
 import 'package:aichat/src/features/onboarding/auth/presentation/controller/sign_controller.dart';
 import 'package:aichat/src/features/onboarding/auth/presentation/controller/sign_state.dart';
 import 'package:aichat/src/router/route_name.dart';
+import 'package:aichat/src/utils/async_value_ui.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
 import 'package:aichat/src/utils/extensions/responsive_extension.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +20,7 @@ class EmailSignUpScreen extends ConsumerStatefulWidget {
   ConsumerState<EmailSignUpScreen> createState() => _EmailSignUpScreenState();
 }
 
-class _EmailSignUpScreenState extends ConsumerState<EmailSignUpScreen> with MessagePresenter {
+class _EmailSignUpScreenState extends ConsumerState<EmailSignUpScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
@@ -35,13 +35,12 @@ class _EmailSignUpScreenState extends ConsumerState<EmailSignUpScreen> with Mess
   @override
   Widget build(BuildContext context) {
     ref.listen(signControllerProvider, (previousState, state) {
-      state.when(
-        data: (data) => switch (data.stage) {
+      state.showSnackBarOnError(context);
+      state.whenData(
+        (data) => switch (data.stage) {
           SignStage.signUpSuccess => context.goNamed(RoutesName.home.name),
           _ => null,
         },
-        error: (error, stackTrace) => showSnackBar(context.l10n.signUpError, context),
-        loading: () {},
       );
     });
 

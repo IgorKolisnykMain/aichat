@@ -9,6 +9,7 @@ import 'package:aichat/src/features/onboarding/subscription/presentation/widgets
 import 'package:aichat/src/features/onboarding/subscription/presentation/widgets/subscription_header_widget.dart';
 import 'package:aichat/src/features/onboarding/subscription/presentation/widgets/subscription_plan_card.dart';
 import 'package:aichat/src/router/route_name.dart';
+import 'package:aichat/src/utils/async_value_ui.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
 import 'package:aichat/src/utils/extensions/package_extensions.dart';
 import 'package:aichat/src/utils/extensions/responsive_extension.dart';
@@ -23,7 +24,7 @@ class SubscriptionScreen extends ConsumerStatefulWidget {
   ConsumerState<SubscriptionScreen> createState() => _SubscriptionScreenState();
 }
 
-class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> with MessagePresenter {
+class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
   @override
   void initState() {
     super.initState();
@@ -33,14 +34,13 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> with Me
   @override
   Widget build(BuildContext context) {
     ref.listen(paywallControllerProvider, (previousState, state) {
-      state.when(
-        data: (data) => switch (data.stage) {
+      state.showSnackBarOnError(context);
+      state.whenData(
+        (data) => switch (data.stage) {
           PaywallStage.successPurchaseSelectedPackage => context.goNamed(RoutesName.home.name),
           PaywallStage.successRestorePurchase => context.goNamed(RoutesName.home.name),
           _ => null,
         },
-        error: (error, stackTrace) => showSnackBar(context.l10n.genericError, context),
-        loading: () {},
       );
     });
 

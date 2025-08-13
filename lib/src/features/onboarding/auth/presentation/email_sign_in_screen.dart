@@ -8,6 +8,7 @@ import 'package:aichat/src/features/onboarding/auth/presentation/controller/sign
 import 'package:aichat/src/features/onboarding/auth/presentation/controller/sign_state.dart';
 import 'package:aichat/src/router/arguments/email_arg.dart';
 import 'package:aichat/src/router/route_name.dart';
+import 'package:aichat/src/utils/async_value_ui.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
 import 'package:aichat/src/utils/extensions/responsive_extension.dart';
 import 'package:aichat/src/utils/validators/email_validator.dart';
@@ -41,13 +42,12 @@ class _EmailSignInScreenState extends ConsumerState<EmailSignInScreen> with Mess
   @override
   Widget build(BuildContext context) {
     ref.listen(signControllerProvider, (previousState, state) {
-      state.when(
-        data: (data) => switch (data.stage) {
+      state.showSnackBarOnError(context);
+      state.whenData(
+        (data) => switch (data.stage) {
           SignStage.signInSuccess => context.goNamed(RoutesName.home.name),
           _ => null,
         },
-        error: (error, stackTrace) => showSnackBar(context.l10n.signInError, context),
-        loading: () {},
       );
     });
 

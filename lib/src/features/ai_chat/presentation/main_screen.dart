@@ -6,6 +6,7 @@ import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_sta
 import 'package:aichat/src/features/ai_chat/presentation/widgets/header/chat_header_widget.dart';
 import 'package:aichat/src/features/ai_chat/presentation/widgets/input_area/chat_input_area_widget.dart';
 import 'package:aichat/src/features/ai_chat/presentation/widgets/massages/chat_list_widget.dart';
+import 'package:aichat/src/utils/async_value_ui.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,10 +32,14 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   @override
   Widget build(BuildContext context) {
     ref.listen(aiTutorControllerProvider, (previousState, state) {
-      if (state.value?.stage == AiTutorStage.sentAIAnswerSuccess ||
-          state.value?.stage == AiTutorStage.streamingResponse) {
-        _scrollToBottom();
-      }
+      state.showSnackBarOnError(context);
+      state.whenData((data) =>
+        switch (data.stage) {
+          AiTutorStage.sentAIAnswerSuccess => _scrollToBottom(),
+          AiTutorStage.streamingResponse => _scrollToBottom(),
+          _ => null,
+        }
+      );
     });
 
     return Scaffold(
@@ -48,6 +53,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                 child: Stack(
                   children: [
                     ChatListWidget(scrollController: scrollController),
+                    //todo make loading via AsyncValueWidget
                     LoadingIndicator(provider: aiTutorControllerProvider),
                   ],
                 ),

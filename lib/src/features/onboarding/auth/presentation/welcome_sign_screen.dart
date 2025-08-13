@@ -1,31 +1,30 @@
 import 'package:aichat/generated/assets.gen.dart';
 import 'package:aichat/src/common_widgets/buttons/app_primary_button.dart';
-import 'package:aichat/src/common_widgets/message_presenter.dart';
 import 'package:aichat/src/common_widgets/responsive_UI/responsive_center.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/enums/sign_source.dart';
 import 'package:aichat/src/features/onboarding/auth/presentation/controller/sign_controller.dart';
 import 'package:aichat/src/features/onboarding/auth/presentation/controller/sign_state.dart';
 import 'package:aichat/src/router/route_name.dart';
+import 'package:aichat/src/utils/async_value_ui.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
 import 'package:aichat/src/utils/extensions/responsive_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class WelcomeSignScreen extends ConsumerWidget with MessagePresenter {
+class WelcomeSignScreen extends ConsumerWidget {
   const WelcomeSignScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(signControllerProvider, (previousState, state) {
-      state.when(
-        data: (data) => switch (data.stage) {
+      state.showSnackBarOnError(context);
+      state.whenData(
+        (data) => switch (data.stage) {
           SignStage.signInSuccess => context.goNamed(RoutesName.home.name),
           SignStage.signUpSuccess => context.goNamed(RoutesName.home.name),
           _ => null,
         },
-        error: (error, stackTrace) => showSnackBar(context.l10n.signUpError, context),
-        loading: () {},
       );
     });
 

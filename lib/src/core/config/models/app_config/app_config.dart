@@ -1,4 +1,5 @@
 import 'package:aichat/src/utils/app/domain/enums/user_platform.dart';
+import 'package:aichat/src/utils/date_time/current_date_provider.dart';
 
 class AppConfig {
   final UserPlatform platform;
@@ -12,7 +13,7 @@ class AppConfig {
   final String termsOfUseUrl;
 
   (DateTime, DateTime) get rangeWhenToPutEntryInPreviousDay =>
-      (DateTime.now().copyWith(hour: 0, minute: 0, second: 0), DateTime.now().copyWith(hour: 4, minute: 0, second: 0));
+      (currentDate.copyWith(hour: 0, minute: 0, second: 0), currentDate.copyWith(hour: 4, minute: 0, second: 0));
 
   AppConfig({
     required this.platform,

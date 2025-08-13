@@ -1,4 +1,5 @@
 import 'package:aichat/src/features/ai_chat/domain/enums/ai_chat_item_type.dart';
+import 'package:aichat/src/utils/date_time/current_date_provider.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
 
@@ -17,7 +18,7 @@ sealed class AiMessage with _$AiMessage {
   }) = _AiMessage;
 
   factory AiMessage.header({required String message}) =>
-      AiMessage._base(message: message, type: AiChatItemType.header, date: DateFormat('h:mm a').format(DateTime.now()));
+      AiMessage._base(message: message, type: AiChatItemType.header, date: DateFormat('h:mm a').format(currentDate));
 
   factory AiMessage.myQuestion({
     required String message,
@@ -26,7 +27,7 @@ sealed class AiMessage with _$AiMessage {
   }) => AiMessage._base(
     message: message,
     type: AiChatItemType.myQuestion,
-    date: date ?? DateFormat('h:mm a').format(DateTime.now()),
+    date: date ?? DateFormat('h:mm a').format(currentDate),
     customPrompt: customPrompt,
   );
 
@@ -36,13 +37,13 @@ sealed class AiMessage with _$AiMessage {
   }) => AiMessage._base(
     message: message,
     type: AiChatItemType.aiAnswer,
-    date: date ?? DateFormat('h:mm a').format(DateTime.now()),
+    date: date ?? DateFormat('h:mm a').format(currentDate),
   );
 
   factory AiMessage.loadingMock() => AiMessage._base(
     message: '',
     type: AiChatItemType.loadingMock,
-    date: DateFormat('h:mm a').format(DateTime.now()),
+    date: DateFormat('h:mm a').format(currentDate),
   );
 
   factory AiMessage.fromJson(Map<String, dynamic> json) => _$AiMessageFromJson(json);
