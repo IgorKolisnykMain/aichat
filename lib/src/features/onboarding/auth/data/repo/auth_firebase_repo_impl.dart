@@ -9,18 +9,21 @@ import 'package:aichat/src/features/onboarding/auth/domain/models/app_user.dart'
 import 'package:aichat/src/features/onboarding/auth/domain/repo/auth_repo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-final authRepoProvider = Provider<AuthRepository>((ref) {
+part 'auth_firebase_repo_impl.g.dart';
+
+@Riverpod(keepAlive: true)
+AuthRepository authRepo(Ref ref) {
   final errorLogger = ref.read(errorLoggerProvider);
   return AuthFirebaseRepositoryImpl(
     firebaseAuth: ref.read(firebaseAuthProvider),
     googleSignIn: GoogleSignIn(),
     errorLogger: errorLogger,
   );
-});
+}
 
 class AuthFirebaseRepositoryImpl implements AuthRepository {
   final FirebaseAuth firebaseAuth;

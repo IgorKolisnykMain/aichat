@@ -59,7 +59,7 @@ class _EmailSignInScreenState extends ConsumerState<EmailSignInScreen> with Mess
           child: Stack(
             children: [
               Padding(padding: EdgeInsets.all(16.rw), child: _buildScreen()),
-              LoadingIndicator(provider: signControllerProvider),
+              const LoadingIndicator(provider: signControllerProvider),
             ],
           ),
         ),

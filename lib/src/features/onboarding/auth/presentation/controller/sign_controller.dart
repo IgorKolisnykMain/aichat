@@ -3,25 +3,26 @@ import 'package:aichat/src/features/onboarding/auth/data/repo/auth_sync_service.
 import 'package:aichat/src/features/onboarding/auth/domain/enums/sign_source.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/repo/auth_repo.dart';
 import 'package:aichat/src/features/onboarding/auth/presentation/controller/sign_state.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final signControllerProvider = AsyncNotifierProvider.autoDispose<SignController, SignState>(SignController.new);
+part 'sign_controller.g.dart';
 
-class SignController extends AsyncNotifier<SignState> {
-  late AuthRepository authFirebaseRep;
-  late AuthSyncService authSyncService;
+@riverpod
+class SignController extends _$SignController {
+  late AuthRepository _authFirebaseRep;
+  late AuthSyncService _authSyncService;
 
   @override
   Future<SignState> build() async {
-    authFirebaseRep = ref.read(authRepoProvider);
-    authSyncService = ref.read(authSyncServiceProvider);
+    _authFirebaseRep = ref.read(authRepoProvider);
+    _authSyncService = ref.read(authSyncServiceProvider);
     return const SignState(stage: SignStage.init);
   }
 
   Future<void> signVia(SignSource signSource) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final appUserInfo = await authFirebaseRep.signVia(signSource);
+      final appUserInfo = await _authFirebaseRep.signVia(signSource);
       return appUserInfo != null
           ? (appUserInfo.isNewUser ?? true)
                 ? await _successSignUp()
@@ -33,7 +34,7 @@ class SignController extends AsyncNotifier<SignState> {
   Future<void> signUpViaEmail({required String email, required String password}) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final appUser = await authFirebaseRep.signUpWithEmailAndPassword(email: email, password: password);
+      final appUser = await _authFirebaseRep.signUpWithEmailAndPassword(email: email, password: password);
       return appUser != null ? await _successSignUp() : const SignState(stage: SignStage.init);
     });
   }
@@ -41,18 +42,18 @@ class SignController extends AsyncNotifier<SignState> {
   Future<void> signInViaEmail({required String email, required String password}) async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final appUser = await authFirebaseRep.signInWithEmailAndPassword(email: email, password: password);
+      final appUser = await _authFirebaseRep.signInWithEmailAndPassword(email: email, password: password);
       return appUser != null ? await _successSignIn() : const SignState(stage: SignStage.init);
     });
   }
 
   Future<SignState> _successSignIn() async {
-    await authSyncService.waitForInitialization();
+    await _authSyncService.waitForInitialization();
     return const SignState(stage: SignStage.signInSuccess);
   }
 
   Future<SignState> _successSignUp() async {
-    await authSyncService.waitForInitialization();
+    await _authSyncService.waitForInitialization();
     return const SignState(stage: SignStage.signUpSuccess);
   }
 }

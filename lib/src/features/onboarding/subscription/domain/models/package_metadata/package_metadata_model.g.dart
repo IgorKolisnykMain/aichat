@@ -6,13 +6,13 @@ part of 'package_metadata_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$PackageMetadataModelImpl _$$PackageMetadataModelImplFromJson(
+_PackageMetadataModel _$PackageMetadataModelFromJson(
   Map<String, dynamic> json,
-) => _$PackageMetadataModelImpl(
+) => _PackageMetadataModel(
   id: json['id'] as String,
   discount: (json['discount'] as num).toDouble(),
 );
 
-Map<String, dynamic> _$$PackageMetadataModelImplToJson(
-  _$PackageMetadataModelImpl instance,
+Map<String, dynamic> _$PackageMetadataModelToJson(
+  _PackageMetadataModel instance,
 ) => <String, dynamic>{'id': instance.id, 'discount': instance.discount};

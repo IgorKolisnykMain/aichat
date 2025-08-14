@@ -8,24 +8,28 @@ import 'package:aichat/src/features/onboarding/subscription/presentation/subscri
 import 'package:aichat/src/features/onboarding/wizard/presentation/wizard_screen.dart';
 import 'package:aichat/src/features/splash/presentation/splash_screen.dart';
 import 'package:aichat/src/router/arguments/email_arg.dart';
-import 'package:aichat/src/router/auth_state_notifier.dart';
+import 'package:aichat/src/router/go_router_refresh_stream.dart';
 import 'package:aichat/src/router/navigation_observer.dart';
 import 'package:aichat/src/router/not_found_screen.dart';
 import 'package:aichat/src/router/route_name.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final goRouterProvider = Provider<GoRouter>((ref) {
+part 'app_router.g.dart';
+
+@Riverpod(keepAlive: true)
+GoRouter goRouter(Ref ref) {
   final rootNavigatorKey = GlobalKey<NavigatorState>();
   final mainObserver = MyNavigatorObserver();
+  final authRepository = ref.read(authRepoProvider);
 
   return GoRouter(
     navigatorKey: rootNavigatorKey,
     debugLogDiagnostics: true,
     initialLocation: RoutesName.splash.rootPath,
     observers: [mainObserver],
-    refreshListenable: AuthStateNotifier(ref),
+    refreshListenable: GoRouterRefreshStream(authRepository.authStateChanges()),
     redirect: (context, state) {
       final authRepoAsync = ref.read(authRepoProvider);
       final isLoggedIn = authRepoAsync.currentUser != null;
@@ -46,7 +50,7 @@ final goRouterProvider = Provider<GoRouter>((ref) {
     errorPageBuilder: (context, state) => const NoTransitionPage(child: NotFoundScreen()),
     routes: getRoutes(rootNavigatorKey: rootNavigatorKey),
   );
-});
+}
 
 List<RouteBase> getRoutes({GlobalKey<NavigatorState>? rootNavigatorKey}) => [
   GoRoute(

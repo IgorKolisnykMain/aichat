@@ -15,6 +15,7 @@ dependencies:
 
   # State Management and DI
   flutter_riverpod: 3.0.0-dev.17
+  riverpod_annotation: 3.0.0-dev.17
 
   # Navigation
   go_router: ^10.1.2
@@ -43,7 +44,7 @@ dependencies:
   connectivity_plus: 6.1.3
 
   # Purchase
-  purchases_flutter: 8.10.2
+  purchases_flutter: 9.2.0
 
   # Security
   envied: 1.1.1
@@ -51,12 +52,14 @@ dependencies:
   # Other
   rxdart: 0.28.0
   equatable: 2.0.7
-  freezed_annotation: 2.4.4
+  freezed_annotation: 3.1.0
   package_info_plus: ^4.2.0
   collection: ^1.19.1
 
 dev_dependencies:
   build_runner: ^2.4.6
+  riverpod_generator: 3.0.0-dev.17
+  riverpod_lint: 3.0.0-dev.17
   envied_generator: ^1.1.1
   flutter_gen_runner: ^5.3.1
   flutter_launcher_icons: 0.14.3
@@ -65,7 +68,7 @@ dev_dependencies:
     sdk: flutter
   integration_test:
     sdk: flutter
-  freezed: ^2.3.4
+  freezed: 3.2.0
   injectable_generator: ^2.4.1
   json_serializable: ^6.7.1
   lint: ^2.1.2

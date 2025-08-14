@@ -48,7 +48,7 @@ extension MutableChatHistory on ChatHistory {
 
   ChatHistory addLoadingMockMessage() {
     final List<AiMessage> messages = List.of(this.messages);
-    messages.add(AiMessage.loadingMock());
+    messages.add(const AiMessage.loadingMock());
     return copyWith(messages: messages);
   }
 

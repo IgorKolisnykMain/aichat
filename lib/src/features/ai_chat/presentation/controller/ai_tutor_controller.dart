@@ -5,13 +5,12 @@ import 'package:aichat/src/features/ai_chat/domain/models/chat_history.dart';
 import 'package:aichat/src/features/ai_chat/domain/services/ai_chat_service.dart';
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_event.dart';
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_state.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final aiTutorControllerProvider = AsyncNotifierProvider.autoDispose<AiTutorController, AiTutorState>(
-  () => AiTutorController(),
-);
+part 'ai_tutor_controller.g.dart';
 
-class AiTutorController extends AsyncNotifier<AiTutorState> {
+@riverpod
+class AiTutorController extends _$AiTutorController {
   late final AiChatService _aiChatService;
   StreamSubscription<ChatHistory>? _streamSubscription;
 

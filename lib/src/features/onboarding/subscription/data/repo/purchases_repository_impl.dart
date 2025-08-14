@@ -5,14 +5,17 @@ import 'package:aichat/src/core/config/domain/repository/app_config_repository.d
 import 'package:aichat/src/features/onboarding/subscription/domain/models/offering_metadata_model.dart';
 import 'package:aichat/src/features/onboarding/subscription/domain/repo/purchases_repository.dart';
 import 'package:aichat/src/utils/app/domain/enums/user_platform.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:rxdart/rxdart.dart';
 
-final purchasesRepositoryProvider = Provider<PurchasesRepository>((ref) {
+part 'purchases_repository_impl.g.dart';
+
+@Riverpod(keepAlive: true)
+PurchasesRepository purchasesRepository(Ref ref) {
   final appConfig = ref.read(appConfigRepositoryProvider);
   return PurchasesRepositoryImpl(appConfigRepository: appConfig);
-});
+}
 
 class PurchasesRepositoryImpl implements PurchasesRepository {
   final AppConfigRepository appConfigRepository;

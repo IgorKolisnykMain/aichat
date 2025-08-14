@@ -6,9 +6,12 @@ import 'package:aichat/src/features/onboarding/auth/domain/models/app_user.dart'
 import 'package:aichat/src/features/onboarding/auth/domain/repo/user_repo.dart';
 import 'package:aichat/src/utils/firestore/user/firestore_user_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final userFirestoreRepoProvider = Provider<UserRepository>((ref) {
+part 'user_firestore_repo_impl.g.dart';
+
+@Riverpod(keepAlive: true)
+UserRepository userFirestoreRepo(Ref ref) {
   final authRepo = ref.read(authRepoProvider);
   final userRepo = UserFirestoreRepoImpl(
     fireStore: ref.read(firestoreProvider),
@@ -16,7 +19,7 @@ final userFirestoreRepoProvider = Provider<UserRepository>((ref) {
   );
   ref.onDispose(userRepo.dispose);
   return userRepo;
-});
+}
 
 class UserFirestoreRepoImpl implements UserRepository {
   final FirebaseFirestore fireStore;

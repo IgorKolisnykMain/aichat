@@ -5,7 +5,7 @@ import 'package:purchases_flutter/models/offering_wrapper.dart';
 part 'paywall_state.freezed.dart';
 
 @freezed
-class PaywallState with _$PaywallState {
+abstract class PaywallState with _$PaywallState {
   const factory PaywallState({
     required PaywallStage stage,
     required Offering? currentOffering,

@@ -4,26 +4,26 @@ import 'package:aichat/src/features/ai_chat/data/providers/ai_chat_providers.dar
 import 'package:aichat/src/features/ai_chat/domain/services/ai_chat_service.dart';
 import 'package:aichat/src/features/onboarding/auth/data/repo/auth_firebase_repo_impl.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/repo/auth_repo.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final authSyncServiceProvider = Provider<AuthSyncService>((ref) {
-  final authRepo = ref.read(authRepoProvider);
-  final aiChatService = ref.read(aiChatServiceProvider);
-  final authSyncService = AuthSyncService(authRepo, aiChatService);
-  ref.onDispose(() {
-    authSyncService.onDispose();
-  });
-  return authSyncService;
-});
+part 'auth_sync_service.g.dart';
 
-class AuthSyncService {
-  final AuthRepository authRepo;
-  final AiChatService aiChatService;
+@Riverpod(keepAlive: true)
+class AuthSyncService extends _$AuthSyncService {
+  late final AuthRepository authRepo;
+  late final AiChatService aiChatService;
   StreamSubscription? subscription;
   Completer<void> _initializationCompleter = Completer<void>();
 
-  AuthSyncService(this.authRepo, this.aiChatService) {
+  @override
+  AuthSyncService build() {
+    authRepo = ref.read(authRepoProvider);
+    aiChatService = ref.read(aiChatServiceProvider);
+    ref.onDispose(() {
+      onDispose();
+    });
     _init();
+    return this;
   }
 
   void _init() {

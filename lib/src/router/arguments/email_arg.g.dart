@@ -6,6 +6,8 @@ part of 'email_arg.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$EmailArgImpl _$$EmailArgImplFromJson(Map<String, dynamic> json) => _$EmailArgImpl(email: json['email'] as String);
+_EmailArg _$EmailArgFromJson(Map<String, dynamic> json) => _EmailArg(email: json['email'] as String);
 
-Map<String, dynamic> _$$EmailArgImplToJson(_$EmailArgImpl instance) => <String, dynamic>{'email': instance.email};
+Map<String, dynamic> _$EmailArgToJson(_EmailArg instance) => <String, dynamic>{
+  'email': instance.email,
+};

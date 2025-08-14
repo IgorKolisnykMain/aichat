@@ -20,12 +20,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   Widget build(BuildContext context) {
     ref.listen(splashControllerProvider, (_, state) {
       state.showSnackBarOnError(context);
-      state.whenData((data) =>
-        switch (data.stage) {
+      state.whenData(
+        (data) => switch (data.stage) {
           SplashStage.showWelcomeScreen => context.goNamed(RoutesName.wizard.name),
           SplashStage.showMainScreen => context.goNamed(RoutesName.home.name),
           _ => null,
-        }
+        },
       );
     });
 

@@ -6,10 +6,8 @@ part of 'chat_history.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$ChatHistoryImpl _$$ChatHistoryImplFromJson(Map<String, dynamic> json) => _$ChatHistoryImpl(
+_ChatHistory _$ChatHistoryFromJson(Map<String, dynamic> json) => _ChatHistory(
   messages: (json['messages'] as List<dynamic>).map((e) => AiMessage.fromJson(e as Map<String, dynamic>)).toList(),
 );
 
-Map<String, dynamic> _$$ChatHistoryImplToJson(_$ChatHistoryImpl instance) => <String, dynamic>{
-  'messages': instance.messages,
-};
+Map<String, dynamic> _$ChatHistoryToJson(_ChatHistory instance) => <String, dynamic>{'messages': instance.messages};

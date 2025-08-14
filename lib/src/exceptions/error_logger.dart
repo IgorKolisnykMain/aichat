@@ -3,9 +3,17 @@ import 'package:aichat/src/exceptions/models/default_exeption.dart';
 import 'package:aichat/src/exceptions/models/local_exeption.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class ErrorLogger {
+part 'error_logger.g.dart';
+
+@Riverpod(keepAlive: true)
+class ErrorLogger extends _$ErrorLogger {
+  @override
+  ErrorLogger build() {
+    return this;
+  }
+
   void logError(Object error, StackTrace? stackTrace) {
     // * This can be replaced with a call to a crash reporting tool of choice
     debugPrint('$error, $stackTrace');
@@ -40,7 +48,3 @@ class ErrorLogger {
     debugPrint('$exception');
   }
 }
-
-final errorLoggerProvider = Provider<ErrorLogger>((ref) {
-  return ErrorLogger();
-});

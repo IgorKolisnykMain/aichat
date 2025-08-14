@@ -10,41 +10,40 @@ part 'ai_message.g.dart';
 sealed class AiMessage with _$AiMessage {
   const AiMessage._();
 
-  const factory AiMessage._base({
+  const factory AiMessage.header({
     required String message,
-    required AiChatItemType type,
-    required String date,
-    String? customPrompt,
-  }) = _AiMessage;
+  }) = AiHeaderMessage;
 
-  factory AiMessage.header({required String message}) =>
-      AiMessage._base(message: message, type: AiChatItemType.header, date: DateFormat('h:mm a').format(currentDate));
-
-  factory AiMessage.myQuestion({
+  const factory AiMessage.myQuestion({
     required String message,
     String? date,
     String? customPrompt,
-  }) => AiMessage._base(
-    message: message,
-    type: AiChatItemType.myQuestion,
-    date: date ?? DateFormat('h:mm a').format(currentDate),
-    customPrompt: customPrompt,
-  );
+  }) = AiQuestionMessage;
 
-  factory AiMessage.aiAnswer({
+  const factory AiMessage.aiAnswer({
     required String message,
     String? date,
-  }) => AiMessage._base(
-    message: message,
-    type: AiChatItemType.aiAnswer,
-    date: date ?? DateFormat('h:mm a').format(currentDate),
-  );
+  }) = AiAnswerMessage;
 
-  factory AiMessage.loadingMock() => AiMessage._base(
-    message: '',
-    type: AiChatItemType.loadingMock,
-    date: DateFormat('h:mm a').format(currentDate),
-  );
+  const factory AiMessage.loadingMock({
+    @Default('') String message,
+  }) = AiLoadingMessage;
 
   factory AiMessage.fromJson(Map<String, dynamic> json) => _$AiMessageFromJson(json);
+}
+
+extension AiMessageExtension on AiMessage {
+  AiChatItemType get type => map(
+    header: (_) => AiChatItemType.header,
+    myQuestion: (_) => AiChatItemType.myQuestion,
+    aiAnswer: (_) => AiChatItemType.aiAnswer,
+    loadingMock: (_) => AiChatItemType.loadingMock,
+  );
+
+  String get date => map(
+    header: (_) => DateFormat('h:mm a').format(currentDate),
+    myQuestion: (msg) => msg.date ?? DateFormat('h:mm a').format(currentDate),
+    aiAnswer: (msg) => msg.date ?? DateFormat('h:mm a').format(currentDate),
+    loadingMock: (_) => DateFormat('h:mm a').format(currentDate),
+  );
 }

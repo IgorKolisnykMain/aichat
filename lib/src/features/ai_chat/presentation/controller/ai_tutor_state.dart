@@ -5,7 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'ai_tutor_state.freezed.dart';
 
 @freezed
-class AiTutorState with _$AiTutorState {
+abstract class AiTutorState with _$AiTutorState {
   const factory AiTutorState({
     required AiTutorStage stage,
     required ChatHistory chatHistory,

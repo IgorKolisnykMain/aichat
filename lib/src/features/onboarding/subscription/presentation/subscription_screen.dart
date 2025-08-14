@@ -1,5 +1,4 @@
 import 'package:aichat/src/common_widgets/loading/loading_indicator.dart';
-import 'package:aichat/src/common_widgets/message_presenter.dart';
 import 'package:aichat/src/common_widgets/responsive_UI/responsive_center.dart';
 import 'package:aichat/src/features/onboarding/subscription/presentation/controller/paywall_controller.dart';
 import 'package:aichat/src/features/onboarding/subscription/presentation/controller/paywall_event.dart'
@@ -68,7 +67,7 @@ class _SubscriptionScreenState extends ConsumerState<SubscriptionScreen> {
                   ),
                 ],
               ),
-              LoadingIndicator(provider: paywallControllerProvider),
+              const LoadingIndicator(provider: paywallControllerProvider),
             ],
           ),
         ),

@@ -33,12 +33,12 @@ class _MainScreenState extends ConsumerState<MainScreen> {
   Widget build(BuildContext context) {
     ref.listen(aiTutorControllerProvider, (previousState, state) {
       state.showSnackBarOnError(context);
-      state.whenData((data) =>
-        switch (data.stage) {
+      state.whenData(
+        (data) => switch (data.stage) {
           AiTutorStage.sentAIAnswerSuccess => _scrollToBottom(),
           AiTutorStage.streamingResponse => _scrollToBottom(),
           _ => null,
-        }
+        },
       );
     });
 
@@ -54,7 +54,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                   children: [
                     ChatListWidget(scrollController: scrollController),
                     //todo make loading via AsyncValueWidget
-                    LoadingIndicator(provider: aiTutorControllerProvider),
+                    const LoadingIndicator(provider: aiTutorControllerProvider),
                   ],
                 ),
               ),

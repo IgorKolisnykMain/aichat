@@ -6,14 +6,14 @@ part of 'offering_metadata_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$OfferingMetadataModelImpl _$$OfferingMetadataModelImplFromJson(
+_OfferingMetadataModel _$OfferingMetadataModelFromJson(
   Map<String, dynamic> json,
-) => _$OfferingMetadataModelImpl(
+) => _OfferingMetadataModel(
   packages: (json['packages'] as List<dynamic>)
       .map((e) => PackageMetadataModel.fromJson(e as Map<String, dynamic>))
       .toList(),
 );
 
-Map<String, dynamic> _$$OfferingMetadataModelImplToJson(
-  _$OfferingMetadataModelImpl instance,
+Map<String, dynamic> _$OfferingMetadataModelToJson(
+  _OfferingMetadataModel instance,
 ) => <String, dynamic>{'packages': instance.packages};

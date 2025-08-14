@@ -9,22 +9,20 @@ import 'package:aichat/src/utils/connection/domain/services/connectivity_detecto
 import 'package:aichat/src/utils/pay/paywall_package_utils.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final paywallControllerProvider = AsyncNotifierProvider.autoDispose<PaywallController, PaywallState>(
-  PaywallController.new,
-);
+part 'paywall_controller.g.dart';
 
-class PaywallController extends AsyncNotifier<PaywallState> {
-  late PurchasesRepository purchasesRepository;
-  late ConnectivityDetectorService connectivityService;
-  PaywallEvent? previousEvent;
+@riverpod
+class PaywallController extends _$PaywallController {
+  late PurchasesRepository _purchasesRepository;
+  late ConnectivityDetectorService _connectivityService;
 
   @override
   Future<PaywallState> build() async {
-    purchasesRepository = ref.read(purchasesRepositoryProvider);
-    connectivityService = ref.read(connectivityDetectorServiceProvider);
+    _purchasesRepository = ref.read(purchasesRepositoryProvider);
+    _connectivityService = ref.read(connectivityDetectorServiceProvider);
     return const PaywallState(
       stage: PaywallStage.initial,
       currentOffering: null,
@@ -36,7 +34,7 @@ class PaywallController extends AsyncNotifier<PaywallState> {
   }
 
   Future<void> handleEvent(PaywallEvent event) async {
-    if (await connectivityService.isConnected() == false) {
+    if (await _connectivityService.isConnected() == false) {
       state = AsyncValue.error(NoInternetException(), StackTrace.current);
       return;
     }
@@ -51,10 +49,10 @@ class PaywallController extends AsyncNotifier<PaywallState> {
   Future<void> _getCurrentOffering() async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      final currentOffering = await purchasesRepository.getCurrentOffering();
-      final offeringMetadata = await purchasesRepository.getOfferingMetadata(currentOffering);
+      final currentOffering = await _purchasesRepository.getCurrentOffering();
+      final offeringMetadata = await _purchasesRepository.getOfferingMetadata(currentOffering);
       final List<String> packagesWithFreeTrialEnabled = currentOffering != null
-          ? await purchasesRepository.getPackagesWithFreeTrialEnabled(currentOffering.availablePackages)
+          ? await _purchasesRepository.getPackagesWithFreeTrialEnabled(currentOffering.availablePackages)
           : [];
       final cheapestPackageId = _findCheapestPackageId(currentOffering?.availablePackages ?? []);
 
@@ -90,7 +88,7 @@ class PaywallController extends AsyncNotifier<PaywallState> {
       if (selectedPackage == null) return;
 
       state = const AsyncValue.loading();
-      await purchasesRepository.purchasePackage(selectedPackage);
+      await _purchasesRepository.purchasePackage(selectedPackage);
       state = AsyncValue.data(state.value!.copyWith(stage: PaywallStage.successPurchaseSelectedPackage));
     } catch (e, s) {
       if (e is PlatformException && e.details is Map && (e.details as Map)['userCancelled'] == true) {
@@ -110,7 +108,7 @@ class PaywallController extends AsyncNotifier<PaywallState> {
   Future<void> _restorePurchase() async {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
-      await purchasesRepository.restorePurchases();
+      await _purchasesRepository.restorePurchases();
       return state.value!.copyWith(stage: PaywallStage.successRestorePurchase);
     });
   }

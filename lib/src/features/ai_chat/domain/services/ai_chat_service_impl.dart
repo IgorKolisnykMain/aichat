@@ -117,7 +117,7 @@ class AiChatServiceImpl implements AiChatService {
     ChatHistory currentHistory = threadId != null ? await getThreadHistory(threadId) : await getChatHistory();
 
     // Add empty message for streaming
-    final streamingMessage = AiMessage.aiAnswer(message: '');
+    const streamingMessage = AiMessage.aiAnswer(message: '');
     currentHistory = currentHistory.addMessage(streamingMessage);
     yield currentHistory;
 

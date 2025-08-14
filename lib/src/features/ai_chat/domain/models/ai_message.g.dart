@@ -6,22 +6,48 @@ part of 'ai_message.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$AiMessageImpl _$$AiMessageImplFromJson(Map<String, dynamic> json) => _$AiMessageImpl(
+AiHeaderMessage _$AiHeaderMessageFromJson(Map<String, dynamic> json) => AiHeaderMessage(
   message: json['message'] as String,
-  type: $enumDecode(_$AiChatItemTypeEnumMap, json['type']),
-  date: json['date'] as String,
-  customPrompt: json['customPrompt'] as String?,
+  $type: json['runtimeType'] as String?,
 );
 
-Map<String, dynamic> _$$AiMessageImplToJson(_$AiMessageImpl instance) => <String, dynamic>{
+Map<String, dynamic> _$AiHeaderMessageToJson(AiHeaderMessage instance) => <String, dynamic>{
   'message': instance.message,
-  'type': _$AiChatItemTypeEnumMap[instance.type]!,
-  'date': instance.date,
-  'customPrompt': instance.customPrompt,
+  'runtimeType': instance.$type,
 };
 
-const _$AiChatItemTypeEnumMap = {
-  AiChatItemType.header: 'header',
-  AiChatItemType.myQuestion: 'myQuestion',
-  AiChatItemType.aiAnswer: 'aiAnswer',
+AiQuestionMessage _$AiQuestionMessageFromJson(Map<String, dynamic> json) => AiQuestionMessage(
+  message: json['message'] as String,
+  date: json['date'] as String?,
+  customPrompt: json['customPrompt'] as String?,
+  $type: json['runtimeType'] as String?,
+);
+
+Map<String, dynamic> _$AiQuestionMessageToJson(AiQuestionMessage instance) => <String, dynamic>{
+  'message': instance.message,
+  'date': instance.date,
+  'customPrompt': instance.customPrompt,
+  'runtimeType': instance.$type,
+};
+
+AiAnswerMessage _$AiAnswerMessageFromJson(Map<String, dynamic> json) => AiAnswerMessage(
+  message: json['message'] as String,
+  date: json['date'] as String?,
+  $type: json['runtimeType'] as String?,
+);
+
+Map<String, dynamic> _$AiAnswerMessageToJson(AiAnswerMessage instance) => <String, dynamic>{
+  'message': instance.message,
+  'date': instance.date,
+  'runtimeType': instance.$type,
+};
+
+AiLoadingMessage _$AiLoadingMessageFromJson(Map<String, dynamic> json) => AiLoadingMessage(
+  message: json['message'] as String? ?? '',
+  $type: json['runtimeType'] as String?,
+);
+
+Map<String, dynamic> _$AiLoadingMessageToJson(AiLoadingMessage instance) => <String, dynamic>{
+  'message': instance.message,
+  'runtimeType': instance.$type,
 };

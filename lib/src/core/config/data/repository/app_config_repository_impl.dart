@@ -4,13 +4,16 @@ import 'package:aichat/src/core/env/env.dart';
 import 'package:aichat/src/features/ai_chat/domain/models/ai_chat_settings.dart';
 import 'package:aichat/src/utils/app/domain/enums/user_platform.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final appConfigRepositoryProvider = Provider<AppConfigRepository>((ref) {
+part 'app_config_repository_impl.g.dart';
+
+@Riverpod(keepAlive: true)
+AppConfigRepository appConfigRepository(Ref ref) {
   // * Override this in the main method
   throw UnimplementedError();
-});
+}
 
 class AppConfigRepositoryImpl implements AppConfigRepository {
   final AppConfig _appConfig;

@@ -17,9 +17,12 @@ import 'package:aichat/src/features/ai_chat/domain/services/ai_chat_service_impl
 import 'package:aichat/src/features/onboarding/auth/data/repo/auth_firebase_repo_impl.dart';
 import 'package:aichat/src/utils/connection/data/services/connectivity_detector_service_impl.dart';
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final aiRepositoryProvider = Provider<AiRepository>((ref) {
+part 'ai_chat_providers.g.dart';
+
+@Riverpod(keepAlive: true)
+AiRepository aiRepository(Ref ref) {
   final appConfig = ref.read(appConfigRepositoryProvider);
   final settings = appConfig.getAiSettings();
   final assistantStorage = ref.read(assistantStorageProvider);
@@ -31,9 +34,10 @@ final aiRepositoryProvider = Provider<AiRepository>((ref) {
 
   ref.onDispose(repository.dispose);
   return repository;
-});
+}
 
-final aiTokenStorageProvider = Provider<AITokenStorage>((ref) {
+@Riverpod(keepAlive: true)
+AITokenStorage aiTokenStorage(Ref ref) {
   final errorLogger = ref.read(errorLoggerProvider);
   final fireStore = ref.read(firestoreProvider);
   final userStream = ref.read(authRepoProvider).authStateChanges();
@@ -46,9 +50,10 @@ final aiTokenStorageProvider = Provider<AITokenStorage>((ref) {
 
   ref.onDispose(storage.dispose);
   return storage;
-});
+}
 
-final assistantStorageProvider = Provider<AssistantStorage>((ref) {
+@Riverpod(keepAlive: true)
+AssistantStorage assistantStorage(Ref ref) {
   final errorLogger = ref.read(errorLoggerProvider);
   final fireStore = ref.read(firestoreProvider);
 
@@ -56,9 +61,10 @@ final assistantStorageProvider = Provider<AssistantStorage>((ref) {
     fireStore: fireStore,
     errorLogger: errorLogger,
   );
-});
+}
 
-final threadIdStorageProvider = Provider<ThreadIdStorage>((ref) {
+@Riverpod(keepAlive: true)
+ThreadIdStorage threadIdStorage(Ref ref) {
   final errorLogger = ref.read(errorLoggerProvider);
   final fireStore = ref.read(firestoreProvider);
   final userStream = ref.read(authRepoProvider).authStateChanges();
@@ -71,9 +77,10 @@ final threadIdStorageProvider = Provider<ThreadIdStorage>((ref) {
 
   ref.onDispose(storage.dispose);
   return storage;
-});
+}
 
-final firestoreChatStorageProvider = Provider<ChatStorage>((ref) {
+@Riverpod(keepAlive: true)
+ChatStorage firestoreChatStorage(Ref ref) {
   final errorLogger = ref.read(errorLoggerProvider);
   final fireStore = ref.read(firestoreProvider);
   final userStream = ref.read(authRepoProvider).authStateChanges();
@@ -86,9 +93,10 @@ final firestoreChatStorageProvider = Provider<ChatStorage>((ref) {
 
   ref.onDispose(storage.dispose);
   return storage;
-});
+}
 
-final chatGptChatStorageProvider = Provider<ChatStorage>((ref) {
+@Riverpod(keepAlive: true)
+ChatStorage chatGptChatStorage(Ref ref) {
   final errorLogger = ref.read(errorLoggerProvider);
   final appConfig = ref.read(appConfigRepositoryProvider);
   final settings = appConfig.getAiSettings();
@@ -101,9 +109,10 @@ final chatGptChatStorageProvider = Provider<ChatStorage>((ref) {
 
   ref.onDispose(storage.dispose);
   return storage;
-});
+}
 
-final aiChatServiceProvider = Provider<AiChatService>((ref) {
+@Riverpod(keepAlive: true)
+AiChatService aiChatService(Ref ref) {
   final errorLogger = ref.read(errorLoggerProvider);
   final aiRepository = ref.read(aiRepositoryProvider);
   final chatStorage = ref.read(chatGptChatStorageProvider);
@@ -121,4 +130,4 @@ final aiChatServiceProvider = Provider<AiChatService>((ref) {
   );
 
   return service;
-});
+}

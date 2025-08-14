@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,149 +9,269 @@ part of 'email_arg.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
-
-EmailArg _$EmailArgFromJson(Map<String, dynamic> json) {
-  return _EmailArg.fromJson(json);
-}
 
 /// @nodoc
 mixin _$EmailArg {
-  String get email => throw _privateConstructorUsedError;
+
+ String get email;
+/// Create a copy of EmailArg
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$EmailArgCopyWith<EmailArg> get copyWith => _$EmailArgCopyWithImpl<EmailArg>(this as EmailArg, _$identity);
 
   /// Serializes this EmailArg to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson();
 
-  /// Create a copy of EmailArg
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  $EmailArgCopyWith<EmailArg> get copyWith => throw _privateConstructorUsedError;
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is EmailArg&&(identical(other.email, email) || other.email == email));
+}
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,email);
+
+@override
+String toString() {
+  return 'EmailArg(email: $email)';
+}
+
+
 }
 
 /// @nodoc
-abstract class $EmailArgCopyWith<$Res> {
-  factory $EmailArgCopyWith(EmailArg value, $Res Function(EmailArg) then) = _$EmailArgCopyWithImpl<$Res, EmailArg>;
-  @useResult
-  $Res call({String email});
+abstract mixin class $EmailArgCopyWith<$Res>  {
+  factory $EmailArgCopyWith(EmailArg value, $Res Function(EmailArg) _then) = _$EmailArgCopyWithImpl;
+@useResult
+$Res call({
+ String email
+});
+
+
+
+
+}
+/// @nodoc
+class _$EmailArgCopyWithImpl<$Res>
+    implements $EmailArgCopyWith<$Res> {
+  _$EmailArgCopyWithImpl(this._self, this._then);
+
+  final EmailArg _self;
+  final $Res Function(EmailArg) _then;
+
+/// Create a copy of EmailArg
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? email = null,}) {
+  return _then(_self.copyWith(
+email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
 }
 
-/// @nodoc
-class _$EmailArgCopyWithImpl<$Res, $Val extends EmailArg> implements $EmailArgCopyWith<$Res> {
-  _$EmailArgCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of EmailArg
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? email = null}) {
-    return _then(
-      _value.copyWith(
-            email: null == email
-                ? _value.email
-                : email // ignore: cast_nullable_to_non_nullable
-                      as String,
-          )
-          as $Val,
-    );
-  }
 }
 
-/// @nodoc
-abstract class _$$EmailArgImplCopyWith<$Res> implements $EmailArgCopyWith<$Res> {
-  factory _$$EmailArgImplCopyWith(
-    _$EmailArgImpl value,
-    $Res Function(_$EmailArgImpl) then,
-  ) = __$$EmailArgImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call({String email});
+
+/// Adds pattern-matching-related methods to [EmailArg].
+extension EmailArgPatterns on EmailArg {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _EmailArg value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _EmailArg() when $default != null:
+return $default(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _EmailArg value)  $default,){
+final _that = this;
+switch (_that) {
+case _EmailArg():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _EmailArg value)?  $default,){
+final _that = this;
+switch (_that) {
+case _EmailArg() when $default != null:
+return $default(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String email)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _EmailArg() when $default != null:
+return $default(_that.email);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String email)  $default,) {final _that = this;
+switch (_that) {
+case _EmailArg():
+return $default(_that.email);case _:
+  throw StateError('Unexpected subclass');
+
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String email)?  $default,) {final _that = this;
+switch (_that) {
+case _EmailArg() when $default != null:
+return $default(_that.email);case _:
+  return null;
+
+}
 }
 
-/// @nodoc
-class __$$EmailArgImplCopyWithImpl<$Res> extends _$EmailArgCopyWithImpl<$Res, _$EmailArgImpl>
-    implements _$$EmailArgImplCopyWith<$Res> {
-  __$$EmailArgImplCopyWithImpl(
-    _$EmailArgImpl _value,
-    $Res Function(_$EmailArgImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of EmailArg
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? email = null}) {
-    return _then(
-      _$EmailArgImpl(
-        email: null == email
-            ? _value.email
-            : email // ignore: cast_nullable_to_non_nullable
-                  as String,
-      ),
-    );
-  }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$EmailArgImpl implements _EmailArg {
-  _$EmailArgImpl({required this.email});
 
-  factory _$EmailArgImpl.fromJson(Map<String, dynamic> json) => _$$EmailArgImplFromJson(json);
+class _EmailArg implements EmailArg {
+   _EmailArg({required this.email});
+  factory _EmailArg.fromJson(Map<String, dynamic> json) => _$EmailArgFromJson(json);
 
-  @override
-  final String email;
+@override final  String email;
 
-  @override
-  String toString() {
-    return 'EmailArg(email: $email)';
-  }
+/// Create a copy of EmailArg
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$EmailArgCopyWith<_EmailArg> get copyWith => __$EmailArgCopyWithImpl<_EmailArg>(this, _$identity);
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$EmailArgImpl &&
-            (identical(other.email, email) || other.email == email));
-  }
-
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, email);
-
-  /// Create a copy of EmailArg
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$EmailArgImplCopyWith<_$EmailArgImpl> get copyWith =>
-      __$$EmailArgImplCopyWithImpl<_$EmailArgImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$EmailArgImplToJson(this);
-  }
+@override
+Map<String, dynamic> toJson() {
+  return _$EmailArgToJson(this, );
 }
 
-abstract class _EmailArg implements EmailArg {
-  factory _EmailArg({required final String email}) = _$EmailArgImpl;
-
-  factory _EmailArg.fromJson(Map<String, dynamic> json) = _$EmailArgImpl.fromJson;
-
-  @override
-  String get email;
-
-  /// Create a copy of EmailArg
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$EmailArgImplCopyWith<_$EmailArgImpl> get copyWith => throw _privateConstructorUsedError;
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _EmailArg&&(identical(other.email, email) || other.email == email));
 }
+
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,email);
+
+@override
+String toString() {
+  return 'EmailArg(email: $email)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$EmailArgCopyWith<$Res> implements $EmailArgCopyWith<$Res> {
+  factory _$EmailArgCopyWith(_EmailArg value, $Res Function(_EmailArg) _then) = __$EmailArgCopyWithImpl;
+@override @useResult
+$Res call({
+ String email
+});
+
+
+
+
+}
+/// @nodoc
+class __$EmailArgCopyWithImpl<$Res>
+    implements _$EmailArgCopyWith<$Res> {
+  __$EmailArgCopyWithImpl(this._self, this._then);
+
+  final _EmailArg _self;
+  final $Res Function(_EmailArg) _then;
+
+/// Create a copy of EmailArg
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? email = null,}) {
+  return _then(_EmailArg(
+email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+// dart format on

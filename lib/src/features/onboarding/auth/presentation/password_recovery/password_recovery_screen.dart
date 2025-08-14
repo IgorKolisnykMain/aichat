@@ -61,7 +61,7 @@ class _PasswordRecoveryScreenState extends ConsumerState<PasswordRecoveryScreen>
           child: Stack(
             children: [
               Padding(padding: EdgeInsets.fromLTRB(16.rw, 16.rsp, 16.rw, 8.rsp), child: _buildScreen()),
-              LoadingIndicator(provider: passwordRecoveryControllerProvider),
+              const LoadingIndicator(provider: passwordRecoveryControllerProvider),
             ],
           ),
         ),
