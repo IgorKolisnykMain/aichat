@@ -23,7 +23,9 @@
       "Bash(windsurf:*)",
       "Bash(dart:*)",
       "Bash(git commit:*)",
-      "Bash(flutter doctor:*)"
+      "Bash(flutter doctor:*)",
+      "Bash(mkdir:*)",
+      "Bash(claude doctor)"
     ],
     "deny": []
   }
