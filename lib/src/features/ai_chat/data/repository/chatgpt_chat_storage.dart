@@ -3,7 +3,6 @@ import 'package:aichat/src/features/ai_chat/domain/models/ai_message.dart';
 import 'package:aichat/src/features/ai_chat/domain/models/chat_history.dart';
 import 'package:aichat/src/features/ai_chat/domain/repository/chat_storage.dart';
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
-import 'package:intl/intl.dart';
 
 class ChatGptChatStorage implements ChatStorage {
   final OpenAI openAI;
@@ -65,7 +64,7 @@ class ChatGptChatStorage implements ChatStorage {
             aiMessages.add(
               AiMessage.myQuestion(
                 message: content.text!.value,
-                date: _formatTimestamp(message.createdAt),
+                // date: _formatTimestamp(message.createdAt),
               ),
             );
           }
@@ -90,8 +89,7 @@ class ChatGptChatStorage implements ChatStorage {
     }
   }
 
-  String _formatTimestamp(int timestamp) {
-    final date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
-    return DateFormat('h:mm a').format(date);
+  DateTime _formatTimestamp(int timestamp) {
+    return DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
   }
 }

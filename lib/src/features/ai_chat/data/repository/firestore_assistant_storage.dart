@@ -12,7 +12,7 @@ class FirestoreAssistantStorage implements AssistantStorage {
 
   FirestoreAssistantStorage({required this.fireStore, required this.errorLogger});
 
-  DocumentReference<Map<String, dynamic>> get _appConfigRef => fireStore.collection('config').doc(_appConfigDocument);
+  DocumentReference<Map<String, dynamic>> get _appConfigRef => fireStore.doc('config/$_appConfigDocument');
 
   @override
   Future<String?> getAssistantId() async {

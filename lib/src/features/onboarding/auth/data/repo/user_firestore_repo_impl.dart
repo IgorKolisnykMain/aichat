@@ -4,11 +4,12 @@ import 'package:aichat/src/core/di/modules/firebase_module.dart' show firestoreP
 import 'package:aichat/src/features/onboarding/auth/data/repo/auth_firebase_repo_impl.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/models/app_user.dart' show AppUser;
 import 'package:aichat/src/features/onboarding/auth/domain/repo/user_repo.dart';
-import 'package:aichat/src/utils/firestore/user/firestore_user_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'user_firestore_repo_impl.g.dart';
+
+const _users = 'users';
 
 @Riverpod(keepAlive: true)
 UserRepository userFirestoreRepo(Ref ref) {
@@ -37,7 +38,7 @@ class UserFirestoreRepoImpl implements UserRepository {
     _userStream.cancel();
   }
 
-  DocumentReference<Map<String, dynamic>> get _userDocRef => getUserDocRef(_userId, fireStore);
+  DocumentReference<Map<String, dynamic>> get _userRef => fireStore.doc('$_users/$_userId');
 
   @override
   String? get userId => _userId;
@@ -54,6 +55,6 @@ class UserFirestoreRepoImpl implements UserRepository {
 
   @override
   Future<void> deleteAccount() async {
-    await _userDocRef.delete();
+    await _userRef.delete();
   }
 }

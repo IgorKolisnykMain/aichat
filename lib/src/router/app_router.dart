@@ -35,12 +35,7 @@ GoRouter goRouter(Ref ref) {
       final isLoggedIn = authRepoAsync.currentUser != null;
 
       final path = state.uri.path;
-      if (isLoggedIn &&
-          (path == RoutesName.wizard.rootPath ||
-              path == RoutesName.welcomeSign.rootPath ||
-              path == RoutesName.emailSignUp.rootPath ||
-              path == RoutesName.emailSignIn.rootPath ||
-              path == RoutesName.passwordRecovery.rootPath)) {
+      if (isLoggedIn && (path.startsWith(RoutesName.welcomeSign.rootPath) || path == RoutesName.wizard.rootPath)) {
         return RoutesName.home.rootPath;
       } else if (!isLoggedIn && (path == RoutesName.home.rootPath)) {
         return RoutesName.welcomeSign.rootPath;

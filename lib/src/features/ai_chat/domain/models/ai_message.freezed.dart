@@ -190,7 +190,7 @@ return loadingMock(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String message)?  header,TResult Function( String message,  String? date,  String? customPrompt)?  myQuestion,TResult Function( String message,  String? date)?  aiAnswer,TResult Function( String message)?  loadingMock,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String message)?  header,TResult Function( String message, @TimestampNullableConverter()  DateTime? date,  String? customPrompt)?  myQuestion,TResult Function( String message, @TimestampNullableConverter()  DateTime? date)?  aiAnswer,TResult Function( String message)?  loadingMock,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case AiHeaderMessage() when header != null:
 return header(_that.message);case AiQuestionMessage() when myQuestion != null:
@@ -214,7 +214,7 @@ return loadingMock(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String message)  header,required TResult Function( String message,  String? date,  String? customPrompt)  myQuestion,required TResult Function( String message,  String? date)  aiAnswer,required TResult Function( String message)  loadingMock,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String message)  header,required TResult Function( String message, @TimestampNullableConverter()  DateTime? date,  String? customPrompt)  myQuestion,required TResult Function( String message, @TimestampNullableConverter()  DateTime? date)  aiAnswer,required TResult Function( String message)  loadingMock,}) {final _that = this;
 switch (_that) {
 case AiHeaderMessage():
 return header(_that.message);case AiQuestionMessage():
@@ -234,7 +234,7 @@ return loadingMock(_that.message);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String message)?  header,TResult? Function( String message,  String? date,  String? customPrompt)?  myQuestion,TResult? Function( String message,  String? date)?  aiAnswer,TResult? Function( String message)?  loadingMock,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String message)?  header,TResult? Function( String message, @TimestampNullableConverter()  DateTime? date,  String? customPrompt)?  myQuestion,TResult? Function( String message, @TimestampNullableConverter()  DateTime? date)?  aiAnswer,TResult? Function( String message)?  loadingMock,}) {final _that = this;
 switch (_that) {
 case AiHeaderMessage() when header != null:
 return header(_that.message);case AiQuestionMessage() when myQuestion != null:
@@ -325,11 +325,11 @@ as String,
 @JsonSerializable()
 
 class AiQuestionMessage extends AiMessage {
-  const AiQuestionMessage({required this.message, this.date, this.customPrompt, final  String? $type}): $type = $type ?? 'myQuestion',super._();
+  const AiQuestionMessage({required this.message, @TimestampNullableConverter() this.date, this.customPrompt, final  String? $type}): $type = $type ?? 'myQuestion',super._();
   factory AiQuestionMessage.fromJson(Map<String, dynamic> json) => _$AiQuestionMessageFromJson(json);
 
 @override final  String message;
- final  String? date;
+@TimestampNullableConverter() final  DateTime? date;
  final  String? customPrompt;
 
 @JsonKey(name: 'runtimeType')
@@ -369,7 +369,7 @@ abstract mixin class $AiQuestionMessageCopyWith<$Res> implements $AiMessageCopyW
   factory $AiQuestionMessageCopyWith(AiQuestionMessage value, $Res Function(AiQuestionMessage) _then) = _$AiQuestionMessageCopyWithImpl;
 @override @useResult
 $Res call({
- String message, String? date, String? customPrompt
+ String message,@TimestampNullableConverter() DateTime? date, String? customPrompt
 });
 
 
@@ -390,7 +390,7 @@ class _$AiQuestionMessageCopyWithImpl<$Res>
   return _then(AiQuestionMessage(
 message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,date: freezed == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
-as String?,customPrompt: freezed == customPrompt ? _self.customPrompt : customPrompt // ignore: cast_nullable_to_non_nullable
+as DateTime?,customPrompt: freezed == customPrompt ? _self.customPrompt : customPrompt // ignore: cast_nullable_to_non_nullable
 as String?,
   ));
 }
@@ -402,11 +402,11 @@ as String?,
 @JsonSerializable()
 
 class AiAnswerMessage extends AiMessage {
-  const AiAnswerMessage({required this.message, this.date, final  String? $type}): $type = $type ?? 'aiAnswer',super._();
+  const AiAnswerMessage({required this.message, @TimestampNullableConverter() this.date, final  String? $type}): $type = $type ?? 'aiAnswer',super._();
   factory AiAnswerMessage.fromJson(Map<String, dynamic> json) => _$AiAnswerMessageFromJson(json);
 
 @override final  String message;
- final  String? date;
+@TimestampNullableConverter() final  DateTime? date;
 
 @JsonKey(name: 'runtimeType')
 final String $type;
@@ -445,7 +445,7 @@ abstract mixin class $AiAnswerMessageCopyWith<$Res> implements $AiMessageCopyWit
   factory $AiAnswerMessageCopyWith(AiAnswerMessage value, $Res Function(AiAnswerMessage) _then) = _$AiAnswerMessageCopyWithImpl;
 @override @useResult
 $Res call({
- String message, String? date
+ String message,@TimestampNullableConverter() DateTime? date
 });
 
 
@@ -466,7 +466,7 @@ class _$AiAnswerMessageCopyWithImpl<$Res>
   return _then(AiAnswerMessage(
 message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
 as String,date: freezed == date ? _self.date : date // ignore: cast_nullable_to_non_nullable
-as String?,
+as DateTime?,
   ));
 }
 

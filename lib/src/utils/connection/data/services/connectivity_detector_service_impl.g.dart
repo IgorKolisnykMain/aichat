@@ -18,7 +18,7 @@ final class ConnectivityDetectorServiceProvider
         argument: null,
         retry: null,
         name: r'connectivityDetectorServiceProvider',
-        isAutoDispose: true,
+        isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
@@ -46,7 +46,7 @@ final class ConnectivityDetectorServiceProvider
   }
 }
 
-String _$connectivityDetectorServiceHash() => r'1ea9d66324b4589273af9fb2a3a9eb4b8367a04b';
+String _$connectivityDetectorServiceHash() => r'a1bfdbf1dfc105f62c86bba08a66ea33b4ba4b50';
 
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

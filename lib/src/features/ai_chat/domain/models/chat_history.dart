@@ -61,7 +61,7 @@ extension MutableChatHistory on ChatHistory {
 
 extension ChatHistoryExtension on ChatHistory {
   Map<String, dynamic> toJsonChatHistory() {
-    return {_chatHistoryKey: messages.map((message) => message.toJson())};
+    return {_chatHistoryKey: messages.map((message) => message.toJson()).toList()};
   }
 
   List<AiMessage> toMessagesList() => List.of(messages);

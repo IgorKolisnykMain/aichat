@@ -9,8 +9,7 @@ part of 'auth_sync_service.dart';
 @ProviderFor(AuthSyncService)
 const authSyncServiceProvider = AuthSyncServiceProvider._();
 
-final class AuthSyncServiceProvider
-    extends $NotifierProvider<AuthSyncService, AuthSyncService> {
+final class AuthSyncServiceProvider extends $NotifierProvider<AuthSyncService, AuthSyncService> {
   const AuthSyncServiceProvider._()
     : super(
         from: null,
@@ -38,7 +37,7 @@ final class AuthSyncServiceProvider
   }
 }
 
-String _$authSyncServiceHash() => r'c491843467ff2b915c92db4f47d5e12575c1304d';
+String _$authSyncServiceHash() => r'837476ffa780d8d962d015f003dbb10b19a3c1d5';
 
 abstract class _$AuthSyncService extends $Notifier<AuthSyncService> {
   AuthSyncService build();
@@ -49,12 +48,7 @@ abstract class _$AuthSyncService extends $Notifier<AuthSyncService> {
     final ref = this.ref as $Ref<AuthSyncService, AuthSyncService>;
     final element =
         ref.element
-            as $ClassProviderElement<
-              AnyNotifier<AuthSyncService, AuthSyncService>,
-              AuthSyncService,
-              Object?,
-              Object?
-            >;
+            as $ClassProviderElement<AnyNotifier<AuthSyncService, AuthSyncService>, AuthSyncService, Object?, Object?>;
     element.handleValue(ref, created);
   }
 }

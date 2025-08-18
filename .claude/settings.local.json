@@ -25,7 +25,14 @@
       "Bash(git commit:*)",
       "Bash(flutter doctor:*)",
       "Bash(mkdir:*)",
-      "Bash(claude doctor)"
+      "Bash(claude doctor)",
+      "Bash(rm:*)",
+      "Bash(flutter clean:*)",
+      "Bash(./gradlew --stop)",
+      "Bash(flutter pub:*)",
+      "Bash(flutter run:*)",
+      "Bash(./gradlew:*)",
+      "WebFetch(domain:isaacadariku.medium.com)"
     ],
     "deny": []
   }

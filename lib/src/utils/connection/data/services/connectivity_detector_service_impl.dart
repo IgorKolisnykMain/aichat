@@ -4,7 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'connectivity_detector_service_impl.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 ConnectivityDetectorService connectivityDetectorService(Ref ref) {
   return ConnectivityDetectorServiceImpl(connectivity: Connectivity());
 }

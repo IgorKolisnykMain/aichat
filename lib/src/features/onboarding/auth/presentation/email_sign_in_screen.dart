@@ -119,8 +119,6 @@ class _EmailSignInScreenState extends ConsumerState<EmailSignInScreen> with Mess
                       Align(
                         alignment: Alignment.centerLeft,
                         child: GestureDetector(
-                          //todo remove comment code
-                          // onTap: () => context.goNamed(RoutesName.passwordRecovery.name, pathParameters: {"email": _emailController.text}),
                           onTap: () => context.goNamed(
                             RoutesName.passwordRecovery.name,
                             queryParameters: EmailArg(email: _emailController.text).toJson(),

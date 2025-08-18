@@ -1,14 +1,15 @@
 import 'dart:async';
 
 import 'package:aichat/src/exceptions/error_logger.dart';
+import 'package:aichat/src/features/ai_chat/domain/models/user_id_treads.dart';
 import 'package:aichat/src/features/ai_chat/domain/repository/thread_id_storage.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/models/app_user.dart';
-import 'package:aichat/src/utils/firestore/user/firestore_user_utils.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class FirestoreThreadIdStorage implements ThreadIdStorage {
-  static const _userThreadIds = 'user_threads';
+const _userThreadIds = 'threads';
+const _userFieldName = 'users';
 
+class FirestoreThreadIdStorage implements ThreadIdStorage {
   final FirebaseFirestore fireStore;
   late StreamSubscription<AppUser?> _userStream;
   String? _userId;
@@ -30,14 +31,18 @@ class FirestoreThreadIdStorage implements ThreadIdStorage {
     _userStream.cancel();
   }
 
-  DocumentReference<Map<String, dynamic>> get _userDocRef => getUserDocRef(_userId, fireStore);
+  DocumentReference<Map<String, dynamic>> get _userThreadIdsRef => fireStore.doc('$_userFieldName/$_userId');
 
   @override
   Future<List<String>> getUserThreadIds() async {
     try {
-      final data = (await _userDocRef.get(const GetOptions(source: Source.server))).data();
-      final List<dynamic> result = data?[_userThreadIds] as List<dynamic>? ?? [];
-      return result.map((e) => e as String).toList();
+      final doc = await _userThreadIdsRef
+          .withConverter(
+            fromFirestore: (snapshot, options) => UserIdTreads.fromJson(snapshot.data()!),
+            toFirestore: (userChat, options) => userChat.toJson(),
+          )
+          .get();
+      return doc.data()?.threads ?? [];
     } catch (e) {
       errorLogger.logError(e, StackTrace.current);
       return [];
@@ -46,30 +51,29 @@ class FirestoreThreadIdStorage implements ThreadIdStorage {
 
   @override
   Future<void> addThreadId(String threadId) async {
-    try {
-      final currentThreadIds = await getUserThreadIds();
-      if (!currentThreadIds.contains(threadId)) {
-        currentThreadIds.add(threadId);
-        await _userDocRef.set({_userThreadIds: currentThreadIds}, SetOptions(merge: true));
-      }
-    } catch (e) {
-      errorLogger.logError(e, StackTrace.current);
-      // If error occurs, try to create new list with just this thread ID
-      await _userDocRef.set({
-        _userThreadIds: [threadId],
-      }, SetOptions(merge: true));
-    }
+    final currentThreadIds = await getUserThreadIds();
+    currentThreadIds.add(threadId);
+    await _userThreadIdsRef.set(
+      {_userThreadIds: currentThreadIds},
+      SetOptions(merge: true),
+    );
   }
 
   @override
   Future<void> removeThreadId(String threadId) async {
     final currentThreadIds = await getUserThreadIds();
     currentThreadIds.remove(threadId);
-    await _userDocRef.set({_userThreadIds: currentThreadIds}, SetOptions(merge: true));
+    await _userThreadIdsRef.set(
+      {_userThreadIds: currentThreadIds},
+      SetOptions(merge: true),
+    );
   }
 
   @override
   Future<void> clearAllThreadIds() async {
-    await _userDocRef.set({_userThreadIds: <String>[]}, SetOptions(merge: true));
+    await _userThreadIdsRef.set(
+      {_userThreadIds: <String>[]},
+      SetOptions(merge: true),
+    );
   }
 }

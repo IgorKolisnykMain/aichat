@@ -9,8 +9,7 @@ part of 'auth_firebase_repo_impl.dart';
 @ProviderFor(authRepo)
 const authRepoProvider = AuthRepoProvider._();
 
-final class AuthRepoProvider
-    extends $FunctionalProvider<AuthRepository, AuthRepository, AuthRepository>
+final class AuthRepoProvider extends $FunctionalProvider<AuthRepository, AuthRepository, AuthRepository>
     with $Provider<AuthRepository> {
   const AuthRepoProvider._()
     : super(
@@ -28,8 +27,7 @@ final class AuthRepoProvider
 
   @$internal
   @override
-  $ProviderElement<AuthRepository> $createElement($ProviderPointer pointer) =>
-      $ProviderElement(pointer);
+  $ProviderElement<AuthRepository> $createElement($ProviderPointer pointer) => $ProviderElement(pointer);
 
   @override
   AuthRepository create(Ref ref) {

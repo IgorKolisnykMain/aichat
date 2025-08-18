@@ -12,7 +12,7 @@ part 'auth_sync_service.g.dart';
 class AuthSyncService extends _$AuthSyncService {
   late final AuthRepository authRepo;
   late final AiChatService aiChatService;
-  StreamSubscription? subscription;
+  StreamSubscription? _subscription;
   Completer<void> _initializationCompleter = Completer<void>();
 
   @override
@@ -27,7 +27,7 @@ class AuthSyncService extends _$AuthSyncService {
   }
 
   void _init() {
-    subscription = authRepo.authStateChanges().listen((event) {
+    _subscription = authRepo.authStateChanges().listen((event) {
       final user = event;
       if (user != null) {
         if (!_initializationCompleter.isCompleted) {
@@ -64,6 +64,6 @@ class AuthSyncService extends _$AuthSyncService {
   Future<void> waitForInitialization() => _initializationCompleter.future;
 
   void onDispose() {
-    subscription?.cancel();
+    _subscription?.cancel();
   }
 }

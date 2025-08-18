@@ -18,27 +18,27 @@ Map<String, dynamic> _$AiHeaderMessageToJson(AiHeaderMessage instance) => <Strin
 
 AiQuestionMessage _$AiQuestionMessageFromJson(Map<String, dynamic> json) => AiQuestionMessage(
   message: json['message'] as String,
-  date: json['date'] as String?,
+  date: const TimestampNullableConverter().fromJson(json['date']),
   customPrompt: json['customPrompt'] as String?,
   $type: json['runtimeType'] as String?,
 );
 
 Map<String, dynamic> _$AiQuestionMessageToJson(AiQuestionMessage instance) => <String, dynamic>{
   'message': instance.message,
-  'date': instance.date,
+  'date': const TimestampNullableConverter().toJson(instance.date),
   'customPrompt': instance.customPrompt,
   'runtimeType': instance.$type,
 };
 
 AiAnswerMessage _$AiAnswerMessageFromJson(Map<String, dynamic> json) => AiAnswerMessage(
   message: json['message'] as String,
-  date: json['date'] as String?,
+  date: const TimestampNullableConverter().fromJson(json['date']),
   $type: json['runtimeType'] as String?,
 );
 
 Map<String, dynamic> _$AiAnswerMessageToJson(AiAnswerMessage instance) => <String, dynamic>{
   'message': instance.message,
-  'date': instance.date,
+  'date': const TimestampNullableConverter().toJson(instance.date),
   'runtimeType': instance.$type,
 };
 

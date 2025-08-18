@@ -1,7 +1,7 @@
 import 'package:aichat/src/features/ai_chat/domain/enums/ai_chat_item_type.dart';
+import 'package:aichat/src/utils/converters/timestamp_nullable_converter.dart';
 import 'package:aichat/src/utils/date_time/current_date_provider.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:intl/intl.dart';
 
 part 'ai_message.freezed.dart';
 part 'ai_message.g.dart';
@@ -16,13 +16,13 @@ sealed class AiMessage with _$AiMessage {
 
   const factory AiMessage.myQuestion({
     required String message,
-    String? date,
+    @TimestampNullableConverter() DateTime? date,
     String? customPrompt,
   }) = AiQuestionMessage;
 
   const factory AiMessage.aiAnswer({
     required String message,
-    String? date,
+    @TimestampNullableConverter() DateTime? date,
   }) = AiAnswerMessage;
 
   const factory AiMessage.loadingMock({
@@ -40,10 +40,10 @@ extension AiMessageExtension on AiMessage {
     loadingMock: (_) => AiChatItemType.loadingMock,
   );
 
-  String get date => map(
-    header: (_) => DateFormat('h:mm a').format(currentDate),
-    myQuestion: (msg) => msg.date ?? DateFormat('h:mm a').format(currentDate),
-    aiAnswer: (msg) => msg.date ?? DateFormat('h:mm a').format(currentDate),
-    loadingMock: (_) => DateFormat('h:mm a').format(currentDate),
+  DateTime get date => map(
+    header: (_) => currentDate,
+    myQuestion: (msg) => msg.date ?? currentDate,
+    aiAnswer: (msg) => msg.date ?? currentDate,
+    loadingMock: (_) => currentDate,
   );
 }
