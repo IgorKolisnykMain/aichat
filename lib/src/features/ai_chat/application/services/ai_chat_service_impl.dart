@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:aichat/src/exceptions/error_logger.dart';
 import 'package:aichat/src/exceptions/models/default_exeption.dart';
+import 'package:aichat/src/features/ai_chat/application/services/ai_chat_service.dart';
 import 'package:aichat/src/features/ai_chat/domain/enums/ai_chat_error.dart';
 import 'package:aichat/src/features/ai_chat/domain/exceptions/ai_chat_exception.dart';
 import 'package:aichat/src/features/ai_chat/domain/models/ai_message.dart';
@@ -10,7 +11,6 @@ import 'package:aichat/src/features/ai_chat/domain/repository/ai_repository.dart
 import 'package:aichat/src/features/ai_chat/domain/repository/ai_token_storage.dart';
 import 'package:aichat/src/features/ai_chat/domain/repository/chat_storage.dart';
 import 'package:aichat/src/features/ai_chat/domain/repository/thread_id_storage.dart';
-import 'package:aichat/src/features/ai_chat/domain/services/ai_chat_service.dart';
 import 'package:aichat/src/utils/connection/domain/services/connectivity_detector_service.dart';
 import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';

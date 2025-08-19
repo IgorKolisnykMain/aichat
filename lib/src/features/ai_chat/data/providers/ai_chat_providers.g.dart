@@ -162,24 +162,24 @@ final class ThreadIdStorageProvider extends $FunctionalProvider<ThreadIdStorage,
 
 String _$threadIdStorageHash() => r'913a45f4fb22d5d0205358ce203ca96fcd000552';
 
-@ProviderFor(firestoreChatStorage)
-const firestoreChatStorageProvider = FirestoreChatStorageProvider._();
+@ProviderFor(chatStorage)
+const chatStorageProvider = ChatStorageProvider._();
 
-final class FirestoreChatStorageProvider extends $FunctionalProvider<ChatStorage, ChatStorage, ChatStorage>
+final class ChatStorageProvider extends $FunctionalProvider<ChatStorage, ChatStorage, ChatStorage>
     with $Provider<ChatStorage> {
-  const FirestoreChatStorageProvider._()
+  const ChatStorageProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'firestoreChatStorageProvider',
+        name: r'chatStorageProvider',
         isAutoDispose: false,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$firestoreChatStorageHash();
+  String debugGetCreateSourceHash() => _$chatStorageHash();
 
   @$internal
   @override
@@ -187,7 +187,7 @@ final class FirestoreChatStorageProvider extends $FunctionalProvider<ChatStorage
 
   @override
   ChatStorage create(Ref ref) {
-    return firestoreChatStorage(ref);
+    return chatStorage(ref);
   }
 
   /// {@macro riverpod.override_with_value}
@@ -199,46 +199,7 @@ final class FirestoreChatStorageProvider extends $FunctionalProvider<ChatStorage
   }
 }
 
-String _$firestoreChatStorageHash() => r'ac25c36fbdd1e518e72e7f61a2e8d2deda004e00';
-
-@ProviderFor(chatGptChatStorage)
-const chatGptChatStorageProvider = ChatGptChatStorageProvider._();
-
-final class ChatGptChatStorageProvider extends $FunctionalProvider<ChatStorage, ChatStorage, ChatStorage>
-    with $Provider<ChatStorage> {
-  const ChatGptChatStorageProvider._()
-    : super(
-        from: null,
-        argument: null,
-        retry: null,
-        name: r'chatGptChatStorageProvider',
-        isAutoDispose: false,
-        dependencies: null,
-        $allTransitiveDependencies: null,
-      );
-
-  @override
-  String debugGetCreateSourceHash() => _$chatGptChatStorageHash();
-
-  @$internal
-  @override
-  $ProviderElement<ChatStorage> $createElement($ProviderPointer pointer) => $ProviderElement(pointer);
-
-  @override
-  ChatStorage create(Ref ref) {
-    return chatGptChatStorage(ref);
-  }
-
-  /// {@macro riverpod.override_with_value}
-  Override overrideWithValue(ChatStorage value) {
-    return $ProviderOverride(
-      origin: this,
-      providerOverride: $SyncValueProvider<ChatStorage>(value),
-    );
-  }
-}
-
-String _$chatGptChatStorageHash() => r'8257960036df32d3ec0e0023f57e4637950e2aa4';
+String _$chatStorageHash() => r'a08e937aa29661319dfc0de8c45a6d89535bf755';
 
 @ProviderFor(aiChatService)
 const aiChatServiceProvider = AiChatServiceProvider._();
@@ -277,7 +238,7 @@ final class AiChatServiceProvider extends $FunctionalProvider<AiChatService, AiC
   }
 }
 
-String _$aiChatServiceHash() => r'e6e89d4d81d3e9c7a57fa1885c458be07a33f123';
+String _$aiChatServiceHash() => r'8b16c6eb590f13a9e3077b768eedf7e3d336b53c';
 
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

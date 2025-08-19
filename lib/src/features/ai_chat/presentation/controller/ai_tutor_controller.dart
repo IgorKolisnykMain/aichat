@@ -1,8 +1,8 @@
 import 'dart:async';
 
+import 'package:aichat/src/features/ai_chat/application/services/ai_chat_service.dart';
 import 'package:aichat/src/features/ai_chat/data/providers/ai_chat_providers.dart';
 import 'package:aichat/src/features/ai_chat/domain/models/chat_history.dart';
-import 'package:aichat/src/features/ai_chat/domain/services/ai_chat_service.dart';
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_event.dart';
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

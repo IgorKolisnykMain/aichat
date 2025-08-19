@@ -34,15 +34,16 @@ class AuthFirebaseRepositoryImpl implements AuthRepository {
 
   @override
   Stream<AppUser?> authStateChanges() {
-    return firebaseAuth.authStateChanges().map(
-      (user) => user != null ? AppUser(uid: user.uid, email: user.email) : null,
-    );
+    return firebaseAuth.authStateChanges().map(_convertUser);
   }
 
   @override
-  AppUser? get currentUser => firebaseAuth.currentUser != null
-      ? AppUser(uid: firebaseAuth.currentUser!.uid, email: firebaseAuth.currentUser!.email)
-      : null;
+  AppUser? get currentUser => _convertUser(firebaseAuth.currentUser);
+
+  AppUser? _convertUser(User? user) {
+    if (user == null) return null;
+    return AppUser(uid: user.uid, email: user.email);
+  }
 
   @override
   Future<AppUser?> signUpWithEmailAndPassword({required String email, required String password}) async {

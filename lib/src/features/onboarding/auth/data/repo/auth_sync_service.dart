@@ -1,7 +1,7 @@
 import 'dart:async';
 
+import 'package:aichat/src/features/ai_chat/application/services/ai_chat_service.dart';
 import 'package:aichat/src/features/ai_chat/data/providers/ai_chat_providers.dart';
-import 'package:aichat/src/features/ai_chat/domain/services/ai_chat_service.dart';
 import 'package:aichat/src/features/onboarding/auth/data/repo/auth_firebase_repo_impl.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/repo/auth_repo.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
