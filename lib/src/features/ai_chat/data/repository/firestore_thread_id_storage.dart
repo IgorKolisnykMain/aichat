@@ -31,12 +31,30 @@ class FirestoreThreadIdStorage implements ThreadIdStorage {
     _userStream.cancel();
   }
 
-  DocumentReference<Map<String, dynamic>> get _userThreadIdsRef => fireStore.doc('$_userFieldName/$_userId');
+  DocumentReference<Map<String, dynamic>> get _userThreadIdsRawRef => fireStore.doc('$_userFieldName/$_userId');
+  DocumentReference<UserIdTreads> get _userThreadIdsRef => _userThreadIdsRawRef
+          .withConverter(
+            fromFirestore: (snapshot, options) => UserIdTreads.fromJson(snapshot.data()!),
+            toFirestore: (userChat, options) => userChat.toJson(),
+          );
+
+
 
   @override
-  Future<List<String>> getUserThreadIds() async {
+  Future<List<String>> fetchUserThreadIds() async {
     try {
       final doc = await _userThreadIdsRef
+          .get();
+      return doc.data()?.threads ?? [];
+    } catch (e) {
+      errorLogger.logError(e, StackTrace.current);
+      return [];
+    }
+  }
+  @override
+  Stream<List<String>> watchUserThreadIds() {
+    try {
+      final doc = await _userThreadIdsRawRef
           .withConverter(
             fromFirestore: (snapshot, options) => UserIdTreads.fromJson(snapshot.data()!),
             toFirestore: (userChat, options) => userChat.toJson(),
@@ -53,7 +71,7 @@ class FirestoreThreadIdStorage implements ThreadIdStorage {
   Future<void> addThreadId(String threadId) async {
     final currentThreadIds = await getUserThreadIds();
     currentThreadIds.add(threadId);
-    await _userThreadIdsRef.set(
+    await _userThreadIdsRawRef.set(
       {_userThreadIds: currentThreadIds},
       SetOptions(merge: true),
     );
@@ -63,7 +81,7 @@ class FirestoreThreadIdStorage implements ThreadIdStorage {
   Future<void> removeThreadId(String threadId) async {
     final currentThreadIds = await getUserThreadIds();
     currentThreadIds.remove(threadId);
-    await _userThreadIdsRef.set(
+    await _userThreadIdsRawRef.set(
       {_userThreadIds: currentThreadIds},
       SetOptions(merge: true),
     );
@@ -71,7 +89,7 @@ class FirestoreThreadIdStorage implements ThreadIdStorage {
 
   @override
   Future<void> clearAllThreadIds() async {
-    await _userThreadIdsRef.set(
+    await _userThreadIdsRawRef.set(
       {_userThreadIds: <String>[]},
       SetOptions(merge: true),
     );
