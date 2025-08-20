@@ -76,8 +76,6 @@ ThreadIdStorage threadIdStorage(Ref ref) {
   return storage;
 }
 
-//todo
-
 @Riverpod(keepAlive: true)
 ChatStorage chatStorage(Ref ref) {
   /*
