@@ -1,6 +1,7 @@
 import 'package:aichat/src/exceptions/models/common_error.dart';
 import 'package:aichat/src/exceptions/models/default_exeption.dart';
 import 'package:aichat/src/exceptions/models/local_exeption.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ErrorHandler {
@@ -17,6 +18,7 @@ class ErrorHandler {
       LocalException() => exception.toLocMsg(context),
       StandardException() => exception.toLocMsg(context),
       CommonError() => exception.toString(),
+      FirebaseAuthException() => exception.message ?? exception.toString(),
       Exception() => exception.toString(),
       _ => UnknownError().toString(),
     };

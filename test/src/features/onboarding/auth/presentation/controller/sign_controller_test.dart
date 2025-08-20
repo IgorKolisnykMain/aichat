@@ -22,7 +22,7 @@ void main() {
 
   setUp(() {
     mockAuthRepository = MockAuthFirebaseRepository();
-    testUser = AppUser(uid: 'test-uid', email: testEmail);
+    testUser = const AppUser(uid: 'test-uid', email: testEmail);
 
     // Create container with overridden provider
     container = ProviderContainer(overrides: [authRepoProvider.overrideWith((ref) => mockAuthRepository)]);

@@ -12,7 +12,7 @@ void main() {
   late final AppUser testUserWithoutEmail;
 
   setUpAll(() {
-    testUserWithoutEmail = AppUser(uid: 'uid', email: null);
+    testUserWithoutEmail = const AppUser(uid: 'uid');
   });
 
   group('AuthFirebaseRepositoryImpl signVia', () {

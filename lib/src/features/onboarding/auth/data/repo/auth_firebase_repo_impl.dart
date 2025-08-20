@@ -6,6 +6,7 @@ import 'package:aichat/src/exceptions/models/common_error.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/enums/sign_source.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/models/additional_app_user_info.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/models/app_user.dart';
+import 'package:aichat/src/features/onboarding/auth/domain/models/firebase_app_user.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/repo/auth_repo.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -42,7 +43,7 @@ class AuthFirebaseRepositoryImpl implements AuthRepository {
 
   AppUser? _convertUser(User? user) {
     if (user == null) return null;
-    return AppUser(uid: user.uid, email: user.email);
+    return FirebaseAppUser(user);
   }
 
   @override
