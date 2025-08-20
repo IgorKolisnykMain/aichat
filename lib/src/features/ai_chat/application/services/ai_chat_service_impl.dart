@@ -41,16 +41,16 @@ class AiChatServiceImpl implements AiChatService {
   @override
   Future<void> initialize() async {
     // Setup AI with current token
-    final usedTokens = await _tokenStorage.getUsedTokens();
+    final usedTokens = await _tokenStorage.fetchUsedTokens();
     final currentToken = _getAvailableToken(usedTokens);
     await _aiRepository.setupAi(currentToken);
   }
 
   @override
-  Future<ChatHistory> getChatHistory() async => await _chatStorage.getChatHistory();
+  Future<ChatHistory> getChatHistory() async => await _chatStorage.fetchChatHistory();
 
   @override
-  Future<ChatHistory> getThreadHistory(String threadId) => _chatStorage.getThreadHistory(threadId);
+  Future<ChatHistory> getThreadHistory(String threadId) => _chatStorage.fetchThreadHistory(threadId);
 
   @override
   Future<ChatHistory> sendQuestion(String question, {String? threadId}) async {
@@ -156,7 +156,7 @@ class AiChatServiceImpl implements AiChatService {
 
   @override
   Future<List<String>> getUserThreads() async {
-    return await _threadIdStorage.getUserThreadIds();
+    return await _threadIdStorage.fetchUserThreadIds();
   }
 
   /// Converts various error types to AiChatException
@@ -184,7 +184,7 @@ class AiChatServiceImpl implements AiChatService {
   }
 
   Future<void> _changeToken() async {
-    final usedTokens = await _tokenStorage.getUsedTokens();
+    final usedTokens = await _tokenStorage.fetchUsedTokens();
     final allTokens = _aiRepository.settings.tokens;
 
     if (allTokens.length > usedTokens.length) {

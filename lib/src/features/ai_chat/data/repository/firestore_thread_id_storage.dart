@@ -32,44 +32,35 @@ class FirestoreThreadIdStorage implements ThreadIdStorage {
   }
 
   DocumentReference<Map<String, dynamic>> get _userThreadIdsRawRef => fireStore.doc('$_userFieldName/$_userId');
-  DocumentReference<UserIdTreads> get _userThreadIdsRef => _userThreadIdsRawRef
-          .withConverter(
-            fromFirestore: (snapshot, options) => UserIdTreads.fromJson(snapshot.data()!),
-            toFirestore: (userChat, options) => userChat.toJson(),
-          );
-
-
+  DocumentReference<UserIdTreads> get _userThreadIdsRef => _userThreadIdsRawRef.withConverter(
+    fromFirestore: (snapshot, options) => UserIdTreads.fromJson(snapshot.data()!),
+    toFirestore: (userChat, options) => userChat.toJson(),
+  );
 
   @override
   Future<List<String>> fetchUserThreadIds() async {
     try {
-      final doc = await _userThreadIdsRef
-          .get();
+      final doc = await _userThreadIdsRef.get();
       return doc.data()?.threads ?? [];
     } catch (e) {
       errorLogger.logError(e, StackTrace.current);
       return [];
     }
   }
+
   @override
   Stream<List<String>> watchUserThreadIds() {
     try {
-      final doc = await _userThreadIdsRawRef
-          .withConverter(
-            fromFirestore: (snapshot, options) => UserIdTreads.fromJson(snapshot.data()!),
-            toFirestore: (userChat, options) => userChat.toJson(),
-          )
-          .get();
-      return doc.data()?.threads ?? [];
+      return _userThreadIdsRef.snapshots().map((docSnapshot) => docSnapshot.data()?.threads ?? []);
     } catch (e) {
       errorLogger.logError(e, StackTrace.current);
-      return [];
+      return const Stream<List<String>>.empty();
     }
   }
 
   @override
   Future<void> addThreadId(String threadId) async {
-    final currentThreadIds = await getUserThreadIds();
+    final currentThreadIds = await fetchUserThreadIds();
     currentThreadIds.add(threadId);
     await _userThreadIdsRawRef.set(
       {_userThreadIds: currentThreadIds},
@@ -79,7 +70,7 @@ class FirestoreThreadIdStorage implements ThreadIdStorage {
 
   @override
   Future<void> removeThreadId(String threadId) async {
-    final currentThreadIds = await getUserThreadIds();
+    final currentThreadIds = await fetchUserThreadIds();
     currentThreadIds.remove(threadId);
     await _userThreadIdsRawRef.set(
       {_userThreadIds: currentThreadIds},

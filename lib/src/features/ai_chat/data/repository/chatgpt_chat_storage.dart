@@ -20,7 +20,7 @@ class ChatGptChatStorage implements ChatStorage {
   }
 
   @override
-  Future<ChatHistory> getChatHistory() async {
+  Future<ChatHistory> fetchChatHistory() async {
     // This method is not used for ChatGPT storage
     // Chat history is retrieved through getThreadHistory
     return ChatHistory.withHeaderMessage(headerMessage);
@@ -47,7 +47,7 @@ class ChatGptChatStorage implements ChatStorage {
   Future<void> deleteThread(String threadId) => openAI.threads.v2.deleteThread(threadId: threadId);
 
   @override
-  Future<ChatHistory> getThreadHistory(String threadId) async {
+  Future<ChatHistory> fetchThreadHistory(String threadId) async {
     try {
       final messages = await openAI.threads.v2.messages.listMessage(threadId: threadId);
       final List<AiMessage> aiMessages = [];

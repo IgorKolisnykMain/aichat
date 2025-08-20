@@ -29,17 +29,17 @@ class FirestoreAiTokenStorage implements AITokenStorage {
     _userStream.cancel();
   }
 
-  DocumentReference<Map<String, dynamic>> get _userAiTokenRef => fireStore.doc('$_users/$_userId');
+  DocumentReference<Map<String, dynamic>> get _userAiTokenRawRef => fireStore.doc('$_users/$_userId');
+
+  DocumentReference<UsedTokens> get _userAiTokenRef => _userAiTokenRawRef.withConverter(
+    fromFirestore: (snapshot, options) => UsedTokens.fromJson(snapshot.data()!),
+    toFirestore: (usedTokens, options) => usedTokens.toJson(),
+  );
 
   @override
-  Future<List<String>> getUsedTokens() async {
+  Future<List<String>> fetchUsedTokens() async {
     try {
-      final doc = await _userAiTokenRef
-          .withConverter(
-            fromFirestore: (snapshot, options) => UsedTokens.fromJson(snapshot.data()!),
-            toFirestore: (usedTokens, options) => usedTokens.toJson(),
-          )
-          .get();
+      final doc = await _userAiTokenRef.get();
       return doc.data()?.usedTokens ?? [];
     } catch (e) {
       errorLogger.logError(e, StackTrace.current);
@@ -48,8 +48,18 @@ class FirestoreAiTokenStorage implements AITokenStorage {
   }
 
   @override
+  Stream<List<String>> watchUsedTokens() {
+    try {
+      return _userAiTokenRef.snapshots().map((docSnapshot) => docSnapshot.data()?.usedTokens ?? []);
+    } catch (e) {
+      errorLogger.logError(e, StackTrace.current);
+      return const Stream<List<String>>.empty();
+    }
+  }
+
+  @override
   Future<void> updateUsedTokens(List<String> usedTokens) async {
-    await _userAiTokenRef.set(
+    await _userAiTokenRawRef.set(
       UsedTokens(usedTokens: usedTokens).toJson(),
       SetOptions(merge: true),
     );

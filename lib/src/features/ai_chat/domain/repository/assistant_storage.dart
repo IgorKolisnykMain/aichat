@@ -1,4 +1,5 @@
 abstract class AssistantStorage {
-  Future<String?> getAssistantId();
+  Future<String?> fetchAssistantId();
+  Stream<String?> watchAssistantId();
   Future<void> saveAssistantId(String assistantId);
 }

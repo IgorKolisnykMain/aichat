@@ -1,6 +1,9 @@
 abstract class ThreadIdStorage {
   /// Get all thread IDs for the current user
-  Future<List<String>> getUserThreadIds();
+  Future<List<String>> fetchUserThreadIds();
+
+  /// Watch for changes in thread IDs for the current user
+  Stream<List<String>> watchUserThreadIds();
 
   /// Add a new thread ID to user's list
   Future<void> addThreadId(String threadId);

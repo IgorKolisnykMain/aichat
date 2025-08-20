@@ -1,6 +1,5 @@
 typedef UserID = String;
 
-
 class AppUser {
   const AppUser({
     required this.uid,

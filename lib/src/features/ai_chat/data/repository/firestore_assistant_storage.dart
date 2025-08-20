@@ -12,13 +12,17 @@ class FirestoreAssistantStorage implements AssistantStorage {
 
   FirestoreAssistantStorage({required this.fireStore, required this.errorLogger});
 
-  DocumentReference<Map<String, dynamic>> get _appConfigRef => fireStore.doc('config/$_appConfigDocument');
+  DocumentReference<Map<String, dynamic>> get _appConfigRawRef => fireStore.doc('config/$_appConfigDocument');
+
+  DocumentReference<String?> get _assistantIdRef => _appConfigRawRef.withConverter(
+    fromFirestore: (snapshot, options) => snapshot.data()?[_assistantIdKey] as String?,
+    toFirestore: (assistantId, options) => {_assistantIdKey: assistantId},
+  );
 
   @override
-  Future<String?> getAssistantId() async {
+  Future<String?> fetchAssistantId() async {
     try {
-      final data = (await _appConfigRef.get()).data();
-      return data?[_assistantIdKey] as String?;
+      return (await _assistantIdRef.get()).data();
     } catch (e) {
       errorLogger.logError(e, StackTrace.current);
       return null;
@@ -26,7 +30,17 @@ class FirestoreAssistantStorage implements AssistantStorage {
   }
 
   @override
+  Stream<String?> watchAssistantId() {
+    try {
+      return _assistantIdRef.snapshots().map((docSnapshot) => docSnapshot.data());
+    } catch (e) {
+      errorLogger.logError(e, StackTrace.current);
+      return const Stream<String?>.empty();
+    }
+  }
+
+  @override
   Future<void> saveAssistantId(String assistantId) async {
-    await _appConfigRef.set({_assistantIdKey: assistantId}, SetOptions(merge: true));
+    await _assistantIdRef.set(assistantId);
   }
 }

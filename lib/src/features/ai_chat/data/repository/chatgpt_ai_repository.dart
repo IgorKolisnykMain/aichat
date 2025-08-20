@@ -30,7 +30,7 @@ class ChatGptAiRepository implements AiRepository {
     );
 
     // Setup assistant ID
-    _assistantId = await _assistantStorage.getAssistantId();
+    _assistantId = await _assistantStorage.fetchAssistantId();
     if (_assistantId == null) {
       _assistantId = await createAssistant();
       await _assistantStorage.saveAssistantId(_assistantId!);

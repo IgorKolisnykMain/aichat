@@ -30,17 +30,17 @@ class FirestoreChatStorage implements ChatStorage {
     _userStream.cancel();
   }
 
-  DocumentReference<Map<String, dynamic>> get _userChatHistoryRef => fireStore.doc('$_users/$_userId');
+  DocumentReference<Map<String, dynamic>> get _userChatHistoryRawRef => fireStore.doc('$_users/$_userId');
+
+  DocumentReference<ChatHistory> get _userChatHistoryRef => _userChatHistoryRawRef.withConverter(
+    fromFirestore: (snapshot, options) => ChatHistory.fromJsonChatHistory(snapshot.data()!),
+    toFirestore: (userChat, options) => userChat.toJsonChatHistory(),
+  );
 
   @override
-  Future<ChatHistory> getChatHistory() async {
+  Future<ChatHistory> fetchChatHistory() async {
     try {
-      final userChatHistoryDocSnap = await _userChatHistoryRef
-          .withConverter(
-            fromFirestore: (snapshot, options) => ChatHistory.fromJsonChatHistory(snapshot.data()!),
-            toFirestore: (userChat, options) => userChat.toJsonChatHistory(),
-          )
-          .get();
+      final userChatHistoryDocSnap = await _userChatHistoryRef.get();
 
       return userChatHistoryDocSnap.data() ?? const ChatHistory(messages: []);
     } catch (e) {
@@ -50,11 +50,23 @@ class FirestoreChatStorage implements ChatStorage {
   }
 
   @override
+  Stream<ChatHistory> watchChatHistory() {
+    try {
+      return _userChatHistoryRef.snapshots().map(
+        (docSnapshot) => docSnapshot.data() ?? const ChatHistory(messages: []),
+      );
+    } catch (e) {
+      errorLogger.logError(e, StackTrace.current);
+      return const Stream<ChatHistory>.empty();
+    }
+  }
+
+  @override
   Future<void> addMessage(AiMessage message) async {
-    final chatHistory = await getChatHistory();
+    final chatHistory = await fetchChatHistory();
     final updatedHistory = chatHistory.addMessage(message);
     // TODO: Move the chatHistory field to a separate collection in Firestore.
-    _userChatHistoryRef.set(updatedHistory.toJsonChatHistory(), SetOptions(merge: true));
+    _userChatHistoryRawRef.set(updatedHistory.toJsonChatHistory(), SetOptions(merge: true));
   }
 
   @override
@@ -68,7 +80,14 @@ class FirestoreChatStorage implements ChatStorage {
   }
 
   @override
-  Future<ChatHistory> getThreadHistory(String threadId) {
-    return getChatHistory();
+  Future<ChatHistory> fetchThreadHistory(String threadId) {
+    //todo fetch thread history by threadId
+    return fetchChatHistory();
+  }
+
+  @override
+  Stream<ChatHistory> watchThreadHistory(String threadId) {
+    //todo watch thread history by threadId
+    return watchChatHistory();
   }
 }
