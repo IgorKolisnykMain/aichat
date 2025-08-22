@@ -1,5 +1,4 @@
 import 'package:aichat/src/app_bootstrap.dart';
-import 'package:aichat/src/app_bootstrap_firestore.dart';
 import 'package:aichat/src/app_bootstrap_open_ai.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
@@ -21,8 +20,8 @@ void main() async {
 
   // create an app bootstrap instance
   final appBootstrap = AppBootstrap();
-  // final container = await createOpenAiProviderContainer();
-  final container = await createFirestoreProviderContainer();
+  final container = await createOpenAiProviderContainer();
+  // final container = await createFirestoreProviderContainer();
   final root = appBootstrap.createRootWidget(container: container);
 
   await setupEmulators();
