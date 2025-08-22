@@ -24,6 +24,6 @@ void main() async {
   // final container = await createFirestoreProviderContainer();
   final root = appBootstrap.createRootWidget(container: container);
 
-  await setupEmulators();
+  // await setupEmulators();
   runApp(root);
 }
