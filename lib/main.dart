@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_web_plugins/url_strategy.dart';
 
-Future<void> setupEmulators() async {
+Future<void> setupFirebaseEmulators() async {
   await FirebaseAuth.instance.useAuthEmulator('127.0.0.1', 9099);
   FirebaseFirestore.instance.useFirestoreEmulator('127.0.0.1', 8080);
   FirebaseFunctions.instance.useFunctionsEmulator('127.0.0.1', 5001);
@@ -24,6 +24,6 @@ void main() async {
   // final container = await createFirestoreProviderContainer();
   final root = appBootstrap.createRootWidget(container: container);
 
-  // await setupEmulators();
+  // await setupFirebaseEmulators();
   runApp(root);
 }
