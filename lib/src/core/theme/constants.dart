@@ -7,6 +7,7 @@ class AppColors {
   // ==================== BASE COLORS ====================
   static const Color white = Color(0xFFFFFFFF); // fill_QCFKFO - Pure white
   static const Color black = Color(0xFF000000); // Pure black
+  static const Color red = Color(0xFFE53935); // fill_696969 - Red
 
   // ==================== BACKGROUND COLORS ====================
   static const Color backgroundLight = Color(0xFFFAFAFA); // fill_4LU0R9 - Light gray background

@@ -480,6 +480,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Thread {threadId}...'**
   String threadId(String threadId);
+
+  /// No description provided for @logout.
+  ///
+  /// In en, this message translates to:
+  /// **'Logout'**
+  String get logout;
+
+  /// No description provided for @deleteAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Account'**
+  String get deleteAccount;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

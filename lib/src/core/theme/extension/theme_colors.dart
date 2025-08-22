@@ -5,6 +5,7 @@ class ThemeColors extends ThemeExtension<ThemeColors> {
   // ==================== BASE COLORS ====================
   final Color white;
   final Color black;
+  final Color red;
 
   // ==================== BACKGROUND COLORS ====================
   final Color backgroundLight;
@@ -32,6 +33,7 @@ class ThemeColors extends ThemeExtension<ThemeColors> {
     // Base colors
     required this.white,
     required this.black,
+    required this.red,
     // Background colors
     required this.backgroundLight,
     required this.backgroundSubtle,
@@ -57,6 +59,7 @@ class ThemeColors extends ThemeExtension<ThemeColors> {
     // Base colors
     Color? white,
     Color? black,
+    Color? red,
     // Background colors
     Color? backgroundLight,
     Color? backgroundSubtle,
@@ -80,6 +83,7 @@ class ThemeColors extends ThemeExtension<ThemeColors> {
       // Base colors
       white: white ?? this.white,
       black: black ?? this.black,
+      red: red ?? this.red,
       // Background colors
       backgroundLight: backgroundLight ?? this.backgroundLight,
       backgroundSubtle: backgroundSubtle ?? this.backgroundSubtle,
@@ -110,6 +114,7 @@ class ThemeColors extends ThemeExtension<ThemeColors> {
       // Base colors
       white: Color.lerp(white, other.white, t)!,
       black: Color.lerp(black, other.black, t)!,
+      red: Color.lerp(red, other.red, t)!,
       // Background colors
       backgroundLight: Color.lerp(backgroundLight, other.backgroundLight, t)!,
       backgroundSubtle: Color.lerp(backgroundSubtle, other.backgroundSubtle, t)!,
@@ -135,6 +140,7 @@ class ThemeColors extends ThemeExtension<ThemeColors> {
     // Base colors
     white: AppColors.white,
     black: AppColors.black,
+    red: AppColors.red,
     // Background colors
     backgroundLight: AppColors.backgroundLight,
     backgroundSubtle: AppColors.backgroundSubtle,

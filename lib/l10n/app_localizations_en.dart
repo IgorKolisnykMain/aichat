@@ -206,4 +206,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String threadId(String threadId) {
     return 'Thread $threadId...';
   }
+
+  @override
+  String get logout => 'Logout';
+
+  @override
+  String get deleteAccount => 'Delete Account';
 }
