@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -38,4 +39,9 @@ FirebaseFirestore firestore(Ref ref) {
 @Riverpod(keepAlive: true)
 FirebaseStorage firebaseStorage(Ref ref) {
   return FirebaseStorage.instanceFor(app: ref.read(firebaseAppProvider));
+}
+
+@Riverpod(keepAlive: true)
+FirebaseFunctions firebaseFunctions(Ref ref) {
+  return FirebaseFunctions.instanceFor(app: ref.read(firebaseAppProvider));
 }

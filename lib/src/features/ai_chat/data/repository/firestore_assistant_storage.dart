@@ -1,6 +1,7 @@
 import 'package:aichat/src/exceptions/error_logger.dart';
 import 'package:aichat/src/features/ai_chat/domain/repository/assistant_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class FirestoreAssistantStorage implements AssistantStorage {
   static const _assistantIdKey = 'assistant_id';

@@ -27,6 +27,12 @@ class ChatGptChatStorage implements ChatStorage {
   }
 
   @override
+  Stream<ChatHistory> watchChatHistory() {
+    //todo
+    return Stream.value(ChatHistory.withHeaderMessage(headerMessage));
+  }
+
+  @override
   Future<void> addMessage(AiMessage message) async {
     // Messages are automatically saved when using OpenAI threads
     // This method is for compatibility but doesn't need to do anything
@@ -87,6 +93,12 @@ class ChatGptChatStorage implements ChatStorage {
       // If failed to load from thread, return only header
       return ChatHistory.withHeaderMessage(headerMessage);
     }
+  }
+
+  @override
+  Stream<ChatHistory> watchThreadHistory(String threadId) async* {
+    //todo
+    yield* Stream.value(await fetchThreadHistory(threadId));
   }
 
   DateTime _formatTimestamp(int timestamp) {

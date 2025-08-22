@@ -8,6 +8,7 @@ import 'package:aichat/src/features/onboarding/auth/domain/models/additional_app
 import 'package:aichat/src/features/onboarding/auth/domain/models/app_user.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/models/firebase_app_user.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/repo/auth_repo.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -19,10 +20,12 @@ part 'auth_firebase_repo_impl.g.dart';
 @Riverpod(keepAlive: true)
 AuthRepository authRepo(Ref ref) {
   final errorLogger = ref.read(errorLoggerProvider);
+  final firebaseFunctions = ref.read(firebaseFunctionsProvider);
   return AuthFirebaseRepositoryImpl(
     firebaseAuth: ref.read(firebaseAuthProvider),
     googleSignIn: GoogleSignIn(),
     errorLogger: errorLogger,
+    firebaseFunctions: firebaseFunctions,
   );
 }
 
@@ -30,8 +33,14 @@ class AuthFirebaseRepositoryImpl implements AuthRepository {
   final FirebaseAuth firebaseAuth;
   final GoogleSignIn googleSignIn;
   final ErrorLogger errorLogger;
+  final FirebaseFunctions firebaseFunctions;
 
-  AuthFirebaseRepositoryImpl({required this.firebaseAuth, required this.googleSignIn, required this.errorLogger});
+  AuthFirebaseRepositoryImpl({
+    required this.firebaseAuth,
+    required this.googleSignIn,
+    required this.errorLogger,
+    required this.firebaseFunctions,
+  });
 
   @override
   Stream<AppUser?> authStateChanges() {
@@ -168,7 +177,8 @@ class AuthFirebaseRepositoryImpl implements AuthRepository {
   @override
   Future<void> deleteAccount() async {
     try {
-      await firebaseAuth.currentUser?.delete();
+      await firebaseFunctions.httpsCallable("deleteAccount").call();
+      await logout();
     } on FirebaseAuthException catch (_) {
       errorLogger.logError("Failed to delete account", StackTrace.current);
       await logout();

@@ -9,6 +9,7 @@ class ChatHeaderWidget extends ConsumerWidget {
   const ChatHeaderWidget({super.key});
 
   void _logout(WidgetRef ref) => ref.read(authRepoProvider).logout();
+  void _deleteAccount(WidgetRef ref) => ref.read(authRepoProvider).deleteAccount();
 
   void _showThreadsMenu(BuildContext context, WidgetRef ref) {
     showModalBottomSheet(
@@ -44,7 +45,8 @@ class ChatHeaderWidget extends ConsumerWidget {
             ),
             child: IconButton(
               onPressed: () {
-                _logout(ref);
+                // _logout(ref);
+                _deleteAccount(ref);
               },
               icon: Icon(Icons.logout, size: 24.rsp, color: context.colors.textDark),
             ),

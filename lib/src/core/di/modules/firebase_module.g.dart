@@ -195,5 +195,47 @@ final class FirebaseStorageProvider extends $FunctionalProvider<FirebaseStorage,
 
 String _$firebaseStorageHash() => r'20f2cc4cfb3f8a4b2f4ac005acd3b765f8e6a424';
 
+@ProviderFor(firebaseFunctions)
+const firebaseFunctionsProvider = FirebaseFunctionsProvider._();
+
+final class FirebaseFunctionsProvider
+    extends $FunctionalProvider<FirebaseFunctions, FirebaseFunctions, FirebaseFunctions>
+    with $Provider<FirebaseFunctions> {
+  const FirebaseFunctionsProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'firebaseFunctionsProvider',
+        isAutoDispose: false,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$firebaseFunctionsHash();
+
+  @$internal
+  @override
+  $ProviderElement<FirebaseFunctions> $createElement(
+    $ProviderPointer pointer,
+  ) => $ProviderElement(pointer);
+
+  @override
+  FirebaseFunctions create(Ref ref) {
+    return firebaseFunctions(ref);
+  }
+
+  /// {@macro riverpod.override_with_value}
+  Override overrideWithValue(FirebaseFunctions value) {
+    return $ProviderOverride(
+      origin: this,
+      providerOverride: $SyncValueProvider<FirebaseFunctions>(value),
+    );
+  }
+}
+
+String _$firebaseFunctionsHash() => r'a324aab7b0bce61b7ce02f6f374d0a88abc0cb31';
+
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
