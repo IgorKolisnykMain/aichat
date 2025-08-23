@@ -1,5 +1,6 @@
 import 'package:aichat/src/features/ai_chat/presentation/controller/auth_controller.dart';
 import 'package:aichat/src/features/ai_chat/presentation/dialogs/chat_treads_bottom_sheet.dart';
+import 'package:aichat/src/utils/async_value_ui.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
 import 'package:aichat/src/utils/extensions/responsive_extension.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,10 @@ class ChatHeaderWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(authControllerProvider, (previousState, state) {
+      state.showSnackBarOnError(context);
+    });
+
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: context.dimensions.paddingMedium.rw,

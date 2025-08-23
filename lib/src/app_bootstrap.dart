@@ -5,6 +5,9 @@ import 'package:aichat/src/core/config/data/repository/app_config_repository_imp
 import 'package:aichat/src/core/di/modules/firebase_module.dart';
 import 'package:aichat/src/exceptions/error_logger.dart';
 import 'package:aichat/src/features/onboarding/auth/data/repo/auth_sync_service.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_functions/cloud_functions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -22,6 +25,12 @@ class AppBootstrap {
       container: container,
       child: AppAdaptiveUI(config: appConfigRepo.config),
     );
+  }
+
+  Future<void> setupFirebaseEmulators() async {
+    await FirebaseAuth.instance.useAuthEmulator('127.0.0.1', 9099);
+    FirebaseFirestore.instance.useFirestoreEmulator('127.0.0.1', 8080);
+    FirebaseFunctions.instance.useFunctionsEmulator('127.0.0.1', 5001);
   }
 
   void _registerErrorHandlers(ErrorLogger errorLogger) {
