@@ -6,6 +6,7 @@ import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_sta
 import 'package:aichat/src/features/ai_chat/presentation/widgets/header/chat_header_widget.dart';
 import 'package:aichat/src/features/ai_chat/presentation/widgets/input_area/chat_input_area_widget.dart';
 import 'package:aichat/src/features/ai_chat/presentation/widgets/massages/chat_list_widget.dart';
+import 'package:aichat/src/features/onboarding/auth/data/repo/auth_firebase_repo_impl.dart';
 import 'package:aichat/src/utils/async_value_ui.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +43,8 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       );
     });
 
+    final isAdminUser = ref.watch(isCurrentUserAdminProvider).value ?? false;
+
     return Scaffold(
       backgroundColor: context.colors.white,
       body: SafeArea(
@@ -49,6 +52,13 @@ class _MainScreenState extends ConsumerState<MainScreen> {
           child: Column(
             children: [
               const ChatHeaderWidget(),
+              if (isAdminUser)
+                Align(
+                  child: Text(
+                    context.l10n.admin,
+                    style: context.textStyles.bodyLarge.copyWith(color: context.colors.red),
+                  ),
+                ),
               Expanded(
                 child: Stack(
                   children: [

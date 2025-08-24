@@ -4,6 +4,7 @@ import 'package:aichat/src/features/onboarding/auth/domain/models/app_user.dart'
 
 abstract interface class AuthRepository {
   Stream<AppUser?> authStateChanges();
+  Stream<AppUser?> idTokenChanges();
   AppUser? get currentUser;
 
   Future<AppUser?> signUpWithEmailAndPassword({required String email, required String password});

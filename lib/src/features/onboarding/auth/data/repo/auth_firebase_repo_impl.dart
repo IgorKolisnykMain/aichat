@@ -29,6 +29,22 @@ AuthRepository authRepo(Ref ref) {
   );
 }
 
+@Riverpod(keepAlive: true)
+Stream<AppUser?> idTokenChanges(Ref ref) {
+  final authRepository = ref.watch(authRepoProvider);
+  return authRepository.idTokenChanges();
+}
+
+@riverpod
+FutureOr<bool> isCurrentUserAdmin(Ref ref) {
+  final user = ref.watch(idTokenChangesProvider).value;
+  if (user != null) {
+    return user.isAdmin();
+  } else {
+    return false;
+  }
+}
+
 class AuthFirebaseRepositoryImpl implements AuthRepository {
   final FirebaseAuth firebaseAuth;
   final GoogleSignIn googleSignIn;
@@ -45,6 +61,13 @@ class AuthFirebaseRepositoryImpl implements AuthRepository {
   @override
   Stream<AppUser?> authStateChanges() {
     return firebaseAuth.authStateChanges().map(_convertUser);
+  }
+
+  /// Notifies about changes to the user's sign-in state (such as sign-in or
+  /// sign-out) and also token refresh events.
+  @override
+  Stream<AppUser?> idTokenChanges() {
+    return firebaseAuth.idTokenChanges().map(_convertUser);
   }
 
   @override

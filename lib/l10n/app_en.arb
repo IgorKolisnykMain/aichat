@@ -79,5 +79,6 @@
     }
   },
   "logout": "Logout",
-  "deleteAccount": "Delete Account"
+  "deleteAccount": "Delete Account",
+  "admin": "Admin"
 }

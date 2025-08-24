@@ -9,7 +9,8 @@ part of 'ai_chat_providers.dart';
 @ProviderFor(aiRepository)
 const aiRepositoryProvider = AiRepositoryProvider._();
 
-final class AiRepositoryProvider extends $FunctionalProvider<AiRepository, AiRepository, AiRepository>
+final class AiRepositoryProvider
+    extends $FunctionalProvider<AiRepository, AiRepository, AiRepository>
     with $Provider<AiRepository> {
   const AiRepositoryProvider._()
     : super(
@@ -27,7 +28,8 @@ final class AiRepositoryProvider extends $FunctionalProvider<AiRepository, AiRep
 
   @$internal
   @override
-  $ProviderElement<AiRepository> $createElement($ProviderPointer pointer) => $ProviderElement(pointer);
+  $ProviderElement<AiRepository> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
 
   @override
   AiRepository create(Ref ref) {
@@ -48,7 +50,8 @@ String _$aiRepositoryHash() => r'671fbb44d86c19c68b0daddcac408544a70e2a69';
 @ProviderFor(aiTokenStorage)
 const aiTokenStorageProvider = AiTokenStorageProvider._();
 
-final class AiTokenStorageProvider extends $FunctionalProvider<AITokenStorage, AITokenStorage, AITokenStorage>
+final class AiTokenStorageProvider
+    extends $FunctionalProvider<AITokenStorage, AITokenStorage, AITokenStorage>
     with $Provider<AITokenStorage> {
   const AiTokenStorageProvider._()
     : super(
@@ -66,7 +69,8 @@ final class AiTokenStorageProvider extends $FunctionalProvider<AITokenStorage, A
 
   @$internal
   @override
-  $ProviderElement<AITokenStorage> $createElement($ProviderPointer pointer) => $ProviderElement(pointer);
+  $ProviderElement<AITokenStorage> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
 
   @override
   AITokenStorage create(Ref ref) {
@@ -87,7 +91,13 @@ String _$aiTokenStorageHash() => r'6db85fce11326d4e9ac496d403266d6a0908ca0d';
 @ProviderFor(assistantStorage)
 const assistantStorageProvider = AssistantStorageProvider._();
 
-final class AssistantStorageProvider extends $FunctionalProvider<AssistantStorage, AssistantStorage, AssistantStorage>
+final class AssistantStorageProvider
+    extends
+        $FunctionalProvider<
+          AssistantStorage,
+          AssistantStorage,
+          AssistantStorage
+        >
     with $Provider<AssistantStorage> {
   const AssistantStorageProvider._()
     : super(
@@ -105,7 +115,8 @@ final class AssistantStorageProvider extends $FunctionalProvider<AssistantStorag
 
   @$internal
   @override
-  $ProviderElement<AssistantStorage> $createElement($ProviderPointer pointer) => $ProviderElement(pointer);
+  $ProviderElement<AssistantStorage> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
 
   @override
   AssistantStorage create(Ref ref) {
@@ -126,7 +137,9 @@ String _$assistantStorageHash() => r'3fa3cedc73f6a3c6d5883bfc5f57c4b0ecbf3b8f';
 @ProviderFor(threadIdStorage)
 const threadIdStorageProvider = ThreadIdStorageProvider._();
 
-final class ThreadIdStorageProvider extends $FunctionalProvider<ThreadIdStorage, ThreadIdStorage, ThreadIdStorage>
+final class ThreadIdStorageProvider
+    extends
+        $FunctionalProvider<ThreadIdStorage, ThreadIdStorage, ThreadIdStorage>
     with $Provider<ThreadIdStorage> {
   const ThreadIdStorageProvider._()
     : super(
@@ -144,7 +157,8 @@ final class ThreadIdStorageProvider extends $FunctionalProvider<ThreadIdStorage,
 
   @$internal
   @override
-  $ProviderElement<ThreadIdStorage> $createElement($ProviderPointer pointer) => $ProviderElement(pointer);
+  $ProviderElement<ThreadIdStorage> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
 
   @override
   ThreadIdStorage create(Ref ref) {
@@ -165,7 +179,8 @@ String _$threadIdStorageHash() => r'913a45f4fb22d5d0205358ce203ca96fcd000552';
 @ProviderFor(chatStorage)
 const chatStorageProvider = ChatStorageProvider._();
 
-final class ChatStorageProvider extends $FunctionalProvider<ChatStorage, ChatStorage, ChatStorage>
+final class ChatStorageProvider
+    extends $FunctionalProvider<ChatStorage, ChatStorage, ChatStorage>
     with $Provider<ChatStorage> {
   const ChatStorageProvider._()
     : super(
@@ -183,7 +198,8 @@ final class ChatStorageProvider extends $FunctionalProvider<ChatStorage, ChatSto
 
   @$internal
   @override
-  $ProviderElement<ChatStorage> $createElement($ProviderPointer pointer) => $ProviderElement(pointer);
+  $ProviderElement<ChatStorage> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
 
   @override
   ChatStorage create(Ref ref) {
@@ -204,7 +220,8 @@ String _$chatStorageHash() => r'a08e937aa29661319dfc0de8c45a6d89535bf755';
 @ProviderFor(aiChatService)
 const aiChatServiceProvider = AiChatServiceProvider._();
 
-final class AiChatServiceProvider extends $FunctionalProvider<AiChatService, AiChatService, AiChatService>
+final class AiChatServiceProvider
+    extends $FunctionalProvider<AiChatService, AiChatService, AiChatService>
     with $Provider<AiChatService> {
   const AiChatServiceProvider._()
     : super(
@@ -222,7 +239,8 @@ final class AiChatServiceProvider extends $FunctionalProvider<AiChatService, AiC
 
   @$internal
   @override
-  $ProviderElement<AiChatService> $createElement($ProviderPointer pointer) => $ProviderElement(pointer);
+  $ProviderElement<AiChatService> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
 
   @override
   AiChatService create(Ref ref) {

@@ -9,7 +9,8 @@ part of 'sign_controller.dart';
 @ProviderFor(SignController)
 const signControllerProvider = SignControllerProvider._();
 
-final class SignControllerProvider extends $AsyncNotifierProvider<SignController, SignState> {
+final class SignControllerProvider
+    extends $AsyncNotifierProvider<SignController, SignState> {
   const SignControllerProvider._()
     : super(
         from: null,

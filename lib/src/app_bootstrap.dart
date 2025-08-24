@@ -4,6 +4,7 @@ import 'package:aichat/src/app.dart';
 import 'package:aichat/src/core/config/data/repository/app_config_repository_impl.dart';
 import 'package:aichat/src/core/di/modules/firebase_module.dart';
 import 'package:aichat/src/exceptions/error_logger.dart';
+import 'package:aichat/src/features/onboarding/auth/application/user_token_refresh_service.dart';
 import 'package:aichat/src/features/onboarding/auth/data/repo/auth_sync_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
@@ -16,6 +17,8 @@ class AppBootstrap {
     // * Initialize CartSyncService to start the listener
     container.read(authSyncServiceProvider);
     container.read(firebaseAppCheckProvider);
+    // * Initialize UserTokenRefreshService
+    container.read(userTokenRefreshServiceProvider);
 
     final errorLogger = container.read(errorLoggerProvider);
     _registerErrorHandlers(errorLogger);

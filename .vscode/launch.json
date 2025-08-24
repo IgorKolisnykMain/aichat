@@ -2,10 +2,23 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "dev",
+      "name": "dev(Debug)",
       "program": "lib/main.dart",
       "request": "launch",
       "type": "dart",
+      "args": [
+        "--flavor",
+        "dev",
+        "--dart-define",
+        "environment=dev"
+      ]
+    },
+    {
+      "name": "dev(Release)",
+      "program": "lib/main.dart",
+      "request": "launch",
+      "type": "dart",
+      "flutterMode": "release",
       "args": [
         "--flavor",
         "dev",

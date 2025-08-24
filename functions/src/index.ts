@@ -19,9 +19,10 @@ export const deleteAccount = functionsV2.https.onCall(async (context: functionsV
   const firestore = admin.firestore()
   logger.log("Get firestore")
   const userDoc = firestore.collection("users").doc(uid)
-  logger.log(`Get userDoc: ${userDoc}`)
+  const metadataDoc = firestore.collection("metadata").doc(uid)
   await userDoc.delete()
-  logger.log(`Deleted user doc at ${userDoc.path}`)
+  await metadataDoc.delete()
+  logger.log(`Deleted user doc at ${userDoc.path}, ${metadataDoc.path}`)
 
   const auth = admin.auth()
   logger.log("Get auth")
