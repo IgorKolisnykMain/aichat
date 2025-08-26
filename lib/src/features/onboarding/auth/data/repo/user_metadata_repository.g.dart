@@ -11,8 +11,7 @@ part of 'user_metadata_repository.dart';
 const userMetadataRepositoryProvider = UserMetadataRepositoryProvider._();
 
 /// Helper repository class to watch the user medatata in Firestore
-final class UserMetadataRepositoryProvider
-    extends $NotifierProvider<UserMetadataRepository, UserMetadataRepository> {
+final class UserMetadataRepositoryProvider extends $NotifierProvider<UserMetadataRepository, UserMetadataRepository> {
   /// Helper repository class to watch the user medatata in Firestore
   const UserMetadataRepositoryProvider._()
     : super(
@@ -41,18 +40,15 @@ final class UserMetadataRepositoryProvider
   }
 }
 
-String _$userMetadataRepositoryHash() =>
-    r'417562544804305272de83cf7d771915e9b1872b';
+String _$userMetadataRepositoryHash() => r'417562544804305272de83cf7d771915e9b1872b';
 
-abstract class _$UserMetadataRepository
-    extends $Notifier<UserMetadataRepository> {
+abstract class _$UserMetadataRepository extends $Notifier<UserMetadataRepository> {
   UserMetadataRepository build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref =
-        this.ref as $Ref<UserMetadataRepository, UserMetadataRepository>;
+    final ref = this.ref as $Ref<UserMetadataRepository, UserMetadataRepository>;
     final element =
         ref.element
             as $ClassProviderElement<

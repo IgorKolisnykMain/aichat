@@ -1,16 +1,20 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:aichat/src/app.dart';
 import 'package:aichat/src/core/config/data/repository/app_config_repository_impl.dart';
 import 'package:aichat/src/core/di/modules/firebase_module.dart';
+import 'package:aichat/src/core/env/env.dart';
 import 'package:aichat/src/exceptions/error_logger.dart';
 import 'package:aichat/src/features/onboarding/auth/application/user_token_refresh_service.dart';
 import 'package:aichat/src/features/onboarding/auth/data/repo/auth_sync_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 
 class AppBootstrap {
   Widget createRootWidget({required ProviderContainer container}) {
@@ -34,6 +38,17 @@ class AppBootstrap {
     await FirebaseAuth.instance.useAuthEmulator('127.0.0.1', 9099);
     FirebaseFirestore.instance.useFirestoreEmulator('127.0.0.1', 8080);
     FirebaseFunctions.instance.useFunctionsEmulator('127.0.0.1', 5001);
+  }
+
+  Future<void> setupStripe() async {
+    if (kIsWeb || Platform.isIOS || Platform.isAndroid) {
+      Stripe.publishableKey = Env.stripePublishableKey;
+      // https://stripe.com/gb/resources/more/merchant-id
+      Stripe.merchantIdentifier = 'merchant.flutter.stripe.test';
+      // https://stripe.com/docs/payments/mobile/accept-payment?platform=ios&ui=payment-sheet#ios-set-up-return-url
+      Stripe.urlScheme = 'flutterstripe';
+      await Stripe.instance.applySettings();
+    }
   }
 
   void _registerErrorHandlers(ErrorLogger errorLogger) {

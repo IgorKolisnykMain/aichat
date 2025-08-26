@@ -46,6 +46,9 @@ dependencies:
 
   # Purchase
   purchases_flutter: 9.2.0
+  flutter_stripe: 12.0.1
+  flutter_stripe_web: 7.0.0
+  pay: 3.2.1
 
   # Security
   envied: 1.1.1

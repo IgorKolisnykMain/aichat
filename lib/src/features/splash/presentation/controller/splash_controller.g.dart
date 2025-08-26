@@ -9,8 +9,7 @@ part of 'splash_controller.dart';
 @ProviderFor(SplashController)
 const splashControllerProvider = SplashControllerProvider._();
 
-final class SplashControllerProvider
-    extends $AsyncNotifierProvider<SplashController, SplashState> {
+final class SplashControllerProvider extends $AsyncNotifierProvider<SplashController, SplashState> {
   const SplashControllerProvider._()
     : super(
         from: null,
