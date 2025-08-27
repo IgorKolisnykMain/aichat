@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aichat/src/core/di/modules/firebase_module.dart';
 import 'package:aichat/src/exceptions/models/local_exeption.dart';
 import 'package:aichat/src/features/onboarding/auth/data/repo/auth_firebase_repo_impl.dart';
 import 'package:aichat/src/features/onboarding/auth/domain/models/app_user.dart';
@@ -37,6 +38,9 @@ class CheckoutService {
     if (user == null) {
       throw UserNotSignedInException();
     }
+
+    // * Add product to cart before payment
+    await _addToCart(user.uid, product);
 
     // * create completer and cancel the previous subscription (if any)
     _completer = Completer();
@@ -143,6 +147,21 @@ class CheckoutService {
       _paymentSubscription?.cancel();
       _completer.completeError(e, st);
     }
+  }
+
+  /// Add product to cart (simple implementation for cloud function)
+  Future<void> _addToCart(String uid, Product product) async {
+    final firestore = _ref.read(firestoreProvider);
+
+    // Simple cart structure: just product ID and quantity 1
+    // Path must match Cloud Function expectation: users/{uid}/private/cart
+    final cartData = {
+      'items': {
+        product.id: 1, // Always quantity 1 as requested
+      },
+    };
+
+    await firestore.collection('users').doc(uid).collection('private').doc('cart').set(cartData);
   }
 
   // cleanup

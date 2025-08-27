@@ -6,7 +6,7 @@ import {updateImage, deleteImageFromStorage} from "./stripe_images"
 
 const productPath = (id: string) => `products/${id}`
 
-const cartPath = (uid: string) => `users/${uid}/cart`
+const cartPath = (uid: string) => `users/${uid}/private/cart`
 
 const userOrdersPath = (uid: string) => `users/${uid}/orders`
 
