@@ -73,12 +73,14 @@ List<RouteBase> getRoutes({GlobalKey<NavigatorState>? rootNavigatorKey}) => [
     path: RoutesName.home.rootPath,
     parentNavigatorKey: rootNavigatorKey,
     pageBuilder: (context, state) => const NoTransitionPage(child: MainScreen()),
-  ),
-  GoRoute(
-    name: RoutesName.store.name,
-    path: RoutesName.store.rootPath,
-    parentNavigatorKey: rootNavigatorKey,
-    pageBuilder: (context, state) => const NoTransitionPage(child: StoreScreen()),
+    routes: [
+      GoRoute(
+        name: RoutesName.store.name,
+        path: RoutesName.store.path,
+        parentNavigatorKey: rootNavigatorKey,
+        pageBuilder: (context, state) => const NoTransitionPage(child: StoreScreen()),
+      ),
+    ],
   ),
 ];
 

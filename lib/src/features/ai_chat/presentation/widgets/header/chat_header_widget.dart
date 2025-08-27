@@ -105,7 +105,7 @@ class ChatHeaderWidget extends ConsumerWidget {
                   case 'threads':
                     _showThreadsMenu(context, ref);
                   case 'store':
-                    context.pushNamed(RoutesName.store.name);
+                    context.goNamed(RoutesName.store.name);
                 }
               },
               itemBuilder: (BuildContext context) => [

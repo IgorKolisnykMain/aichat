@@ -4,6 +4,7 @@ import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'firebase_module.g.dart';
@@ -18,12 +19,15 @@ FirebaseApp firebaseApp(Ref ref) {
 
 @Riverpod(keepAlive: true)
 Future<void> firebaseAppCheck(Ref ref) async {
-  await FirebaseAppCheck.instanceFor(app: ref.read(firebaseAppProvider)).activate(
-    // Always use debug provider for development
-    androidProvider: AndroidProvider.debug,
-    appleProvider: AppleProvider.debug,
-    webProvider: ReCaptchaV3Provider(kWebRecaptchaSiteKey),
-  );
+  // On web, App Check is already initialized in index.html
+  // So we don't need to activate it again in Flutter
+  if (!kIsWeb) {
+    await FirebaseAppCheck.instanceFor(app: ref.read(firebaseAppProvider)).activate(
+      // Always use debug provider for development on mobile platforms
+      androidProvider: AndroidProvider.debug,
+      appleProvider: AppleProvider.debug,
+    );
+  }
 }
 
 @Riverpod(keepAlive: true)

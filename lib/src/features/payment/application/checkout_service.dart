@@ -34,6 +34,8 @@ class CheckoutService {
     String? windowUrl,
     void Function(String)? webUrlCallback,
   }) async {
+    // Payment process started
+
     final user = _ref.read(authRepoProvider).currentUser;
     if (user == null) {
       throw UserNotSignedInException();
@@ -55,11 +57,14 @@ class CheckoutService {
       if (cancelUrl != null) {
         // keep the same host, update the path
         final uri = Uri.parse(cancelUrl);
-        return cancelUrl.replaceAll(uri.path, '/orders');
+        final successUri = uri.replace(path: '/orders');
+        return successUri.toString();
       } else {
         return cancelUrl;
       }
     }();
+
+    // URLs configured for Stripe checkout
 
     // * write the checkout session
     final sessionId = await _ref
@@ -83,6 +88,7 @@ class CheckoutService {
         .watchCheckoutSession(user.uid, sessionId)
         .listen((session) async {
           final sessionData = session.platformData;
+
           if (sessionData is CheckoutSessionMobileData) {
             // subscription is no longer needed once we get the session data
             _checkoutSessionSubscription?.cancel();

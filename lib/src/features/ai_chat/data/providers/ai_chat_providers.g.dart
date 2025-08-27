@@ -121,7 +121,7 @@ final class AssistantStorageProvider extends $FunctionalProvider<AssistantStorag
   }
 }
 
-String _$assistantStorageHash() => r'aefc398c85405230cbee4912e87c471fa72bb11a';
+String _$assistantStorageHash() => r'3fa3cedc73f6a3c6d5883bfc5f57c4b0ecbf3b8f';
 
 @ProviderFor(threadIdStorage)
 const threadIdStorageProvider = ThreadIdStorageProvider._();

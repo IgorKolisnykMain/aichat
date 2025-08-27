@@ -63,6 +63,51 @@
       "flutterMode": "debug" // Explicitly set debug mode
     },
     {
+      "name": "Web (dev, main Chrome)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": [
+        "--dart-define=environment=dev",
+        "--web-browser-flag=--user-data-dir=C:\\Users\\Igor\\AppData\\Local\\Google\\Chrome\\User Data",
+        "--web-browser-flag=--profile-directory=Profile 1",
+        "--web-browser-flag=--no-first-run",
+        "--web-browser-flag=--disable-features=VizDisplayCompositor"
+      ],
+      "deviceId": "chrome",
+      "flutterMode": "debug"
+    },
+    {
+      "name": "Web (dev, custom Chrome)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": [
+        "--dart-define=environment=dev"
+      ],
+      "deviceId": "chrome",
+      "flutterMode": "debug",
+      "env": {
+        "CHROME_EXECUTABLE": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+      },
+      "toolArgs": [
+        "--web-browser-flag=--user-data-dir=C:\\Users\\Igor\\AppData\\Local\\Google\\Chrome\\User Data\\FlutterProfile",
+        "--web-browser-flag=--disable-web-security",
+        "--web-browser-flag=--disable-features=VizDisplayCompositor"
+      ]
+    },
+    {
+      "name": "Web (dev, web-server)",
+      "request": "launch",
+      "type": "dart",
+      "program": "lib/main.dart",
+      "args": [
+        "--dart-define=environment=dev"
+      ],
+      "deviceId": "web-server",
+      "flutterMode": "debug"
+    },
+    {
       "name": "Integration Test (dev)",
       "request": "launch",
       "type": "dart",

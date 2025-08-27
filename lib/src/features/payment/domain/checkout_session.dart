@@ -39,6 +39,7 @@ class CheckoutSession {
       final url = map['url'] as String?;
       final successUrl = map['success_url'] as String?;
       final cancelUrl = map['cancel_url'] as String?;
+
       if (url != null && successUrl != null && cancelUrl != null) {
         return CheckoutSession(
           amount: amount,
