@@ -1,7 +1,5 @@
-import 'package:aichat/src/features/ai_chat/presentation/controller/auth_controller.dart';
 import 'package:aichat/src/features/ai_chat/presentation/dialogs/chat_treads_bottom_sheet.dart';
 import 'package:aichat/src/router/route_name.dart';
-import 'package:aichat/src/utils/async_value_ui.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
 import 'package:aichat/src/utils/extensions/responsive_extension.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +7,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 class ChatHeaderWidget extends ConsumerWidget {
-  const ChatHeaderWidget({super.key});
+  final VoidCallback? onLogout;
+  final VoidCallback? onDeleteAccount;
 
-  void _logout(WidgetRef ref) => ref.read(authControllerProvider.notifier).logout();
-  void _deleteAccount(WidgetRef ref) => ref.read(authControllerProvider.notifier).deleteAccount();
+  const ChatHeaderWidget({
+    super.key,
+    this.onLogout,
+    this.onDeleteAccount,
+  });
 
   void _showThreadsMenu(BuildContext context, WidgetRef ref) {
     showModalBottomSheet(
@@ -27,10 +29,6 @@ class ChatHeaderWidget extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(authControllerProvider, (previousState, state) {
-      state.showSnackBarOnError(context);
-    });
-
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: context.dimensions.paddingMedium.rw,
@@ -54,9 +52,9 @@ class ChatHeaderWidget extends ConsumerWidget {
               onSelected: (value) {
                 switch (value) {
                   case 'logout':
-                    _logout(ref);
+                    onLogout?.call();
                   case 'delete':
-                    _deleteAccount(ref);
+                    onDeleteAccount?.call();
                 }
               },
               itemBuilder: (BuildContext context) => [

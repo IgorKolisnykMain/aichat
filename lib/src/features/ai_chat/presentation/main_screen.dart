@@ -3,6 +3,7 @@ import 'package:aichat/src/common_widgets/responsive_UI/responsive_center.dart';
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_controller.dart';
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_event.dart';
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_state.dart';
+import 'package:aichat/src/features/ai_chat/presentation/controller/auth_controller.dart';
 import 'package:aichat/src/features/ai_chat/presentation/widgets/header/chat_header_widget.dart';
 import 'package:aichat/src/features/ai_chat/presentation/widgets/input_area/chat_input_area_widget.dart';
 import 'package:aichat/src/features/ai_chat/presentation/widgets/massages/chat_list_widget.dart';
@@ -43,6 +44,11 @@ class _MainScreenState extends ConsumerState<MainScreen> {
       );
     });
 
+    // Listen to auth state for logout/deleteAccount operations
+    ref.listen(authControllerProvider, (previousState, state) {
+      state.showSnackBarOnError(context);
+    });
+
     final isAdminUser = ref.watch(isCurrentUserAdminProvider).value ?? false;
 
     return Scaffold(
@@ -51,7 +57,10 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         child: ResponsiveCenter(
           child: Column(
             children: [
-              const ChatHeaderWidget(),
+              ChatHeaderWidget(
+                onLogout: _handleLogout,
+                onDeleteAccount: _handleDeleteAccount,
+              ),
               if (isAdminUser)
                 Align(
                   child: Text(
@@ -65,6 +74,7 @@ class _MainScreenState extends ConsumerState<MainScreen> {
                     ChatListWidget(scrollController: scrollController),
                     //todo make loading via AsyncValueWidget
                     const LoadingIndicator(provider: aiTutorControllerProvider),
+                    const LoadingIndicator(provider: authControllerProvider),
                   ],
                 ),
               ),
@@ -74,6 +84,14 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         ),
       ),
     );
+  }
+
+  void _handleLogout() {
+    ref.read(authControllerProvider.notifier).logout();
+  }
+
+  void _handleDeleteAccount() {
+    ref.read(authControllerProvider.notifier).deleteAccount();
   }
 
   void _sendMessage(String text) {
