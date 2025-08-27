@@ -589,6 +589,12 @@ abstract class AppLocalizations {
   /// **'Quantity: {quantity}'**
   String quantity(int quantity);
 
+  /// No description provided for @userNotSignedIn.
+  ///
+  /// In en, this message translates to:
+  /// **'User not signed in'**
+  String get userNotSignedIn;
+
   /// No description provided for @addedToCart.
   ///
   /// In en, this message translates to:

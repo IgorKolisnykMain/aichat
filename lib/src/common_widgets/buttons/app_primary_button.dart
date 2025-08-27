@@ -18,6 +18,7 @@ class AppPrimaryButton extends StatelessWidget {
   final bool enabled;
   final bool ignoring;
   final EdgeInsets margin;
+  final bool isLoading;
 
   const AppPrimaryButton({
     super.key,
@@ -32,6 +33,7 @@ class AppPrimaryButton extends StatelessWidget {
     this.enabled = true,
     this.ignoring = false,
     this.margin = EdgeInsets.zero,
+    this.isLoading = false,
   }) : child = null,
        viewStyle = ButtonViewStyle.base;
 
@@ -47,6 +49,7 @@ class AppPrimaryButton extends StatelessWidget {
     this.enabled = true,
     this.ignoring = false,
     this.margin = EdgeInsets.zero,
+    this.isLoading = false,
   }) : child = null,
        horizontalPadding = null,
        viewStyle = ButtonViewStyle.widthInfinity;
@@ -63,6 +66,7 @@ class AppPrimaryButton extends StatelessWidget {
     this.enabled = true,
     this.ignoring = false,
     this.margin = EdgeInsets.zero,
+    this.isLoading = false,
   }) : child = null,
        horizontalPadding = null,
        viewStyle = ButtonViewStyle.expanded;
@@ -79,6 +83,7 @@ class AppPrimaryButton extends StatelessWidget {
     this.enabled = true,
     this.ignoring = false,
     this.margin = EdgeInsets.zero,
+    this.isLoading = false,
   }) : text = null,
        textStyle = null,
        viewStyle = ButtonViewStyle.base;
@@ -98,18 +103,18 @@ class AppPrimaryButton extends StatelessWidget {
       child: Padding(
         padding: margin,
         child: MaterialButton(
-          color: enabled
+          color: enabled || isLoading
               ? (color ?? context.colors.primaryLight)
               : (color ?? context.colors.primaryLight).withValues(alpha: 0.5),
           minWidth: minWidth ?? 0,
           materialTapTargetSize: materialTapTargetSize,
           onPressed: () {
-            if (enabled) onPressed?.call();
+            if (enabled || isLoading) onPressed?.call();
           },
           elevation: 0,
           padding: EdgeInsets.symmetric(vertical: 12.rsp, horizontal: horizontalPadding ?? 16.rw),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadius ?? 12.rr)),
-          child: child ?? textWidget(context),
+          child: isLoading ? const CircularProgressIndicator() : child ?? textWidget(context),
         ),
       ),
     );

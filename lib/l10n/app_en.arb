@@ -103,6 +103,7 @@
       }
     }
   },
+  "userNotSignedIn": "User not signed in",
   "addedToCart": "{productTitle} added to cart",
   "@addedToCart": {
     "placeholders": {

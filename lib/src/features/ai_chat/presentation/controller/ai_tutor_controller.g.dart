@@ -9,8 +9,7 @@ part of 'ai_tutor_controller.dart';
 @ProviderFor(AiTutorController)
 const aiTutorControllerProvider = AiTutorControllerProvider._();
 
-final class AiTutorControllerProvider
-    extends $AsyncNotifierProvider<AiTutorController, AiTutorState> {
+final class AiTutorControllerProvider extends $AsyncNotifierProvider<AiTutorController, AiTutorState> {
   const AiTutorControllerProvider._()
     : super(
         from: null,

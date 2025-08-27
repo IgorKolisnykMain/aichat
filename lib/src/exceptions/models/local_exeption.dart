@@ -47,3 +47,10 @@ class MaxSizeImagePickException extends LocalException {
   @override
   String toLocMsg(BuildContext context) => context.l10n.imageSizeTooLarge;
 }
+
+class UserNotSignedInException extends LocalException {
+  UserNotSignedInException() : super('user-not-signed-in');
+
+  @override
+  String toLocMsg(BuildContext context) => context.l10n.userNotSignedIn;
+}

@@ -264,6 +264,9 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get userNotSignedIn => 'User not signed in';
+
+  @override
   String addedToCart(String productTitle) {
     return '$productTitle added to cart';
   }

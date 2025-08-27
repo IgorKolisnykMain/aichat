@@ -17,7 +17,7 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 
 class AppBootstrap {
   Widget createRootWidget({required ProviderContainer container}) {
-    // * Initialize CartSyncService to start the listener
+    // * Initialize AuthSyncService to start the listener
     container.read(authSyncServiceProvider);
     container.read(firebaseAppCheckProvider);
     // * Initialize UserTokenRefreshService

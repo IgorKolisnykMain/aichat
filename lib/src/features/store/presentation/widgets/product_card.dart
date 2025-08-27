@@ -1,6 +1,6 @@
-import 'package:aichat/src/common_widgets/buttons/app_primary_button.dart';
 import 'package:aichat/src/common_widgets/custom_image.dart';
 import 'package:aichat/src/constants/app_sizes.dart';
+import 'package:aichat/src/features/checkout/presentation/payment_button.dart';
 import 'package:aichat/src/features/store/domain/models/product.dart';
 import 'package:aichat/src/utils/currency_formatter.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
@@ -36,7 +36,7 @@ class ProductCard extends ConsumerWidget {
                 style: Theme.of(context).textTheme.bodySmall,
               ),
               gapH8,
-              AppPrimaryButton.infinity(text: "buy in one click", onPressed: () {}),
+              PaymentButton(product: product),
             ],
           ),
         ),

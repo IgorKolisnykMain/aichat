@@ -1,37 +1,37 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'auth_controller.dart';
+part of 'payment_button_controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-@ProviderFor(AuthController)
-const authControllerProvider = AuthControllerProvider._();
+@ProviderFor(PaymentButtonController)
+const paymentButtonControllerProvider = PaymentButtonControllerProvider._();
 
-final class AuthControllerProvider extends $AsyncNotifierProvider<AuthController, void> {
-  const AuthControllerProvider._()
+final class PaymentButtonControllerProvider extends $AsyncNotifierProvider<PaymentButtonController, void> {
+  const PaymentButtonControllerProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'authControllerProvider',
+        name: r'paymentButtonControllerProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$authControllerHash();
+  String debugGetCreateSourceHash() => _$paymentButtonControllerHash();
 
   @$internal
   @override
-  AuthController create() => AuthController();
+  PaymentButtonController create() => PaymentButtonController();
 }
 
-String _$authControllerHash() => r'c0c883451535614a7f7c6e1ac0c3353676f44eb2';
+String _$paymentButtonControllerHash() => r'392e33bb2fd34bad93cdfa4bdfeb409909fd6113';
 
-abstract class _$AuthController extends $AsyncNotifier<void> {
+abstract class _$PaymentButtonController extends $AsyncNotifier<void> {
   FutureOr<void> build();
   @$mustCallSuper
   @override
