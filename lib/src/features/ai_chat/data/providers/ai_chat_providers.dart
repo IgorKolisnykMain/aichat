@@ -106,3 +106,9 @@ AiChatService aiChatService(Ref ref) {
 
   return service;
 }
+
+@riverpod
+Stream<List<String>> userThreadsStream(Ref ref) {
+  final aiChatService = ref.watch(aiChatServiceProvider);
+  return aiChatService.watchUserThreads();
+}

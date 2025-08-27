@@ -595,6 +595,12 @@ abstract class AppLocalizations {
   /// **'User not signed in'**
   String get userNotSignedIn;
 
+  /// No description provided for @assistantNotInitialized.
+  ///
+  /// In en, this message translates to:
+  /// **'AI Assistant is not initialized. Please try again.'**
+  String get assistantNotInitialized;
+
   /// No description provided for @addedToCart.
   ///
   /// In en, this message translates to:

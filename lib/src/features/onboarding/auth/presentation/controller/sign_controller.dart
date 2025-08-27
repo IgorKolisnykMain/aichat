@@ -21,7 +21,7 @@ class SignController extends _$SignController {
 
   Future<void> signVia(SignSource signSource) async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
+    final newState = await AsyncValue.guard(() async {
       final appUserInfo = await _authFirebaseRep.signVia(signSource);
       return appUserInfo != null
           ? (appUserInfo.isNewUser ?? true)
@@ -29,22 +29,31 @@ class SignController extends _$SignController {
                 : await _successSignIn()
           : const SignState(stage: SignStage.init);
     });
+    if (ref.mounted) {
+      state = newState;
+    }
   }
 
   Future<void> signUpViaEmail({required String email, required String password}) async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
+    final newState = await AsyncValue.guard(() async {
       final appUser = await _authFirebaseRep.signUpWithEmailAndPassword(email: email, password: password);
       return appUser != null ? await _successSignUp() : const SignState(stage: SignStage.init);
     });
+    if (ref.mounted) {
+      state = newState;
+    }
   }
 
   Future<void> signInViaEmail({required String email, required String password}) async {
     state = const AsyncValue.loading();
-    state = await AsyncValue.guard(() async {
+    final newState = await AsyncValue.guard(() async {
       final appUser = await _authFirebaseRep.signInWithEmailAndPassword(email: email, password: password);
       return appUser != null ? await _successSignIn() : const SignState(stage: SignStage.init);
     });
+    if (ref.mounted) {
+      state = newState;
+    }
   }
 
   Future<SignState> _successSignIn() async {

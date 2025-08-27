@@ -104,6 +104,7 @@
     }
   },
   "userNotSignedIn": "User not signed in",
+  "assistantNotInitialized": "AI Assistant is not initialized. Please try again.",
   "addedToCart": "{productTitle} added to cart",
   "@addedToCart": {
     "placeholders": {

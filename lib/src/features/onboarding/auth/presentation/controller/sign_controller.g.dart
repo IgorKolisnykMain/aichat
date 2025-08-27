@@ -29,7 +29,7 @@ final class SignControllerProvider extends $AsyncNotifierProvider<SignController
   SignController create() => SignController();
 }
 
-String _$signControllerHash() => r'5eb2a366e12564bd9c384fe977045f7b3408c2e3';
+String _$signControllerHash() => r'fc5dfd5798341623df2cbb97c8b04fb7e68ca2ac';
 
 abstract class _$SignController extends $AsyncNotifier<SignState> {
   FutureOr<SignState> build();

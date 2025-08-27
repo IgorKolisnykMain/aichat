@@ -267,6 +267,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get userNotSignedIn => 'User not signed in';
 
   @override
+  String get assistantNotInitialized => 'AI Assistant is not initialized. Please try again.';
+
+  @override
   String addedToCart(String productTitle) {
     return '$productTitle added to cart';
   }

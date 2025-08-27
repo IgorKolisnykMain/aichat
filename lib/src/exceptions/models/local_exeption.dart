@@ -54,3 +54,11 @@ class UserNotSignedInException extends LocalException {
   @override
   String toLocMsg(BuildContext context) => context.l10n.userNotSignedIn;
 }
+
+/// AI Chat
+class AssistantNotInitializedException extends LocalException {
+  AssistantNotInitializedException() : super('assistant-not-initialized');
+
+  @override
+  String toLocMsg(BuildContext context) => context.l10n.assistantNotInitialized;
+}

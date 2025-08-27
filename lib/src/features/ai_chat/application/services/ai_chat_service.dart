@@ -15,4 +15,5 @@ abstract class AiChatService {
   Future<String> createThread();
   Future<void> deleteThread(String threadId);
   Future<List<String>> getUserThreads();
+  Stream<List<String>> watchUserThreads();
 }

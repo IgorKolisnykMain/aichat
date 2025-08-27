@@ -33,7 +33,13 @@ class FirestoreThreadIdStorage implements ThreadIdStorage {
 
   DocumentReference<Map<String, dynamic>> get _userThreadIdsRawRef => fireStore.doc('$_userFieldName/$_userId');
   DocumentReference<UserIdTreads> get _userThreadIdsRef => _userThreadIdsRawRef.withConverter(
-    fromFirestore: (snapshot, options) => UserIdTreads.fromJson(snapshot.data()!),
+    fromFirestore: (snapshot, options) {
+      final data = snapshot.data();
+      if (data == null || data.isEmpty) {
+        return UserIdTreads(threads: []);
+      }
+      return UserIdTreads.fromJson(data);
+    },
     toFirestore: (userChat, options) => userChat.toJson(),
   );
 

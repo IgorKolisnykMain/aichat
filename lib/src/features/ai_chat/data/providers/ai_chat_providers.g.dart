@@ -121,7 +121,7 @@ final class AssistantStorageProvider extends $FunctionalProvider<AssistantStorag
   }
 }
 
-String _$assistantStorageHash() => r'3fa3cedc73f6a3c6d5883bfc5f57c4b0ecbf3b8f';
+String _$assistantStorageHash() => r'aefc398c85405230cbee4912e87c471fa72bb11a';
 
 @ProviderFor(threadIdStorage)
 const threadIdStorageProvider = ThreadIdStorageProvider._();
@@ -239,6 +239,40 @@ final class AiChatServiceProvider extends $FunctionalProvider<AiChatService, AiC
 }
 
 String _$aiChatServiceHash() => r'8b16c6eb590f13a9e3077b768eedf7e3d336b53c';
+
+@ProviderFor(userThreadsStream)
+const userThreadsStreamProvider = UserThreadsStreamProvider._();
+
+final class UserThreadsStreamProvider
+    extends $FunctionalProvider<AsyncValue<List<String>>, List<String>, Stream<List<String>>>
+    with $FutureModifier<List<String>>, $StreamProvider<List<String>> {
+  const UserThreadsStreamProvider._()
+    : super(
+        from: null,
+        argument: null,
+        retry: null,
+        name: r'userThreadsStreamProvider',
+        isAutoDispose: true,
+        dependencies: null,
+        $allTransitiveDependencies: null,
+      );
+
+  @override
+  String debugGetCreateSourceHash() => _$userThreadsStreamHash();
+
+  @$internal
+  @override
+  $StreamProviderElement<List<String>> $createElement(
+    $ProviderPointer pointer,
+  ) => $StreamProviderElement(pointer);
+
+  @override
+  Stream<List<String>> create(Ref ref) {
+    return userThreadsStream(ref);
+  }
+}
+
+String _$userThreadsStreamHash() => r'e73498f5b59f09d26eae0c17d3f2ec55e9a5839a';
 
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

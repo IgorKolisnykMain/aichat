@@ -37,7 +37,7 @@ final class AuthSyncServiceProvider extends $NotifierProvider<AuthSyncService, A
   }
 }
 
-String _$authSyncServiceHash() => r'837476ffa780d8d962d015f003dbb10b19a3c1d5';
+String _$authSyncServiceHash() => r'b53fdf442ee83ee4af79fd27285bbc1f17ac2580';
 
 abstract class _$AuthSyncService extends $Notifier<AuthSyncService> {
   AuthSyncService build();

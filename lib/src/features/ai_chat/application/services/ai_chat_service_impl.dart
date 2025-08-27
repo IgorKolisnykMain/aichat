@@ -159,6 +159,11 @@ class AiChatServiceImpl implements AiChatService {
     return await _threadIdStorage.fetchUserThreadIds();
   }
 
+  @override
+  Stream<List<String>> watchUserThreads() {
+    return _threadIdStorage.watchUserThreadIds();
+  }
+
   /// Converts various error types to AiChatException
   AiChatException _convertToAiChatException(Object error) {
     if (error is OpenAIRateLimitError) {

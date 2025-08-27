@@ -1,4 +1,5 @@
 import 'package:aichat/src/exceptions/models/common_error.dart';
+import 'package:aichat/src/exceptions/models/local_exeption.dart';
 import 'package:aichat/src/features/ai_chat/domain/models/ai_chat_settings.dart';
 import 'package:aichat/src/features/ai_chat/domain/repository/ai_repository.dart';
 import 'package:aichat/src/features/ai_chat/domain/repository/assistant_storage.dart';
@@ -31,6 +32,7 @@ class ChatGptAiRepository implements AiRepository {
 
     // Setup assistant ID
     _assistantId = await _assistantStorage.fetchAssistantId();
+
     if (_assistantId == null) {
       _assistantId = await createAssistant();
       await _assistantStorage.saveAssistantId(_assistantId!);
@@ -68,6 +70,10 @@ class ChatGptAiRepository implements AiRepository {
   }
 
   Future<String> _sendToAssistant(String threadId, String question) async {
+    if (_assistantId == null) {
+      throw AssistantNotInitializedException();
+    }
+
     // Add user message
     await _openAI.threads.v2.messages.createMessage(
       threadId: threadId,

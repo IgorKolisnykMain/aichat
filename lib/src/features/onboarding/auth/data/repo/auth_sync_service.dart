@@ -27,12 +27,17 @@ class AuthSyncService extends _$AuthSyncService {
   }
 
   void _init() {
-    _subscription = authRepo.authStateChanges().listen((event) {
+    _subscription = authRepo.authStateChanges().listen((event) async {
       final user = event;
       if (user != null) {
         if (!_initializationCompleter.isCompleted) {
-          aiChatService.initialize();
-          _initializationCompleter.complete();
+          try {
+            await aiChatService.initialize();
+            await _ensureUserHasThread();
+            _initializationCompleter.complete();
+          } catch (e) {
+            _initializationCompleter.completeError(e);
+          }
         } else {
           _initializationCompleter = Completer<void>();
         }
@@ -58,6 +63,18 @@ class AuthSyncService extends _$AuthSyncService {
     //     }
     //   },
     // );
+  }
+
+  Future<void> _ensureUserHasThread() async {
+    try {
+      final userThreads = await aiChatService.getUserThreads();
+      if (userThreads.isEmpty) {
+        await aiChatService.createThread();
+      }
+    } catch (e) {
+      // Ignore thread creation errors - user can create thread later manually
+      // But log the error for debugging
+    }
   }
 
   //* Waiting for all services to finish initializing
