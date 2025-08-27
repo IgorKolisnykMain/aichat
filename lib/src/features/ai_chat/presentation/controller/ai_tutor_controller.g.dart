@@ -29,7 +29,7 @@ final class AiTutorControllerProvider extends $AsyncNotifierProvider<AiTutorCont
   AiTutorController create() => AiTutorController();
 }
 
-String _$aiTutorControllerHash() => r'4cebdfed473be8fb5d9d2b3789cf7495bb6a32ce';
+String _$aiTutorControllerHash() => r'57741be5b4ec5a7265a6808a8cf27304a29ae9ea';
 
 abstract class _$AiTutorController extends $AsyncNotifier<AiTutorState> {
   FutureOr<AiTutorState> build();

@@ -13,11 +13,15 @@ part 'ai_tutor_controller.g.dart';
 class AiTutorController extends _$AiTutorController {
   late final AiChatService _aiChatService;
   StreamSubscription<ChatHistory>? _streamSubscription;
+  StreamSubscription<List<String>>? _threadsStreamSubscription;
 
   @override
   Future<AiTutorState> build() async {
     ref.onDispose(dispose);
     _aiChatService = ref.read(aiChatServiceProvider);
+
+    // Watch threads changes
+    _listenToThreadsChanges();
 
     // Load initial history
     return await _loadHistory();
@@ -25,6 +29,30 @@ class AiTutorController extends _$AiTutorController {
 
   void dispose() {
     _streamSubscription?.cancel();
+    _threadsStreamSubscription?.cancel();
+  }
+
+  void _listenToThreadsChanges() {
+    _threadsStreamSubscription = _aiChatService.watchUserThreads().listen(
+      (threads) {
+        if (state.value != null) {
+          final currentState = state.value!;
+
+          // If no current thread but threads exist, set the latest as current
+          String? newCurrentThreadId = currentState.currentThreadId;
+          if (newCurrentThreadId == null && threads.isNotEmpty) {
+            newCurrentThreadId = threads.last;
+          }
+
+          state = AsyncValue.data(
+            currentState.copyWith(
+              userThreads: threads,
+              currentThreadId: newCurrentThreadId,
+            ),
+          );
+        }
+      },
+    );
   }
 
   void handlerEvent(AiTutorEvent event) => switch (event) {
@@ -109,13 +137,11 @@ class AiTutorController extends _$AiTutorController {
     state = const AsyncValue.loading();
     state = await AsyncValue.guard(() async {
       final threadId = await _aiChatService.createThread();
-      final threads = await _aiChatService.getUserThreads();
       final chatHistory = await _aiChatService.getChatHistory();
 
       return state.value!.copyWith(
         stage: AiTutorStage.init,
         currentThreadId: threadId,
-        userThreads: threads,
         chatHistory: chatHistory,
       );
     });
@@ -136,7 +162,6 @@ class AiTutorController extends _$AiTutorController {
   Future<void> _deleteThread(String threadId) async {
     state = await AsyncValue.guard(() async {
       await _aiChatService.deleteThread(threadId);
-      final threads = await _aiChatService.getUserThreads();
       String? newCurrentThreadId = state.value!.currentThreadId;
       ChatHistory chatHistory = state.value!.chatHistory;
 
@@ -147,7 +172,6 @@ class AiTutorController extends _$AiTutorController {
 
       return state.value!.copyWith(
         currentThreadId: newCurrentThreadId,
-        userThreads: threads,
         chatHistory: chatHistory,
       );
     });
