@@ -9,6 +9,7 @@ import 'package:aichat/src/features/payment/data/payment_sheet_repository.dart';
 import 'package:aichat/src/features/payment/data/payments_repository.dart';
 import 'package:aichat/src/features/payment/domain/checkout_session_platform.dart';
 import 'package:aichat/src/features/store/domain/models/product.dart';
+import 'package:aichat/src/router/route_name.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'checkout_service.g.dart';
@@ -57,7 +58,7 @@ class CheckoutService {
       if (cancelUrl != null) {
         // keep the same host, update the path
         final uri = Uri.parse(cancelUrl);
-        final successUri = uri.replace(path: '/orders');
+        final successUri = uri.replace(path: RoutesName.store.rootPath);
         return successUri.toString();
       } else {
         return cancelUrl;
