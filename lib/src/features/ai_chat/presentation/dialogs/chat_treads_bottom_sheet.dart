@@ -1,12 +1,10 @@
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_controller.dart';
 import 'package:aichat/src/features/ai_chat/presentation/controller/ai_tutor_event.dart';
 import 'package:aichat/src/features/ai_chat/presentation/dialogs/widgets/thread_item_widget.dart';
-import 'package:aichat/src/router/route_name.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
 import 'package:aichat/src/utils/extensions/responsive_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class ChatTreadsBottomSheet extends ConsumerWidget {
   const ChatTreadsBottomSheet({super.key});
@@ -41,23 +39,6 @@ class ChatTreadsBottomSheet extends ConsumerWidget {
             ),
           ),
           SizedBox(height: 8.rsp),
-          ElevatedButton.icon(
-            onPressed: () {
-              Navigator.pop(context);
-              context.pushNamed(RoutesName.store.name);
-            },
-            icon: Icon(Icons.shopping_cart, size: 20.rsp),
-            label: Text(
-              context.l10n.somethingToBuy,
-              style: context.textStyles.bodyMedium,
-            ),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: context.colors.primary.withValues(alpha: 0.8),
-              foregroundColor: context.colors.white,
-              padding: EdgeInsets.symmetric(vertical: 12.rsp),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.rr)),
-            ),
-          ),
           if (state.value!.userThreads.isNotEmpty) ...[
             SizedBox(height: 16.rsp),
             Text(

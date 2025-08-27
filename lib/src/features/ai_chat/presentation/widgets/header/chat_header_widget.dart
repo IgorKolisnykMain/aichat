@@ -1,10 +1,12 @@
 import 'package:aichat/src/features/ai_chat/presentation/controller/auth_controller.dart';
 import 'package:aichat/src/features/ai_chat/presentation/dialogs/chat_treads_bottom_sheet.dart';
+import 'package:aichat/src/router/route_name.dart';
 import 'package:aichat/src/utils/async_value_ui.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
 import 'package:aichat/src/utils/extensions/responsive_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class ChatHeaderWidget extends ConsumerWidget {
   const ChatHeaderWidget({super.key});
@@ -99,10 +101,37 @@ class ChatHeaderWidget extends ConsumerWidget {
               borderRadius: BorderRadius.circular(12.rr),
               border: Border.all(color: context.colors.borderSubtle),
             ),
-            child: IconButton(
-              onPressed: () {
-                _showThreadsMenu(context, ref);
+            child: PopupMenuButton<String>(
+              onSelected: (value) {
+                switch (value) {
+                  case 'threads':
+                    _showThreadsMenu(context, ref);
+                  case 'store':
+                    context.pushNamed(RoutesName.store.name);
+                }
               },
+              itemBuilder: (BuildContext context) => [
+                PopupMenuItem<String>(
+                  value: 'threads',
+                  child: Row(
+                    children: [
+                      Icon(Icons.chat_bubble_outline, color: context.colors.textDark),
+                      SizedBox(width: 8.rw),
+                      Text(context.l10n.conversations),
+                    ],
+                  ),
+                ),
+                PopupMenuItem<String>(
+                  value: 'store',
+                  child: Row(
+                    children: [
+                      Icon(Icons.shopping_cart, color: context.colors.textDark),
+                      SizedBox(width: 8.rw),
+                      Text(context.l10n.somethingToBuy),
+                    ],
+                  ),
+                ),
+              ],
               icon: Icon(Icons.menu, size: 24.rsp, color: context.colors.textDark),
             ),
           ),
