@@ -80,5 +80,40 @@
   },
   "logout": "Logout",
   "deleteAccount": "Delete Account",
-  "admin": "Admin"
+  "admin": "Admin",
+  "store": "Store",
+  "somethingToBuy": "Something to buy",
+  "shoppingCart": "Shopping Cart",
+  "searchProducts": "Search products...",
+  "noProductsAvailable": "No products available",
+  "yourCartIsEmpty": "Your cart is empty",
+  "noProductsFound": "No products found",
+  "addSomeProductsToGetStarted": "Add some products to get started",
+  "continueShopping": "Continue Shopping",
+  "total": "Total",
+  "proceedToCheckout": "Proceed to Checkout",
+  "checkoutComingSoon": "Checkout functionality coming soon!",
+  "addToCart": "Add to Cart",
+  "outOfStock": "Out of Stock",
+  "quantity": "Quantity: {quantity}",
+  "@quantity": {
+    "placeholders": {
+      "quantity": {
+        "type": "int"
+      }
+    }
+  },
+  "addedToCart": "{productTitle} added to cart",
+  "@addedToCart": {
+    "placeholders": {
+      "productTitle": {
+        "type": "String"
+      }
+    }
+  },
+  "failedToAddToCart": "Failed to add item to cart",
+  "errorLoadingCart": "Error loading cart",
+  "errorLoadingProduct": "Error loading product",
+  "productNotFound": "Product not found",
+  "retry": "Retry"
 }

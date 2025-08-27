@@ -10,7 +10,11 @@ enum RoutesName {
   subscription,
 
   // Main flow
-  home;
+  home,
+
+  // Store flow
+  store,
+  cart;
 
   String get rootPath => switch (this) {
     home => '/',

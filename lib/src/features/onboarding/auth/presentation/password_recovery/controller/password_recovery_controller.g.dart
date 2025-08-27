@@ -7,10 +7,15 @@ part of 'password_recovery_controller.dart';
 // **************************************************************************
 
 @ProviderFor(PasswordRecoveryController)
-const passwordRecoveryControllerProvider = PasswordRecoveryControllerProvider._();
+const passwordRecoveryControllerProvider =
+    PasswordRecoveryControllerProvider._();
 
 final class PasswordRecoveryControllerProvider
-    extends $AsyncNotifierProvider<PasswordRecoveryController, PasswordRecoveryState> {
+    extends
+        $AsyncNotifierProvider<
+          PasswordRecoveryController,
+          PasswordRecoveryState
+        > {
   const PasswordRecoveryControllerProvider._()
     : super(
         from: null,
@@ -30,19 +35,26 @@ final class PasswordRecoveryControllerProvider
   PasswordRecoveryController create() => PasswordRecoveryController();
 }
 
-String _$passwordRecoveryControllerHash() => r'97a40b9bbaae40f0f3615add485673b9a6f6a5b2';
+String _$passwordRecoveryControllerHash() =>
+    r'97a40b9bbaae40f0f3615add485673b9a6f6a5b2';
 
-abstract class _$PasswordRecoveryController extends $AsyncNotifier<PasswordRecoveryState> {
+abstract class _$PasswordRecoveryController
+    extends $AsyncNotifier<PasswordRecoveryState> {
   FutureOr<PasswordRecoveryState> build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<AsyncValue<PasswordRecoveryState>, PasswordRecoveryState>;
+    final ref =
+        this.ref
+            as $Ref<AsyncValue<PasswordRecoveryState>, PasswordRecoveryState>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<PasswordRecoveryState>, PasswordRecoveryState>,
+              AnyNotifier<
+                AsyncValue<PasswordRecoveryState>,
+                PasswordRecoveryState
+              >,
               AsyncValue<PasswordRecoveryState>,
               Object?,
               Object?

@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:aichat/src/app.dart';
 import 'package:aichat/src/core/config/data/repository/app_config_repository_impl.dart';

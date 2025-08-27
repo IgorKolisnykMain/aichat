@@ -9,7 +9,8 @@ part of 'error_logger.dart';
 @ProviderFor(ErrorLogger)
 const errorLoggerProvider = ErrorLoggerProvider._();
 
-final class ErrorLoggerProvider extends $NotifierProvider<ErrorLogger, ErrorLogger> {
+final class ErrorLoggerProvider
+    extends $NotifierProvider<ErrorLogger, ErrorLogger> {
   const ErrorLoggerProvider._()
     : super(
         from: null,
@@ -47,7 +48,13 @@ abstract class _$ErrorLogger extends $Notifier<ErrorLogger> {
     final created = build();
     final ref = this.ref as $Ref<ErrorLogger, ErrorLogger>;
     final element =
-        ref.element as $ClassProviderElement<AnyNotifier<ErrorLogger, ErrorLogger>, ErrorLogger, Object?, Object?>;
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<ErrorLogger, ErrorLogger>,
+              ErrorLogger,
+              Object?,
+              Object?
+            >;
     element.handleValue(ref, created);
   }
 }

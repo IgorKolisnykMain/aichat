@@ -12,7 +12,8 @@ const userTokenRefreshServiceProvider = UserTokenRefreshServiceProvider._();
 
 /// Class used to force an ID token refresh on sign in
 final class UserTokenRefreshServiceProvider
-    extends $NotifierProvider<UserTokenRefreshService, UserTokenRefreshService> {
+    extends
+        $NotifierProvider<UserTokenRefreshService, UserTokenRefreshService> {
   /// Class used to force an ID token refresh on sign in
   const UserTokenRefreshServiceProvider._()
     : super(
@@ -41,15 +42,18 @@ final class UserTokenRefreshServiceProvider
   }
 }
 
-String _$userTokenRefreshServiceHash() => r'da6d56609250b94af4dbee983368e67e1e0a4179';
+String _$userTokenRefreshServiceHash() =>
+    r'da6d56609250b94af4dbee983368e67e1e0a4179';
 
-abstract class _$UserTokenRefreshService extends $Notifier<UserTokenRefreshService> {
+abstract class _$UserTokenRefreshService
+    extends $Notifier<UserTokenRefreshService> {
   UserTokenRefreshService build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<UserTokenRefreshService, UserTokenRefreshService>;
+    final ref =
+        this.ref as $Ref<UserTokenRefreshService, UserTokenRefreshService>;
     final element =
         ref.element
             as $ClassProviderElement<

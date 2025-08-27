@@ -498,6 +498,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Admin'**
   String get admin;
+
+  /// No description provided for @store.
+  ///
+  /// In en, this message translates to:
+  /// **'Store'**
+  String get store;
+
+  /// No description provided for @somethingToBuy.
+  ///
+  /// In en, this message translates to:
+  /// **'Something to buy'**
+  String get somethingToBuy;
+
+  /// No description provided for @shoppingCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Shopping Cart'**
+  String get shoppingCart;
+
+  /// No description provided for @searchProducts.
+  ///
+  /// In en, this message translates to:
+  /// **'Search products...'**
+  String get searchProducts;
+
+  /// No description provided for @noProductsAvailable.
+  ///
+  /// In en, this message translates to:
+  /// **'No products available'**
+  String get noProductsAvailable;
+
+  /// No description provided for @yourCartIsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Your cart is empty'**
+  String get yourCartIsEmpty;
+
+  /// No description provided for @noProductsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No products found'**
+  String get noProductsFound;
+
+  /// No description provided for @addSomeProductsToGetStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Add some products to get started'**
+  String get addSomeProductsToGetStarted;
+
+  /// No description provided for @continueShopping.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue Shopping'**
+  String get continueShopping;
+
+  /// No description provided for @total.
+  ///
+  /// In en, this message translates to:
+  /// **'Total'**
+  String get total;
+
+  /// No description provided for @proceedToCheckout.
+  ///
+  /// In en, this message translates to:
+  /// **'Proceed to Checkout'**
+  String get proceedToCheckout;
+
+  /// No description provided for @checkoutComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Checkout functionality coming soon!'**
+  String get checkoutComingSoon;
+
+  /// No description provided for @addToCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to Cart'**
+  String get addToCart;
+
+  /// No description provided for @outOfStock.
+  ///
+  /// In en, this message translates to:
+  /// **'Out of Stock'**
+  String get outOfStock;
+
+  /// No description provided for @quantity.
+  ///
+  /// In en, this message translates to:
+  /// **'Quantity: {quantity}'**
+  String quantity(int quantity);
+
+  /// No description provided for @addedToCart.
+  ///
+  /// In en, this message translates to:
+  /// **'{productTitle} added to cart'**
+  String addedToCart(String productTitle);
+
+  /// No description provided for @failedToAddToCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to add item to cart'**
+  String get failedToAddToCart;
+
+  /// No description provided for @errorLoadingCart.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading cart'**
+  String get errorLoadingCart;
+
+  /// No description provided for @errorLoadingProduct.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading product'**
+  String get errorLoadingProduct;
+
+  /// No description provided for @productNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Product not found'**
+  String get productNotFound;
+
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

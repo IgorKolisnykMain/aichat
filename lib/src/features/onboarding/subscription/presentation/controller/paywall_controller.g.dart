@@ -9,7 +9,8 @@ part of 'paywall_controller.dart';
 @ProviderFor(PaywallController)
 const paywallControllerProvider = PaywallControllerProvider._();
 
-final class PaywallControllerProvider extends $AsyncNotifierProvider<PaywallController, PaywallState> {
+final class PaywallControllerProvider
+    extends $AsyncNotifierProvider<PaywallController, PaywallState> {
   const PaywallControllerProvider._()
     : super(
         from: null,

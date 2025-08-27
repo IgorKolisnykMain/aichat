@@ -9,7 +9,8 @@ part of 'auth_controller.dart';
 @ProviderFor(AuthController)
 const authControllerProvider = AuthControllerProvider._();
 
-final class AuthControllerProvider extends $AsyncNotifierProvider<AuthController, void> {
+final class AuthControllerProvider
+    extends $AsyncNotifierProvider<AuthController, void> {
   const AuthControllerProvider._()
     : super(
         from: null,
@@ -39,7 +40,13 @@ abstract class _$AuthController extends $AsyncNotifier<void> {
     build();
     final ref = this.ref as $Ref<AsyncValue<void>, void>;
     final element =
-        ref.element as $ClassProviderElement<AnyNotifier<AsyncValue<void>, void>, AsyncValue<void>, Object?, Object?>;
+        ref.element
+            as $ClassProviderElement<
+              AnyNotifier<AsyncValue<void>, void>,
+              AsyncValue<void>,
+              Object?,
+              Object?
+            >;
     element.handleValue(ref, null);
   }
 }

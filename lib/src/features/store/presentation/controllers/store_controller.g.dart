@@ -1,49 +1,48 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'ai_tutor_controller.dart';
+part of 'store_controller.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-@ProviderFor(AiTutorController)
-const aiTutorControllerProvider = AiTutorControllerProvider._();
+@ProviderFor(StoreController)
+const storeControllerProvider = StoreControllerProvider._();
 
-final class AiTutorControllerProvider
-    extends $AsyncNotifierProvider<AiTutorController, AiTutorState> {
-  const AiTutorControllerProvider._()
+final class StoreControllerProvider extends $AsyncNotifierProvider<StoreController, List<Product>> {
+  const StoreControllerProvider._()
     : super(
         from: null,
         argument: null,
         retry: null,
-        name: r'aiTutorControllerProvider',
+        name: r'storeControllerProvider',
         isAutoDispose: true,
         dependencies: null,
         $allTransitiveDependencies: null,
       );
 
   @override
-  String debugGetCreateSourceHash() => _$aiTutorControllerHash();
+  String debugGetCreateSourceHash() => _$storeControllerHash();
 
   @$internal
   @override
-  AiTutorController create() => AiTutorController();
+  StoreController create() => StoreController();
 }
 
-String _$aiTutorControllerHash() => r'4cebdfed473be8fb5d9d2b3789cf7495bb6a32ce';
+String _$storeControllerHash() => r'e398c4cb2da0dda11568a5439e858121dd2e9fc4';
 
-abstract class _$AiTutorController extends $AsyncNotifier<AiTutorState> {
-  FutureOr<AiTutorState> build();
+abstract class _$StoreController extends $AsyncNotifier<List<Product>> {
+  FutureOr<List<Product>> build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref = this.ref as $Ref<AsyncValue<AiTutorState>, AiTutorState>;
+    final ref = this.ref as $Ref<AsyncValue<List<Product>>, List<Product>>;
     final element =
         ref.element
             as $ClassProviderElement<
-              AnyNotifier<AsyncValue<AiTutorState>, AiTutorState>,
-              AsyncValue<AiTutorState>,
+              AnyNotifier<AsyncValue<List<Product>>, List<Product>>,
+              AsyncValue<List<Product>>,
               Object?,
               Object?
             >;

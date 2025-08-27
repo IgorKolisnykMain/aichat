@@ -215,4 +215,71 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get admin => 'Admin';
+
+  @override
+  String get store => 'Store';
+
+  @override
+  String get somethingToBuy => 'Something to buy';
+
+  @override
+  String get shoppingCart => 'Shopping Cart';
+
+  @override
+  String get searchProducts => 'Search products...';
+
+  @override
+  String get noProductsAvailable => 'No products available';
+
+  @override
+  String get yourCartIsEmpty => 'Your cart is empty';
+
+  @override
+  String get noProductsFound => 'No products found';
+
+  @override
+  String get addSomeProductsToGetStarted => 'Add some products to get started';
+
+  @override
+  String get continueShopping => 'Continue Shopping';
+
+  @override
+  String get total => 'Total';
+
+  @override
+  String get proceedToCheckout => 'Proceed to Checkout';
+
+  @override
+  String get checkoutComingSoon => 'Checkout functionality coming soon!';
+
+  @override
+  String get addToCart => 'Add to Cart';
+
+  @override
+  String get outOfStock => 'Out of Stock';
+
+  @override
+  String quantity(int quantity) {
+    return 'Quantity: $quantity';
+  }
+
+  @override
+  String addedToCart(String productTitle) {
+    return '$productTitle added to cart';
+  }
+
+  @override
+  String get failedToAddToCart => 'Failed to add item to cart';
+
+  @override
+  String get errorLoadingCart => 'Error loading cart';
+
+  @override
+  String get errorLoadingProduct => 'Error loading product';
+
+  @override
+  String get productNotFound => 'Product not found';
+
+  @override
+  String get retry => 'Retry';
 }

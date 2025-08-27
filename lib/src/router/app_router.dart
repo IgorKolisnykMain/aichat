@@ -7,6 +7,7 @@ import 'package:aichat/src/features/onboarding/auth/presentation/welcome_sign_sc
 import 'package:aichat/src/features/onboarding/subscription/presentation/subscription_screen.dart';
 import 'package:aichat/src/features/onboarding/wizard/presentation/wizard_screen.dart';
 import 'package:aichat/src/features/splash/presentation/splash_screen.dart';
+import 'package:aichat/src/features/store/presentation/screens/store_screen.dart';
 import 'package:aichat/src/router/arguments/email_arg.dart';
 import 'package:aichat/src/router/go_router_refresh_stream.dart';
 import 'package:aichat/src/router/navigation_observer.dart';
@@ -72,6 +73,12 @@ List<RouteBase> getRoutes({GlobalKey<NavigatorState>? rootNavigatorKey}) => [
     path: RoutesName.home.rootPath,
     parentNavigatorKey: rootNavigatorKey,
     pageBuilder: (context, state) => const NoTransitionPage(child: MainScreen()),
+  ),
+  GoRoute(
+    name: RoutesName.store.name,
+    path: RoutesName.store.rootPath,
+    parentNavigatorKey: rootNavigatorKey,
+    pageBuilder: (context, state) => const NoTransitionPage(child: StoreScreen()),
   ),
 ];
 

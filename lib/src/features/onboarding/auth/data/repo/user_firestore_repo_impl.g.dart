@@ -9,7 +9,8 @@ part of 'user_firestore_repo_impl.dart';
 @ProviderFor(userFirestoreRepo)
 const userFirestoreRepoProvider = UserFirestoreRepoProvider._();
 
-final class UserFirestoreRepoProvider extends $FunctionalProvider<UserRepository, UserRepository, UserRepository>
+final class UserFirestoreRepoProvider
+    extends $FunctionalProvider<UserRepository, UserRepository, UserRepository>
     with $Provider<UserRepository> {
   const UserFirestoreRepoProvider._()
     : super(
@@ -27,7 +28,8 @@ final class UserFirestoreRepoProvider extends $FunctionalProvider<UserRepository
 
   @$internal
   @override
-  $ProviderElement<UserRepository> $createElement($ProviderPointer pointer) => $ProviderElement(pointer);
+  $ProviderElement<UserRepository> $createElement($ProviderPointer pointer) =>
+      $ProviderElement(pointer);
 
   @override
   UserRepository create(Ref ref) {
