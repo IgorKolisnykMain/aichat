@@ -7,6 +7,7 @@ import 'package:aichat/src/core/env/env.dart';
 import 'package:aichat/src/exceptions/error_logger.dart';
 import 'package:aichat/src/features/onboarding/auth/application/user_token_refresh_service.dart';
 import 'package:aichat/src/features/onboarding/auth/data/repo/auth_sync_service.dart';
+import 'package:aichat/src/features/onboarding/subscription/data/repo/purchases_repository_impl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -47,6 +48,18 @@ class AppBootstrap {
       // https://stripe.com/docs/payments/mobile/accept-payment?platform=ios&ui=payment-sheet#ios-set-up-return-url
       Stripe.urlScheme = 'flutterstripe';
       await Stripe.instance.applySettings();
+    }
+  }
+
+  Future<void> setupRevenueCat({required ProviderContainer container}) async {
+    try {
+      // Initialize RevenueCat with Firebase Auth sync
+      final purchasesRepository = container.read(purchasesRepositoryProvider);
+      await purchasesRepository.init();
+    } catch (e) {
+      // Handle RevenueCat initialization errors gracefully
+      // App should still work even if RevenueCat fails to initialize
+      debugPrint('RevenueCat initialization failed: $e');
     }
   }
 

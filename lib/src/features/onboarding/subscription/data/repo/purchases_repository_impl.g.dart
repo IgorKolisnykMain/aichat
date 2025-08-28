@@ -10,7 +10,12 @@ part of 'purchases_repository_impl.dart';
 const purchasesRepositoryProvider = PurchasesRepositoryProvider._();
 
 final class PurchasesRepositoryProvider
-    extends $FunctionalProvider<PurchasesRepository, PurchasesRepository, PurchasesRepository>
+    extends
+        $FunctionalProvider<
+          PurchasesRepository,
+          PurchasesRepository,
+          PurchasesRepository
+        >
     with $Provider<PurchasesRepository> {
   const PurchasesRepositoryProvider._()
     : super(
@@ -46,7 +51,8 @@ final class PurchasesRepositoryProvider
   }
 }
 
-String _$purchasesRepositoryHash() => r'c8a086eda762173a3893e1a373e5003d0cad2831';
+String _$purchasesRepositoryHash() =>
+    r'5674cf405d26d301de67e0de62037a361fc45cf5';
 
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

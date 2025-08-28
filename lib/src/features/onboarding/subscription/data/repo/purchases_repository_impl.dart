@@ -2,9 +2,13 @@ import 'dart:convert';
 
 import 'package:aichat/src/core/config/data/repository/app_config_repository_impl.dart';
 import 'package:aichat/src/core/config/domain/repository/app_config_repository.dart';
+import 'package:aichat/src/exceptions/error_logger.dart';
+import 'package:aichat/src/features/onboarding/auth/data/repo/auth_firebase_repo_impl.dart';
+import 'package:aichat/src/features/onboarding/auth/domain/repo/auth_repo.dart';
 import 'package:aichat/src/features/onboarding/subscription/domain/models/offering_metadata_model.dart';
 import 'package:aichat/src/features/onboarding/subscription/domain/repo/purchases_repository.dart';
 import 'package:aichat/src/utils/app/domain/enums/user_platform.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:rxdart/rxdart.dart';
@@ -14,13 +18,15 @@ part 'purchases_repository_impl.g.dart';
 @Riverpod(keepAlive: true)
 PurchasesRepository purchasesRepository(Ref ref) {
   final appConfig = ref.read(appConfigRepositoryProvider);
-  return PurchasesRepositoryImpl(appConfigRepository: appConfig);
+  final authRepo = ref.read(authRepoProvider);
+  return PurchasesRepositoryImpl(appConfigRepository: appConfig, authRepo: authRepo);
 }
 
 class PurchasesRepositoryImpl implements PurchasesRepository {
   final AppConfigRepository appConfigRepository;
+  final AuthRepository authRepo;
 
-  PurchasesRepositoryImpl({required this.appConfigRepository});
+  PurchasesRepositoryImpl({required this.appConfigRepository, required this.authRepo});
 
   final BehaviorSubject<bool> _hasPremiumSubject = BehaviorSubject<bool>.seeded(false);
   final BehaviorSubject<String?> _premiumSku = BehaviorSubject<String?>.seeded(null);
@@ -30,6 +36,13 @@ class PurchasesRepositoryImpl implements PurchasesRepository {
     await Purchases.setLogLevel(LogLevel.debug);
     final revenueCatConfiuration = PurchasesConfiguration(appConfigRepository.config.revenueCatPublicKey);
     await Purchases.configure(revenueCatConfiuration);
+
+    // Sync User ID with RevenueCat
+    await _syncUserWithRevenueCat();
+
+    // Listen for Auth changes to keep RevenueCat in sync
+    _syncUserWithRevenueCatListener();
+
     Purchases.addCustomerInfoUpdateListener(_onCustomerInfoUpdate);
   }
 
@@ -114,5 +127,36 @@ class PurchasesRepositoryImpl implements PurchasesRepository {
   @override
   Future<void> restorePurchases() async {
     await Purchases.restorePurchases();
+  }
+
+  /// Sync current Firebase user with RevenueCat
+  Future<void> _syncUserWithRevenueCat() async {
+    final firebaseUser = authRepo.currentUser;
+    if (firebaseUser != null) {
+      try {
+        await Purchases.logIn(firebaseUser.uid);
+      } catch (e, st) {
+        ErrorLogger().logError(e, st);
+      }
+    }
+  }
+
+  /// Listen to Auth changes and sync with RevenueCat
+  void _syncUserWithRevenueCatListener() {
+    authRepo.authStateChanges().listen((user) async {
+      if (user != null) {
+        try {
+          await Purchases.logIn(user.uid);
+        } catch (e, st) {
+          ErrorLogger().logError(e, st);
+        }
+      } else {
+        try {
+          await Purchases.logOut();
+        } catch (e, st) {
+          ErrorLogger().logError(e, st);
+        }
+      }
+    });
   }
 }

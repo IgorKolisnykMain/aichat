@@ -16,6 +16,7 @@ void main() async {
   final root = appBootstrap.createRootWidget(container: container);
 
   await appBootstrap.setupStripe();
+  await appBootstrap.setupRevenueCat(container: container);
   // await appBootstrap.setupFirebaseEmulators();
   runApp(root);
 }
