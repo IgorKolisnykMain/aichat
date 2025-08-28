@@ -34,7 +34,8 @@
       "Bash(./gradlew:*)",
       "WebFetch(domain:isaacadariku.medium.com)",
       "Bash(flutter gen-l10n:*)",
-      "Bash(flutter analyze:*)"
+      "Bash(flutter analyze:*)",
+      "WebFetch(domain:www.revenuecat.com)"
     ],
     "deny": []
   }

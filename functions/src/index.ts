@@ -24,6 +24,12 @@ import {
   onStripePaymentWritten,
 } from "./stripe"
 
+// RevenueCat triggers
+import {
+  onRevenueCatEventWritten,
+  onRevenueCatCustomerWritten,
+} from "./revenuecat"
+
 // Triggered when a Stripe product is written to Firestore
 exports.onStripeProductWritten = functionsV2.firestore.onDocumentWritten(
   "/stripe_products/{id}",
@@ -48,4 +54,17 @@ exports.onStripePaymentWritten = functionsV2.firestore.onDocumentWritten(
     secrets: [stripeSecretKey],
   },
   onStripePaymentWritten,
+)
+
+// RevenueCat Firebase Extension event triggers
+// Triggered when a RevenueCat subscription event is created by the Firebase Extension
+exports.onRevenueCatEventWritten = functionsV2.firestore.onDocumentWritten(
+  "/revenuecat_subscription_events/{eventId}",
+  onRevenueCatEventWritten,
+)
+
+// Triggered when a RevenueCat customer is created by the Firebase Extension  
+exports.onRevenueCatCustomerWritten = functionsV2.firestore.onDocumentWritten(
+  "/revenuecat_subscription_customer/{customerId}",
+  onRevenueCatCustomerWritten,
 )
