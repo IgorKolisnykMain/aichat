@@ -3,8 +3,8 @@ import 'dart:math';
 import 'package:aichat/src/common_widgets/loading/async_value_widget.dart';
 import 'package:aichat/src/constants/app_sizes.dart';
 import 'package:aichat/src/constants/breakpoints.dart';
-import 'package:aichat/src/features/store/data/repositories/products_firestore_repository.dart';
 import 'package:aichat/src/features/store/domain/models/product.dart';
+import 'package:aichat/src/features/store/presentation/controllers/products_search_query_notifier.dart';
 import 'package:aichat/src/features/store/presentation/widgets/product_card.dart';
 import 'package:aichat/src/utils/extensions/build_context_extensions.dart';
 import 'package:aichat/src/utils/extensions/responsive_extension.dart';
@@ -17,9 +17,7 @@ class SliverProductsGrid extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: restore search functionality
-    // final productsListValue = ref.watch(productsSearchResultsProvider);
-    final productsListValue = ref.watch(productsListStreamProvider);
+    final productsListValue = ref.watch(productsSearchResultsProvider);
     return AsyncValueSliverWidget<List<Product>>(
       value: productsListValue,
       data: (products) => SliverProductsAlignedGrid(

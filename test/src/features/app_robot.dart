@@ -69,6 +69,8 @@ class AppRobot {
       AppConfig(
         platform: UserPlatform.undefined,
         revenueCatPublicKey: '',
+        algoliaAppId: '',
+        algoliaSearchKey: '',
         bundleId: '',
         buildNumber: '',
         version: '',

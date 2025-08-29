@@ -1,28 +1,38 @@
-import 'package:aichat/src/features/store/data/repositories/products_firestore_repository.dart';
+import 'dart:async';
+
+import 'package:aichat/src/features/store/data/repositories/products_search_repository.dart';
 import 'package:aichat/src/features/store/domain/models/product.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:rxdart/rxdart.dart';
 
 part 'products_search_query_notifier.g.dart';
 
 /// A simple notifier class to keep track of the search query
 @riverpod
 class ProductsSearchQueryNotifier extends _$ProductsSearchQueryNotifier {
-  /// By default, return an empty query
+  /// Used to debounce the input queries
+  final _searchQueryController = StreamController<String>();
+  late final StreamSubscription<String> _subscription;
   @override
-  String build() => '';
+  String build() {
+    // debounce the inputs
+    _subscription = _searchQueryController.stream.debounceTime(const Duration(milliseconds: 200)).listen(_updateState);
+    ref.onDispose(() {
+      _searchQueryController.close();
+      _subscription.cancel();
+    });
+    return '';
+  }
+
+  void _updateState(String query) => state = query;
 
   void setQuery(String query) {
-    state = query;
+    _searchQueryController.sink.add(query);
   }
 }
 
-/// A provider that returns the search results for the current search query
 @riverpod
 Future<List<Product>> productsSearchResults(Ref ref) {
   final searchQuery = ref.watch(productsSearchQueryNotifierProvider);
-  if (searchQuery.isEmpty) {
-    // Return all products if no search query
-    return ref.watch(productsListFutureProvider.future);
-  }
   return ref.watch(productsListSearchProvider(searchQuery).future);
 }

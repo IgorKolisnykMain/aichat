@@ -27,6 +27,8 @@ class ProductCard extends ConsumerWidget {
               gapH8,
               Text(product.title, style: Theme.of(context).textTheme.titleLarge),
               gapH8,
+              Text(product.description, style: Theme.of(context).textTheme.bodyMedium),
+              gapH8,
               Text(priceFormatted, style: Theme.of(context).textTheme.headlineSmall),
               gapH4,
               Text(

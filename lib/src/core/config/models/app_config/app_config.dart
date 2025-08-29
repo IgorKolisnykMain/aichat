@@ -4,6 +4,8 @@ import 'package:aichat/src/utils/date_time/current_date_provider.dart';
 class AppConfig {
   final UserPlatform platform;
   final String revenueCatPublicKey;
+  final String algoliaAppId;
+  final String algoliaSearchKey;
   final String bundleId;
   final String appName;
   final String buildNumber;
@@ -18,6 +20,8 @@ class AppConfig {
   AppConfig({
     required this.platform,
     required this.revenueCatPublicKey,
+    required this.algoliaAppId,
+    required this.algoliaSearchKey,
     required this.bundleId,
     required this.buildNumber,
     required this.version,

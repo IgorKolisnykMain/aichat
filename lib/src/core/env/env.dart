@@ -10,6 +10,10 @@ final class Env {
   static final String openAIToken = _Env.openAIToken;
   @EnviedField(varName: 'STRIPE_PUBLISHABLE_KEY', obfuscate: true)
   static final String stripePublishableKey = _Env.stripePublishableKey;
+  @EnviedField(varName: 'ALGOLIA_APP_ID', obfuscate: true)
+  static final String algoliaAppId = _Env.algoliaAppId;
+  @EnviedField(varName: 'ALGOLIA_SEARCH_KEY', obfuscate: true)
+  static final String algoliaSearchKey = _Env.algoliaSearchKey;
 
   const Env._();
 }

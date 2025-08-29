@@ -38,6 +38,8 @@ class AppConfigRepositoryImpl implements AppConfigRepository {
     final config = AppConfig(
       platform: _getUserPlatform(),
       revenueCatPublicKey: Env.revenueCatPublicKey,
+      algoliaAppId: Env.algoliaAppId,
+      algoliaSearchKey: Env.algoliaSearchKey,
       bundleId: packageInfo.packageName,
       buildNumber: packageInfo.buildNumber,
       version: packageInfo.version,
