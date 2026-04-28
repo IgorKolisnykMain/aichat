@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:aichat/src/exceptions/models/common_error.dart';
 import 'package:aichat/src/exceptions/models/default_exeption.dart';
 import 'package:aichat/src/exceptions/models/local_exeption.dart';
@@ -14,11 +16,13 @@ class ErrorLogger extends _$ErrorLogger {
     return this;
   }
 
-  void logError(Object error, StackTrace? stackTrace) {
+  Future<void> logError(Object error, StackTrace? stackTrace) async {
     // * This can be replaced with a call to a crash reporting tool of choice
     debugPrint('$error, $stackTrace');
     if (kIsWeb == false) {
-      FirebaseCrashlytics.instance.recordError(error, stackTrace, fatal: true);
+      unawaited(
+        FirebaseCrashlytics.instance.recordError(error, stackTrace, fatal: true),
+      );
     }
   }
 

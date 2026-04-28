@@ -9,6 +9,6 @@ String? getHtmlWindowUrl() {
 }
 
 void setHtmlWindowUrl(String url) {
-  assert(kIsWeb, 'kIsWeb is false -> Can\'t invoke setHtmlWindowUrl');
+  assert(kIsWeb, "kIsWeb is false -> Can't invoke setHtmlWindowUrl");
   html.window.location.href = url;
 }

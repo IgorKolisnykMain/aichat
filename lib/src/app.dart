@@ -15,7 +15,7 @@ import 'package:go_router/go_router.dart';
 class AppAdaptiveUI extends StatelessWidget {
   final AppConfig config;
   final GoRouter? router;
-  const AppAdaptiveUI({required this.config, this.router});
+  const AppAdaptiveUI({required this.config, this.router, super.key});
 
   @override
   Widget build(BuildContext context) {

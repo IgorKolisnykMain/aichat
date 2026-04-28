@@ -17,11 +17,10 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 
 class AppBootstrap {
   Widget createRootWidget({required ProviderContainer container}) {
-    // * Initialize AuthSyncService to start the listener
-    container.read(authSyncServiceProvider);
-    container.read(firebaseAppCheckProvider);
-    // * Initialize UserTokenRefreshService
-    container.read(userTokenRefreshServiceProvider);
+    container
+      ..read(authSyncServiceProvider) // * Initialize AuthSyncService to start the listener
+      ..read(firebaseAppCheckProvider)
+      ..read(userTokenRefreshServiceProvider); // * Initialize UserTokenRefreshService
 
     final errorLogger = container.read(errorLoggerProvider);
     _registerErrorHandlers(errorLogger);

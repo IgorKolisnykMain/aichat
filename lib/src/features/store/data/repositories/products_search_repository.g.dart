@@ -12,8 +12,7 @@ const productsSearchRepositoryProvider = ProductsSearchRepositoryProvider._();
 
 /// Class used to search products using the Algolia Dart Client
 final class ProductsSearchRepositoryProvider
-    extends
-        $NotifierProvider<ProductsSearchRepository, ProductsSearchRepository> {
+    extends $NotifierProvider<ProductsSearchRepository, ProductsSearchRepository> {
   /// Class used to search products using the Algolia Dart Client
   const ProductsSearchRepositoryProvider._()
     : super(
@@ -42,18 +41,15 @@ final class ProductsSearchRepositoryProvider
   }
 }
 
-String _$productsSearchRepositoryHash() =>
-    r'510fcbe1665aca5357dd801b2530b234aa72842d';
+String _$productsSearchRepositoryHash() => r'510fcbe1665aca5357dd801b2530b234aa72842d';
 
-abstract class _$ProductsSearchRepository
-    extends $Notifier<ProductsSearchRepository> {
+abstract class _$ProductsSearchRepository extends $Notifier<ProductsSearchRepository> {
   ProductsSearchRepository build();
   @$mustCallSuper
   @override
   void runBuild() {
     final created = build();
-    final ref =
-        this.ref as $Ref<ProductsSearchRepository, ProductsSearchRepository>;
+    final ref = this.ref as $Ref<ProductsSearchRepository, ProductsSearchRepository>;
     final element =
         ref.element
             as $ClassProviderElement<
@@ -70,12 +66,7 @@ abstract class _$ProductsSearchRepository
 const productsListSearchProvider = ProductsListSearchFamily._();
 
 final class ProductsListSearchProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<List<Product>>,
-          List<Product>,
-          FutureOr<List<Product>>
-        >
+    extends $FunctionalProvider<AsyncValue<List<Product>>, List<Product>, FutureOr<List<Product>>>
     with $FutureModifier<List<Product>>, $FutureProvider<List<Product>> {
   const ProductsListSearchProvider._({
     required ProductsListSearchFamily super.from,
@@ -121,11 +112,9 @@ final class ProductsListSearchProvider
   }
 }
 
-String _$productsListSearchHash() =>
-    r'4708fcdee14196b7c62f8bfe42f69ead79bffdcc';
+String _$productsListSearchHash() => r'4708fcdee14196b7c62f8bfe42f69ead79bffdcc';
 
-final class ProductsListSearchFamily extends $Family
-    with $FunctionalFamilyOverride<FutureOr<List<Product>>, String> {
+final class ProductsListSearchFamily extends $Family with $FunctionalFamilyOverride<FutureOr<List<Product>>, String> {
   const ProductsListSearchFamily._()
     : super(
         retry: null,
@@ -135,8 +124,7 @@ final class ProductsListSearchFamily extends $Family
         isAutoDispose: true,
       );
 
-  ProductsListSearchProvider call(String query) =>
-      ProductsListSearchProvider._(argument: query, from: this);
+  ProductsListSearchProvider call(String query) => ProductsListSearchProvider._(argument: query, from: this);
 
   @override
   String toString() => r'productsListSearchProvider';

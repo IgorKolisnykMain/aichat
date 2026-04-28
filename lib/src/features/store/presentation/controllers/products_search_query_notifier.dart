@@ -16,15 +16,15 @@ class ProductsSearchQueryNotifier extends _$ProductsSearchQueryNotifier {
   @override
   String build() {
     // debounce the inputs
-    _subscription = _searchQueryController.stream.debounceTime(const Duration(milliseconds: 200)).listen(_updateState);
+    _subscription = _searchQueryController.stream
+        .debounceTime(const Duration(milliseconds: 200))
+        .listen((query) => state = query);
     ref.onDispose(() {
       _searchQueryController.close();
       _subscription.cancel();
     });
     return '';
   }
-
-  void _updateState(String query) => state = query;
 
   void setQuery(String query) {
     _searchQueryController.sink.add(query);

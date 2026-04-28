@@ -1,10 +1,12 @@
 import 'package:aichat/src/features/onboarding/auth/domain/models/app_user.dart';
+import 'package:flutter/cupertino.dart';
 
+@immutable
 class AdditionalAppUserInfo {
   final AppUser user;
   final bool? isNewUser;
 
-  AdditionalAppUserInfo({required this.user, this.isNewUser});
+  const AdditionalAppUserInfo({required this.user, this.isNewUser});
 
   @override
   bool operator ==(Object other) {

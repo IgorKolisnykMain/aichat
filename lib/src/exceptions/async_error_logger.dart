@@ -6,7 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Error logger class to keep track of all AsyncError states that are set
 /// by the controllers in the app
-class AsyncErrorLogger extends ProviderObserver {
+final class AsyncErrorLogger extends ProviderObserver {
   @override
   void didUpdateProvider(
     ProviderObserverContext context,

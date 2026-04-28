@@ -1,10 +1,40 @@
 {
-  "dart.flutterTestAdditionalArgs": [
-    "--flavor=dev",
-    "--dart-define=environment=dev"
-  ],
-  "dart.flutterIntegrationTestAdditionalArgs": [
-    "--flavor=dev", 
-    "--dart-define=environment=dev"
-  ]
+  "dart.lineLength": 120,
+  "[dart]": {
+    "editor.rulers": [
+      120
+    ]
+  },
+  "search.exclude": {
+    "**/.fvm": true
+  },
+  "files.watcherExclude": {
+    "**/.fvm": true
+  },
+  "dart.flutterSdkPath": ".fvm/versions/3.35.7",
+  "files.autoSave": "afterDelay",
+  // Highlight label sections in .arb files.
+  // Plugin: Highlight. Author: Fabio Spampinato (fabiospampinato.com).
+  "highlight.regexes": {
+    "(\"@_[A-Z_]+\": {},)": {
+      "filterFileRegex": ".*\\.arb",
+      "decorations": [
+        {
+          "overviewRulerColor": "#d19a66",
+          "backgroundColor": "#d19a66",
+          "color": "#282c34"
+        }
+      ]
+    },
+    "(\"@_[A-Z_]+\": {})": {
+      "filterFileRegex": ".*\\.arb",
+      "decorations": [
+        {
+          "overviewRulerColor": "#d19a66",
+          "backgroundColor": "#d19a66",
+          "color": "#282c34"
+        }
+      ]
+    }
+  }
 }

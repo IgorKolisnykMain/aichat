@@ -23,14 +23,14 @@ class MyNavigatorObserver extends NavigatorObserver {
   }
 
   @override
-  void didRemove(Route route, Route? previousRoute) {
+  void didRemove(Route<dynamic> route, Route<dynamic>? previousRoute) {
     if (kDebugMode) {
       print("Did remove route: ${route.settings.name}");
     }
   }
 
   @override
-  void didReplace({Route? newRoute, Route? oldRoute}) {
+  void didReplace({Route<dynamic>? newRoute, Route<dynamic>? oldRoute}) {
     if (kDebugMode) {
       print("Did replace route: ${newRoute?.settings.name}");
     }

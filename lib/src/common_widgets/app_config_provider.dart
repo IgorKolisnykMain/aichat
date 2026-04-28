@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class AppConfigProvider extends InheritedWidget {
   final AppConfig config;
 
-  const AppConfigProvider({super.key, required this.config, required super.child});
+  const AppConfigProvider({required this.config, required super.child, super.key});
 
   static AppConfigProvider? of(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<AppConfigProvider>();

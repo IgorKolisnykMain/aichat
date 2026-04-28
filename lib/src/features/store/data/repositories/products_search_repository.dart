@@ -48,10 +48,7 @@ Future<List<Product>> productsListSearch(Ref ref, String query) async {
   // When the last listener is removed, start a timer to dispose the cached data
   ref.onCancel(() {
     // start a 30 second timer
-    timer = Timer(const Duration(seconds: 30), () {
-      // dispose on timeout
-      link.close();
-    });
+    timer = Timer(const Duration(seconds: 30), link.close);
   });
   // If the provider is listened again after it was paused, cancel the timer
   ref.onResume(() {

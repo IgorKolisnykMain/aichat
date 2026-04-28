@@ -71,7 +71,7 @@ class SubscriptionPlanCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.baseline,
           textBaseline: TextBaseline.alphabetic,
           children: [
-            Text('\$9.99', style: context.textStyles.priceDisplay.copyWith(letterSpacing: -0.02.rw)),
+            Text(r'$9.99', style: context.textStyles.priceDisplay.copyWith(letterSpacing: -0.02.rw)),
             SizedBox(width: 4.rw),
             Text(context.l10n.perMonth, style: context.textStyles.planTitle),
           ],
@@ -81,7 +81,7 @@ class SubscriptionPlanCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.baseline,
           textBaseline: TextBaseline.alphabetic,
           children: [
-            Text('\$99', style: context.textStyles.priceDisplay.copyWith(letterSpacing: -0.02.rw)),
+            Text(r'$99', style: context.textStyles.priceDisplay.copyWith(letterSpacing: -0.02.rw)),
             SizedBox(width: 4.rw),
             Text(context.l10n.perYear, style: context.textStyles.planTitle),
           ],

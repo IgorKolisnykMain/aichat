@@ -1,23 +1,147 @@
-include: package:lint/strict.yaml
+# very_good_analysis містить всі правила що є в flutter_lints та багато інших
+include: package:flutter_lints/flutter.yaml
 
 analyzer:
+
   plugins:
     - custom_lint
-  exclude:
-    - '**.freezed.dart'
-    - '**.g.dart'
-    - '**.config.dart'
-    - '**/firebase_options**.dart'
-  errors:
-    invalid_annotation_target: ignore
 
-linter:
-  rules:
-    sort_unnamed_constructors_first: false
-    use_super_parameters: true
-    sort_pub_dependencies: false
-    require_trailing_commas: true
+  errors:
+    missing_required_param: error
+    missing_return: error
+    record_literal_one_positional_no_trailing_comma: error
+    collection_methods_unrelated_type: warning
+    unrelated_type_equality_checks: warning
+
+  exclude:
+    - '**/*.g.dart'       # common generated files
+    - '**/*.freezed.dart' # generated freezed models
+    - '**/*.config.dart'  # DI configuration files
+    - '**/feature**/*_test.dart' # BDD tests
+    - '**/firebase_options**.dart'
+    - 'test/.test_coverage.dart'
+    - 'lib/generated_plugin_registrant.dart'
 
 formatter:
   page_width: 120
   trailing_commas: preserve
+
+linter:
+  rules:
+    # Правила яких немає в very_good_analysis :
+    # 1) prefer_expression_function_bodies
+    # 2) use_decorated_box
+    # changes
+    - lines_longer_than_80_chars: false
+    - public_member_api_docs: false
+    - prefer_single_quotes: true
+    - sort_constructors_first: false
+    - omit_local_variable_types: false # Щоб краще розуміти тип поля та мати можливість бистро перейти в реалізацию типа. # Э альтернатива правила always_specify_types
+    - sort_pub_dependencies: false # На мою думку краще робити коментаріі для категорій пакетів що руйнує це правило.
+
+    # На подумать чі потрібен
+    - avoid_catches_without_on_clauses: false
+
+    # Good
+    #    - cascade_invocations
+    #    - always_put_required_named_parameters_first
+    #    - discarded_futures
+    #    - unawaited_futures
+    #    - unnecessary_await_in_return
+    #    - unnecessary_lambdas
+    #    - flutter_style_todos
+    #    - document_ignores
+    #    - use_key_in_widget_constructors
+    #    - avoid_equals_and_hash_code_on_mutable_classes
+    #    - use_raw_strings
+    #    - avoid_escaping_inner_quotes
+    #    - prefer_int_literals
+    #    - use_null_aware_elements
+    #    - avoid_positional_boolean_parameters
+    #    - unnecessary_ignore
+
+    # Unchecked
+    - always_declare_return_types
+    - always_use_package_imports
+    - avoid_bool_literals_in_conditional_expressions
+    - avoid_catching_errors
+    - avoid_double_and_int_checks
+    - avoid_dynamic_calls
+    - avoid_field_initializers_in_const_classes
+    - avoid_final_parameters
+    - avoid_js_rounded_ints
+    - avoid_multiple_declarations_per_line
+    - avoid_private_typedef_functions
+    - avoid_redundant_argument_values
+    - avoid_returning_this
+    - avoid_setters_without_getters
+    - avoid_slow_async_io
+    - avoid_type_to_string
+    - avoid_unused_constructor_parameters
+    - avoid_void_async
+    - cancel_subscriptions
+    - cast_nullable_to_non_nullable
+    - combinators_ordering
+    - comment_references
+    - conditional_uri_does_not_exist
+    - deprecated_consistency
+    - deprecated_member_use_from_same_package
+    - directives_ordering
+    - eol_at_end_of_file
+    - implicit_reopen
+    - invalid_case_patterns
+    - join_return_with_assignment
+    - leading_newlines_in_multiline_strings
+    - literal_only_boolean_expressions
+    - matching_super_parameters
+    - missing_code_block_language_in_doc_comment
+    - missing_whitespace_between_adjacent_strings
+    - no_adjacent_strings_in_list
+    - no_default_cases
+    - no_runtimeType_toString
+    - no_self_assignments
+    - noop_primitive_operations
+    - one_member_abstracts
+    - only_throw_errors
+    - parameter_assignments
+    - prefer_asserts_in_initializer_lists
+    - prefer_asserts_with_message
+    - prefer_const_constructors
+    - prefer_const_declarations
+    - prefer_const_literals_to_create_immutables
+    - prefer_constructors_over_static_methods
+    - prefer_final_in_for_each
+    - prefer_final_locals
+    - prefer_foreach
+    - prefer_if_elements_to_conditional_expressions
+    - prefer_null_aware_method_calls
+    - require_trailing_commas
+    - sized_box_shrink_expand
+    - sort_unnamed_constructors_first
+    - specify_nonobvious_property_types
+    - switch_on_type
+    - test_types_in_equals
+    - throw_in_finally
+    - tighten_type_of_initializing_formals
+    - type_annotate_public_apis
+    - unnecessary_breaks
+    - unnecessary_library_directive
+    - unnecessary_null_aware_operator_on_extension_on_nullable
+    - unnecessary_null_checks
+    - unnecessary_parenthesis
+    - unnecessary_raw_strings
+    - unnecessary_statements
+    - unnecessary_unawaited
+    - unreachable_from_main
+    - use_colored_box
+    - use_enums
+    - use_if_null_to_convert_nulls_to_bools
+    - use_is_even_rather_than_modulo
+    - use_late_for_private_fields_and_variables
+    - use_named_constants
+    - use_setters_to_change_properties
+    - use_string_buffers
+    - use_test_throws_matchers
+    - use_to_and_as_if_applicable
+    - use_to_and_as_if_applicable
+    - use_truncating_division

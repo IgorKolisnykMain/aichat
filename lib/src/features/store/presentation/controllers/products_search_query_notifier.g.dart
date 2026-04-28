@@ -8,12 +8,10 @@ part of 'products_search_query_notifier.dart';
 
 /// A simple notifier class to keep track of the search query
 @ProviderFor(ProductsSearchQueryNotifier)
-const productsSearchQueryNotifierProvider =
-    ProductsSearchQueryNotifierProvider._();
+const productsSearchQueryNotifierProvider = ProductsSearchQueryNotifierProvider._();
 
 /// A simple notifier class to keep track of the search query
-final class ProductsSearchQueryNotifierProvider
-    extends $NotifierProvider<ProductsSearchQueryNotifier, String> {
+final class ProductsSearchQueryNotifierProvider extends $NotifierProvider<ProductsSearchQueryNotifier, String> {
   /// A simple notifier class to keep track of the search query
   const ProductsSearchQueryNotifierProvider._()
     : super(
@@ -42,8 +40,7 @@ final class ProductsSearchQueryNotifierProvider
   }
 }
 
-String _$productsSearchQueryNotifierHash() =>
-    r'f152b788f3f9d4df44092e1b9ffd8ed4dd878d87';
+String _$productsSearchQueryNotifierHash() => r'f152b788f3f9d4df44092e1b9ffd8ed4dd878d87';
 
 abstract class _$ProductsSearchQueryNotifier extends $Notifier<String> {
   String build();
@@ -52,14 +49,7 @@ abstract class _$ProductsSearchQueryNotifier extends $Notifier<String> {
   void runBuild() {
     final created = build();
     final ref = this.ref as $Ref<String, String>;
-    final element =
-        ref.element
-            as $ClassProviderElement<
-              AnyNotifier<String, String>,
-              String,
-              Object?,
-              Object?
-            >;
+    final element = ref.element as $ClassProviderElement<AnyNotifier<String, String>, String, Object?, Object?>;
     element.handleValue(ref, created);
   }
 }
@@ -68,12 +58,7 @@ abstract class _$ProductsSearchQueryNotifier extends $Notifier<String> {
 const productsSearchResultsProvider = ProductsSearchResultsProvider._();
 
 final class ProductsSearchResultsProvider
-    extends
-        $FunctionalProvider<
-          AsyncValue<List<Product>>,
-          List<Product>,
-          FutureOr<List<Product>>
-        >
+    extends $FunctionalProvider<AsyncValue<List<Product>>, List<Product>, FutureOr<List<Product>>>
     with $FutureModifier<List<Product>>, $FutureProvider<List<Product>> {
   const ProductsSearchResultsProvider._()
     : super(
@@ -101,8 +86,7 @@ final class ProductsSearchResultsProvider
   }
 }
 
-String _$productsSearchResultsHash() =>
-    r'd6270ebf410842b4e50182c87a49e1c9fe7037b6';
+String _$productsSearchResultsHash() => r'd6270ebf410842b4e50182c87a49e1c9fe7037b6';
 
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package
